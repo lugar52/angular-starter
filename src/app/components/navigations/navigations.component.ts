@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, ActivatedRoute, Router   } from '@angular/router';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute, Router  } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-navigations',
   standalone: true,
-  imports: [RouterOutlet],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [],
+  templateUrl: './navigations.component.html',
+  styleUrl: './navigations.component.css'
 })
-export class AppComponent {
-  title = 'my-app';
+export class NavigationsComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -32,4 +29,5 @@ export class AppComponent {
     this.router.navigate([myurl] ).then(e => {
     });
   }
+
 }
