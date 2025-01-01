@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavigationsComponent } from './navigations.component';
+import { PerneriaListComponent } from './perneria-list.component';
 
-describe('NavigationsComponent', () => {
-  let component: NavigationsComponent;
-  let fixture: ComponentFixture<NavigationsComponent>;
+describe('PerneriaListComponent', () => {
+  let component: PerneriaListComponent;
+  let fixture: ComponentFixture<PerneriaListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavigationsComponent]
+      imports: [PerneriaListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NavigationsComponent);
+    fixture = TestBed.createComponent(PerneriaListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
