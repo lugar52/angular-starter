@@ -43,3 +43,5 @@ The configuration for Caddy is called a Caddyfile, and you can edit that file to
 - [encode](https://caddyserver.com/docs/caddyfile/directives/encode)
 - [file_server](https://caddyserver.com/docs/caddyfile/directives/file_server)
 - [try_files](https://caddyserver.com/docs/caddyfile/directives/try_files)
+
+## uvicorn main:app --reload --host "192.168.1.26" --port 8000

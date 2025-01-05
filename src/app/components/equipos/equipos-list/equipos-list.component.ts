@@ -70,7 +70,7 @@ export class EquiposListComponent {
   form_equipos!: FormGroup;
 
   Registro_Equipos: Equipos = {
-    BULTO: 0,
+    CAT_FILA: 0,
     CAT_DISCIPLINA: 0,
     CAT_MATL_TYPE: '',
     CAT_TAG_NUMBER: '',

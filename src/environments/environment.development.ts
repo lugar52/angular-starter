@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiUrl: 'https://myfastapi-production.up.railway.app'
+    apiUrl: 'http://192.168.1.26:8000'
 };

@@ -1,1 +1,158 @@
-<p>perneria-list works!</p>
+<div class="container text-center">
+    <div class="row" >
+        <h2 class="text-primary" style="text-align: start; padding-left: 50px;">Pernería {{this.titulo}} </h2>
+        <div class="col-1" style="width: 30%;">
+        </div>
+        <div class="col-1" style="width: 70%;"></div>
+    </div>
+    <div class="row" style="padding-top: 5px;">
+        <div class="col-11" style="width: 99%;">
+            <div appearance="fill" class="full-width has-success" style="padding: 10px; align-content:start;" >
+                <mat-label style="padding-right: 20px;" >Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Search Columns" #input>
+            </div>
+    
+            <div class="grid-container">
+            
+                <table mat-table [dataSource]="dataSource" matSort >
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef class="grid-item-h-idp"></th>
+                        <td mat-cell class="grid-item-sol" *matCellDef="let row" >
+                            <span mat-button mat-icon-button style=color:#2da71dad 
+                                #tooltip="matTooltip" 
+                                matTooltip="Editar" 
+                                matTooltipPosition="right" 
+                                (click)="myClic(row)">
+                                <mat-icon aria-label="visibility" class="mat-elevation-z4">text_snippet</mat-icon>
+                            </span>
+                        </td>
+                    </ng-container>
+
+
+
+
+                    <ng-container matColumnDef="ID_PERNO">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-idp">Id </th>
+                        <td mat-cell class="grid-item-sol" *matCellDef="let row">{{row.ID_PERNO}}</td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="OC">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fila">OC</th>
+                        <td class="grid-item-fila" mat-cell *matCellDef="let row"> {{row.OC}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="CONTRATO">
+                        <th mat-header-cell *matHeaderCellDef class="grid-item-h-fila">Contrato</th>
+                        <td class="grid-item-fila" mat-cell *matCellDef="let row"> {{row.CONTRATO}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="GUIA">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fila">Guia</th>
+                        <td mat-cell class="grid-item-fila" *matCellDef="let row"> {{row.GUIA}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="SNF">
+                        <th class="grid-item-h-tag_number" mat-header-cell *matHeaderCellDef mat-sort-header >SNF</th>
+                        <td class="grid-item-fila" mat-cell *matCellDef="let row"> {{row.SNF}} </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="BULTO">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-descrip">Bulto</th>
+                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.BULTO}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="ITEMCODE">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-it">Item</th>
+                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.ITEMCODE}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="TIPO_ELEMENTO" >
+                        <th mat-header-cell  *matHeaderCellDef mat-sort-header class="grid-item-h-descrip" >Tipo Elemento</th>
+                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.TIPO_ELEMENTO}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="MARCA">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-it">Marca</th>
+                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.MARCA}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="MARCA2">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-numero">Marca</th>
+                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.MARCA2}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="TUNEL">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-descrip">Tunel</th>
+                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.TUNEL}}</td>
+                    </ng-container>                   
+
+                    <ng-container matColumnDef="DISPOSICION_FINAL">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-reqnum">Dispos Final</th>
+                        <td mat-cell class="grid-item-req" *matCellDef="let row">{{row.DISPOSICION_FINAL}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="CANTIDAD_SNF" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-reqnum">Cant SNF</th>
+                        <td mat-cell class="grid-item-req" *matCellDef="let row">{{row.CANTIDAD_SNF}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="CANTIDAD_TERRENO">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-ct">Cant Terreno</th>
+                        <td mat-cell class="grid-item-req" *matCellDef="let row">{{row.CANTIDAD_TERRENO}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="DIFERENCIA">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fila">Diferencia</th>
+                        <td mat-cell class="grid-item-req" *matCellDef="let row">{{row.DIFERENCIA}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="PESO_UNITARIO">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fila">Peso Unitario</th>
+                        <td mat-cell class="grid-item-req" *matCellDef="let row">{{row.PESO_UNITARIO}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="PESO_TOTAL">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fila">Peso Total</th>
+                        <td mat-cell class="grid-item-req" *matCellDef="let row">{{row.PESO_TOTAL}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="PROVEEDOR">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fila">Proveedor</th>
+                        <td mat-cell class="grid-item-req" *matCellDef="let row">{{row.PROVEEDOR}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="PATIO">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-rfq_numro">Patio</th>
+                        <td mat-cell class="grid-item-sol" *matCellDef="let row">{{row.PATIO}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="FECHA_LLEGADA">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-hito">Fecha Llegada</th>
+                        <td mat-cell class="grid-item-sol" *matCellDef="let row">{{row.FECHA_LLEGADA}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="OBSERVACION">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fila">Observación</th>
+                        <td mat-cell class="grid-item-sol" *matCellDef="let row">{{row.OBSERVACION}}</td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="NB_ASIG_TERR">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fecha">Asig Terreno</th>
+                        <td mat-cell class="grid-item-sol" *matCellDef="let row">{{row.NB_ASIG_TERR}}</td>
+                    </ng-container>
+            
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row 
+                    (click)="myClic(row)"
+                    *matRowDef="let row; columns: displayedColumns; " class="table-row">
+                </tr>
+                </table>
+            </div>
+            
+            <mat-paginator [pageSizeOptions]="[27, 40]" showFirstLastButtons aria-label="Select page of materiales" ></mat-paginator>   
+        </div>
+        <div class="col-1" style="width: 5%;"></div>
+    </div>
+</div>
+   

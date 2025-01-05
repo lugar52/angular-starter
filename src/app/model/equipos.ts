@@ -1,5 +1,5 @@
 export interface Equipos {
-    BULTO?: number | undefined;
+    CAT_FILA?: number | undefined;
     CAT_DISCIPLINA?: number | undefined;
     CAT_MATL_TYPE?: string;
     CAT_TAG_NUMBER?: string;
