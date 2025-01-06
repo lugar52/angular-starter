@@ -1,8 +1,11 @@
-<form [formGroup]="form_Perneria" autocomplete="off" class="row gy-2 gx-3 align-items-center" style="padding-left: 50px;">
+<form [formGroup]="form_Perneria" autocomplete="off" class="row gy-2 gx-3 align-items-center" style="padding-left: 50px;" (ngSubmit)="enviarFormulario()">
     <div class="row " style="padding-top: 15px;">
         <div class="col-auto">
             <label class="" for="autoSizingInput">Orden Compra</label>
-            <input type="text" formControlName="_OC" class="form-control" id="autoSizingInput" placeholder="">
+            <input [readonly] type="text" formControlName="_OC" class="form-control" id="autoSizingInput" placeholder="">
+            <div ngIf="formulario.get('_OC').invalid && formulario.get('nombre').touched">
+                <div ngIf="formulario.get('_OC').errors.required" class="error">Orden de Compra es requerida.</div>
+            </div>
         </div>
 
         <div class="col-auto">
@@ -34,11 +37,13 @@
     <div class="row " style="padding-top: 15px;">
         <div class="" style="width: 15rem;">
             <label class="" for="autoSizingSelect">Tipo Elemento</label>
-            <select class="form-select" formControlName="_TIPO_ELEMENTO" id="autoSizingSelect">
+            <input type="text" formControlName="_TIPO_ELEMENTO" class="form-control" id="autoSizingInputGroup" placeholder="">
+
+<!--             <select class="form-select" formControlName="_TIPO_ELEMENTO" id="autoSizingSelect">
               <option selected>Choose...</option>
               <option value="1">Pernos Roca</option>
               <option value="2">Pernos de anclaje</option>
-            </select>
+            </select> -->
           </div>
 
         <div class="col-auto" style="width: 44rem;" >
@@ -55,20 +60,24 @@
     <div class="row " style="padding-top: 15px;" >
         <div class="" style="width: 15rem;">
             <label class="" for="autoSizingSelect">Tunel</label>
-            <select class="form-select" formControlName="_TUNEL" id="autoSizingSelect">
+            <input type="text" formControlName="_TUNEL" class="form-control" id="autoSizingInputGroup" placeholder="">
+
+<!--             <select class="form-select" formControlName="_TUNEL" id="autoSizingSelect">
               <option selected>Choose...</option>
               <option value="1">Coirón</option>
               <option value="2">La Guardia</option>
               <option value="3">Las Animas</option>
               <option value="4">NO LLEGO</option>
               <option value="5">Confirmar</option>
-            </select>
+            </select> -->
           </div>
        
 
           <div class="" style="width: 15rem;">
             <label class="" for="autoSizingSelect">Disposición Final</label>
-            <select class="form-select" formControlName="_DISPOSICION_FINAL" id="autoSizingSelect">
+            <input type="text" formControlName="_DISPOSICION_FINAL" class="form-control" id="autoSizingInputGroup" placeholder="">
+
+<!--             <select class="form-select" formControlName="_DISPOSICION_FINAL" id="autoSizingSelect">
               <option selected>Choose...</option>
               <option value="1">Boveda  </option>
               <option value="2">Contraboveda  </option>
@@ -77,7 +86,7 @@
               <option value="5">No saleoption</option>
               <option value="4">NO LLEGO    </option>
               <option value="5">N/Aoption</option>
-            </select>
+            </select> -->
           </div>
 
           <div class="col-auto"  >
@@ -95,10 +104,7 @@
             <input type="text" formControlName="_DIFERENCIA" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
-        <div class="col-auto" style="width: 14rem">
-            <label class="" for="autoSizingInputGroup">Diferencia</label>
-            <input type="text" formControlName="_DIFERENCIA" class="form-control" id="autoSizingInputGroup" placeholder="">
-        </div>
+
     </div>
     <div class="row " style="padding-top: 15px;">
         <div class="col-auto" >
@@ -113,13 +119,19 @@
 
         <div class="" style="width: 15rem;">
             <label class="" for="autoSizingSelect">Patio</label>
-            <select class="form-select" formControlName="_PATIO" id="autoSizingSelect">
+            <input type="text" formControlName="_PATIO" class="form-control" id="autoSizingInputGroup" placeholder="">
+
+            <!-- <select class="form-select" formControlName="_PATIO" id="autoSizingSelect">
               <option selected>Choose...</option>
               <option value="1">Remanso  </option>
-            </select>
+            </select> -->
           </div>
 
-          <div class="col-auto" >
+          <div class="col-auto" style="width: 14rem">
+            <label class="" for="autoSizingInputGroup">Proveedor</label>
+            <input type="text" formControlName="_PROVEEDOR" class="form-control" id="autoSizingInputGroup" placeholder="">
+        </div>
+                  <div class="col-auto" >
             <label class="" for="autoSizingInputGroup">Fecha llegada</label>
             <input type="text" formControlName="_FECHA_LLEGADA" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
@@ -135,5 +147,10 @@
             <label class="" for="autoSizingInputGroup">Observación</label>
             <input type="text" formControlName="_OBSERVACION" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
+    </div>
+
+    <div class="row" style="background-color: aqua;">
+        <button mat-button>Basic</button>
+       
     </div>
 </form>
