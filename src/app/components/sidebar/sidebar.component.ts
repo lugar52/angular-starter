@@ -21,25 +21,25 @@ interface tpchildren {
   selector: 'app-sidebar',
   standalone: true,
   imports: [
-    MatToolbarModule, 
-    MatButtonModule, 
-    MatIconModule, 
-    MatSidenavModule, 
-    MatListModule, 
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
     RouterLink,
-    RouterOutlet, 
+    RouterOutlet,
     MatTreeModule,
-    
+
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
   mobileQuery: MediaQueryList;
 
    static readonly TREE_DATA: tpchildren[] = [
-    {
+/*     {
       name: 'Materiales',
       route: '/materiales',
       children: [{name: 'Pendientes', route: '/pendientes', children: []}, {name: 'Completos', route: '/completos', children: []}]
@@ -48,15 +48,15 @@ export class SidebarComponent {
       name: 'Equipos',
       route: '/equipos',
       children: [{name: 'Pendientes', route: '/pendientes', children: []}, {name: 'Completos', route: '/completos', children: []}]
-    },
+    }, */
     {
       name: 'Perneria',
       route: '/perneria',
       children: [
-        {name: 'Pendientes', route: '/perneria/perneria/pendientes', children: []}, 
+        {name: 'Pendientes', route: '/perneria/perneria/pendientes', children: []},
         {name: 'Entregada', route: '/perneria/perneria/entregada', children: []}],
     }
-   
+
   ]
 
   dataSource = SidebarComponent.TREE_DATA;
@@ -94,7 +94,7 @@ export class SidebarComponent {
     this.router.navigate([myurl] ).then(e => {
       if (e) {
       } else { }
-    }); 
+    });
   }
 
 }

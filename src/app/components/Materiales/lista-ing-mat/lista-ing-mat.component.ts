@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './lista-ing-mat.component.html',
-  styleUrl: './lista-ing-mat.component.css'
+  styleUrl: './lista-ing-mat.component.scss'
 })
 export class ListaIngMatComponent {
 

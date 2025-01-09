@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSort } from '@angular/material/sort'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { PerneriaService } from '../../../services/perneria.service'
 import { Perneria } from '../../../model/perneria'
@@ -38,6 +40,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatButtonModule,
     MatTooltipModule,
     MatIconModule,
+    MatProgressBarModule,
+    MatBadgeModule,
+
   ],
   templateUrl: './perneria-list.component.html',
   styleUrl: './perneria-list.component.less'
@@ -68,8 +73,11 @@ export class PerneriaListComponent {
   row: any;
   sel: number = 0;
 
-  displayedColumns = [
-'acciones', 'ID_PERNO', 'OC', 'CONTRATO', 'GUIA', 'SNF', 'BULTO', 'ITEMCODE', 'TIPO_ELEMENTO', 'MARCA', 'MARCA2', 'TUNEL', 'DISPOSICION_FINAL', 'CANTIDAD_SNF', 'CANTIDAD_TERRENO', 'DIFERENCIA', 'PESO_UNITARIO', 'PESO_TOTAL', 'PROVEEDOR', 'PATIO', 'FECHA_LLEGADA', 'OBSERVACION', 'NB_ASIG_TERR'];
+  /* displayedColumns = [
+'acciones', 'ID_PERNO', 'OC', 'CONTRATO', 'GUIA', 'SNF', 'BULTO', 'ITEMCODE', 'TIPO_ELEMENTO', 'MARCA', 'MARCA2', 'TUNEL', 'DISPOSICION_FINAL', 'CANTIDAD_SNF', 'CANTIDAD_TERRENO', 'DIFERENCIA', 'PESO_UNITARIO', 'PESO_TOTAL', 'PROVEEDOR', 'PATIO', 'FECHA_LLEGADA', 'OBSERVACION', 'NB_ASIG_TERR']; */
+
+displayedColumns = [
+  'ITEMCODE', 'SNF', 'BULTO', 'TIPO_ELEMENTO', 'MARCA', 'TUNEL', 'DISPOSICION_FINAL', 'CANTIDAD_SNF', 'CANTIDAD_TERRENO', 'DIFERENCIA', 'PORCENT', 'PESO_UNITARIO', 'PESO_TOTAL', 'PROVEEDOR', 'PATIO', 'FECHA_LLEGADA', 'OBSERVACION'];
 
   form_Perneria!: FormGroup;
 
@@ -96,6 +104,11 @@ export class PerneriaListComponent {
     FECHA_LLEGADA: '',
     OBSERVACION: '',
     NB_ASIG_TERR: '',
+    TIPOELEM_DESCRIPCION: '',
+    TUNEL_DESCRIPCION: '',
+    DISPO_DESCRIPCION: '',
+    PROVE_DESCRIPCION: '',
+    PATIO_DESCRIPCION: '',
   }
 
   titulo: any = '';
@@ -105,20 +118,20 @@ export class PerneriaListComponent {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-  ) {   
-    } 
+  ) {
+    }
 
-  ngOnInit() {  
+  ngOnInit() {
 
     this.titulo = localStorage.getItem("Seleccion")
     var resultado = (this.titulo != null ) ? this.titulo.split("/")[3] : "Perneria";
     this.titulo = resultado
-    
+
     this.getPerneria();
   }
 
   getPerneria() {
-    
+
     console.log("Procedimiento Perneria")
 
     this.perneriaService.getPerneria().subscribe( data => {
@@ -128,7 +141,7 @@ export class PerneriaListComponent {
       this.dataSource = new MatTableDataSource(this.listaPerneria);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-  
+
     });
   }
 
@@ -149,7 +162,7 @@ miRouting(id: number) {
   this.router.navigate([myurl] ).then(e => {
     if (e) {
     } else { }
-  }); 
+  });
 }
 
 

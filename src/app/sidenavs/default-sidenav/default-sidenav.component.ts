@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [MatIconModule, SidenavLinkComponent],
   templateUrl: './default-sidenav.component.html',
-  styleUrl: './default-sidenav.component.css',
+  styleUrl: './default-sidenav.component.scss',
 })
 export class DefaultSidenavComponent {
 

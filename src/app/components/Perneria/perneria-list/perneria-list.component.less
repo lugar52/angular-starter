@@ -4,171 +4,131 @@
 }
 
 .demo-table {
-    width: 98%;
+    width: 95%;
   }
-  
+
   .mat-mdc-row .mat-mdc-cell {
     border-bottom: 1px solid transparent;
     border-top: 1px solid transparent;
     cursor: pointer;
   }
-  
-  .mat-mdc-row:hover .mat-mdc-cell {
-    border-color: currentColor;
-  }
-  
+
   .demo-row-is-clicked {
     font-weight: bold;
   }
-  
+
   .full-width {
     font-size: 14px;
     width: 100%;
   }
-  
+
   .grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Ajusta el tamaño mínimo */
     overflow-x: auto; /* Habilita desplazamiento horizontal */
     white-space: nowrap; /* Evita el ajuste automático de las celdas */
-    font-size: 10px
+    font-size: 10px;
   }
-  
-  .grid-diseno-header {
+
+.grid-diseno-header {
     text-align: center;
     vertical-align: middle;
     border: 0.5px;
     border-color: darkcyan;
-    background-color: darkcyan;;
-    border-style: groove;
+    border-style: solid;
     color:darkslategrey;
     font-size: small;
     padding-top: 10px;
-  
+    font-weight: bold;
+
   }
-    
+
+  .column_snf {
+    .grid-diseno-header
+  }
+
   .grid-item-base {
-    vertical-align: top;
+    vertical-align:middle;
     background-color:white;
-    border: 1px;
-    border-color:darkcyan;
-    border-style: groove;
     font-size: small;
     overflow: hidden; /* Oculta contenido adicional */
     text-overflow: ellipsis; /* Muestra "..." si el texto es demasiado largo */
     white-space: nowrap; /* Evita que el texto se envuelva */
+
+    border-left: 0.5px;
+    border-left-color: darkcyan;
+    border-left-style: solid;
+    border-bottom: 0.5px !important;
+    border-bottom-style:solid !important;
+    border-bottom-color: darkcyan !important;
   }
-    
-  .grid-item-h-descrip, .grid-item-h-it {
+
+  .grid-item-h-descrip {
     .grid-diseno-header;
     text-align: center;
-    
   }
-  
-  .grid-item-h-reqnum, .grid-item-h-ct {
-    .grid-diseno-header;
+
+  .grid-item-h-reqnum + .grid-diseno-header, .grid-item-h-ct + .grid-diseno-header{
+
     text-align:left;
   }
-  
+
   .table-row {
-    height: 10px !important;
+    height: 35px !important;
   }
-  
+
   .vertical-text {
       writing-mode: vertical-rl; /* Orientación vertical de derecha a izquierda */    text-orientation: upright; /* Coloca los caracteres en posición vertical */
   }
-  
-  .mat-column-cat_fila
-  {
-      min-width: 5px; /* Ajusta el ancho mínimo de cada celda */
-      width: 8px !important;
-  }
-  
-  .grid-item-h-fila {
+
+  .grid-item-h-percent {
     .grid-diseno-header;
+    min-width: 150px;
+    width: 500px !important;
+    padding-right: 5px
   }
-  
-  .grid-item-fila 
+
+  .grid-item-fila {
+    .grid-item-base;
+    padding-top: 15px;
+  }
+
+  .grid-item-percen
   {
     .grid-item-base;
+    vertical-align: middle;
+    padding-left: 3px;
+    align-items:start;
+
   }
-  
-  .mat-column-cat_disciplina
-  {
-      width: 10px !important;
-  }
-  
-  .grid-item-center 
-  {
-      text-align:center;
-  }
-  
+
   .grid-item-h-numero {
       .grid-diseno-header;
       min-width: 200px; /* Ajusta el ancho mínimo de cada celda */
     }
-    
-    .grid-item-numero {
-      min-width: 200px; /* Ajusta el ancho mínimo de cada celda */
-    }
-  
-  .mat-column-tag_number {
-      min-width: 150px; /* Ajusta el ancho mínimo de cada celda */
-  }
-  
-  .grid-item-h-tag_number, .grid-item-h-cat_descripcion {
-      .grid-diseno-header;
-    }
-  
-  .mat-column-cat_descripcion {
-      min-width: 400px; /* Ajusta el ancho mínimo de cada celda */
-  }
-    
+
   .grid-item-base_req {
     .grid-item-base;
+    text-align: right;
   }
-  
-  .grid-item-req {
-      .grid-item-base_req;
-  }
-  
+
   .grid-item-h-sol_numero {
       .grid-diseno-header;
       min-width: 100px; /* Ajusta el ancho mínimo de cada celda */
   }
-  
-  .grid-item-sol {
-    .grid-item-base;
-  }
-  
+
   .grid-item-h-fecha
   {
     .grid-diseno-header;
     min-width: 100px; /* Ajusta el ancho mínimo de cada celda */
   }
-  
-  .grid-item-h-rfq_numro {
-    .grid-diseno-header;
-    min-width: 150px; /* Ajusta el ancho mínimo de cada celda */
-  }
-  
+
   .grid-item-h-idp {
     .grid-diseno-header;
     padding-left: 5px;
     min-width: 60px; /* Ajusta el ancho mínimo de cada celda */
   }
-  
-  .grid-item-oc {
-    .grid-item-base;
-    background-color:lightcyan;
-  }
-  
-  .grid-item-h-gembarque {
-    .grid-diseno-header;
-    min-width: 250px; /* Ajusta el ancho mínimo de cada celda */
-  }
-  
-  .grid-item-h-ocompra {
-    .grid-diseno-header;
-    min-width: 150px; /* Ajusta el ancho mínimo de cada celda */
-  }
+
+  .mat-badge-medium.mat-badge-above .mat-badge-content {
+    top: -3px;
+}

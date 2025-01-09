@@ -18,7 +18,13 @@ export interface Perneria {
      PESO_TOTAL?: number;
      PROVEEDOR?: string;
      PATIO?: string;
-     FECHA_LLEGADA?: string; 
+     FECHA_LLEGADA?: string;
      OBSERVACION?: string;
-     NB_ASIG_TERR?: string;    
+     NB_ASIG_TERR?: string;
+     TIPOELEM_DESCRIPCION?: string;
+     TUNEL_DESCRIPCION?: string;
+     DISPO_DESCRIPCION?: string;
+     PROVE_DESCRIPCION?: string;
+     PATIO_DESCRIPCION?: string;
+     PORCENTAJE?: number;
 }

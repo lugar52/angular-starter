@@ -35,7 +35,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     FormsModule,
   ],
   templateUrl: './equipos-list.component.html',
-  styleUrl: './equipos-list.component.less'
+  styleUrl: './equipos-list.component.scss'
 })
 export class EquiposListComponent {
   listaEquipos: Equipos[] = []
@@ -116,8 +116,8 @@ export class EquiposListComponent {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-  ) {   
-    } 
+  ) {
+    }
 
   ngOnInit() {
 
@@ -125,7 +125,7 @@ export class EquiposListComponent {
   }
 
   getEquipos() {
-    
+
     this.equiposService.getEquipos().subscribe( data => {
       console.log(data)
       this.listaEquipos = data;
@@ -133,7 +133,7 @@ export class EquiposListComponent {
       this.dataSource = new MatTableDataSource(this.listaEquipos);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-  
+
     });
   }
 
@@ -155,7 +155,7 @@ miRouting() {
   this.router.navigate([myurl] ).then(e => {
     if (e) {
     } else { }
-  }); 
+  });
 }
 
 

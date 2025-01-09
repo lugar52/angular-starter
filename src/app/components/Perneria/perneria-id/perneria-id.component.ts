@@ -18,7 +18,7 @@ import { debounceTime } from 'rxjs/operators';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './perneria-id.component.html',
-  styleUrl: './perneria-id.component.css'
+  styleUrl: './perneria-id.component.scss'
 })
 export class PerneriaIdComponent {
   @HostBinding('class') classes = 'row';
@@ -61,12 +61,12 @@ export class PerneriaIdComponent {
     private activatedRoute: ActivatedRoute,
   ) {
       this.createEquipoForm();
-      
+
       this.fila = localStorage.getItem('perno_fila')!;
       this.get_Perno(this.fila)
-      
-      
-     
+
+
+
 
       this.contratoSignal = toSignal(
         this.form_Perneria.get('_CONTRATO')?.valueChanges.pipe(debounceTime(100)) ??
@@ -74,10 +74,10 @@ export class PerneriaIdComponent {
         {}
       );
     }
-    
+
   OnInit() {
     this.enviarFormulario()
-    
+
   }
 
   createEquipoForm() {
@@ -116,7 +116,7 @@ export class PerneriaIdComponent {
 
 
         this.FillRegistroEquipos()
-        
+
 
       })
     }
@@ -182,9 +182,9 @@ export class PerneriaIdComponent {
       this.Reg_Perneria.OBSERVACION = this.Registro_Sel.OBSERVACION
       this.Reg_Perneria.NB_ASIG_TERR = this.Registro_Sel.NB_ASIG_TERR */
 
-     
+
     }
 
-   
+
 
 }

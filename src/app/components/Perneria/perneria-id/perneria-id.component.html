@@ -1,42 +1,42 @@
 <form [formGroup]="form_Perneria" autocomplete="off" class="row gy-2 gx-3 align-items-center" style="padding-left: 50px;" (ngSubmit)="enviarFormulario()">
     <div class="row " style="padding-top: 15px;">
         <div class="col-auto">
-            <label class="" for="autoSizingInput">Orden Compra</label>
+            <label class="titlabel" for="autoSizingInput">Orden Compra</label>
             <input [readonly] type="text" formControlName="_OC" class="form-control" id="autoSizingInput" placeholder="">
-            <div ngIf="formulario.get('_OC').invalid && formulario.get('nombre').touched">
+<!--             <div ngIf="formulario.get('_OC').invalid && formulario.get('nombre').touched">
                 <div ngIf="formulario.get('_OC').errors.required" class="error">Orden de Compra es requerida.</div>
-            </div>
+            </div> -->
         </div>
 
         <div class="col-auto">
-            <label class="" for="autoSizingInputGroup">Contrato</label>
+            <label class="titlabel" for="autoSizingInputGroup">Contrato</label>
             <input type="text" formControlName="_CONTRATO" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="col-auto">
-            <label class="" for="autoSizingInputGroup">Guia</label>
+            <label class="titlabel" for="autoSizingInputGroup">Guia</label>
             <input type="text" formControlName="_GUIA" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="col-auto">
-            <label class="" for="autoSizingInputGroup">SNF</label>
+            <label class="titlabel" for="autoSizingInputGroup">SNF</label>
             <input type="text" formControlName="_SNF" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="col-auto">
-            <label class="" for="autoSizingInputGroup">Bulto</label>
+            <label class="titlabel" for="autoSizingInputGroup">Bulto</label>
             <input type="text" formControlName="_BULTO" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="col-auto">
-            <label class="" for="autoSizingInputGroup">Item Code</label>
+            <label class="titlabel" for="autoSizingInputGroup">Item Code</label>
             <input type="text" formControlName="_ITEMCODE" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
     </div>
 
     <div class="row " style="padding-top: 15px;">
         <div class="" style="width: 15rem;">
-            <label class="" for="autoSizingSelect">Tipo Elemento</label>
+            <label class="titlabel" for="autoSizingSelect">Tipo Elemento</label>
             <input type="text" formControlName="_TIPO_ELEMENTO" class="form-control" id="autoSizingInputGroup" placeholder="">
 
 <!--             <select class="form-select" formControlName="_TIPO_ELEMENTO" id="autoSizingSelect">
@@ -47,19 +47,19 @@
           </div>
 
         <div class="col-auto" style="width: 44rem;" >
-            <label class="" for="autoSizingInputGroup">Marca</label>
+            <label class="titlabel" for="autoSizingInputGroup">Marca</label>
             <input type="text" formControlName="_MARCA" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
-        <div class="col-auto" style="width: 28rem;" >
-            <label class="" for="autoSizingInputGroup">Marca Opcional</label>
+        <!-- <div class="col-auto" style="width: 28rem;" >
+            <label class="titlabel" for="autoSizingInputGroup">Marca Opcional</label>
             <input type="text" formControlName="_MARCA2" class="form-control" id="autoSizingInputGroup" placeholder="">
-        </div>
+        </div> -->
     </div>
 
     <div class="row " style="padding-top: 15px;" >
         <div class="" style="width: 15rem;">
-            <label class="" for="autoSizingSelect">Tunel</label>
+            <label class="titlabel" for="autoSizingSelect">Tunel</label>
             <input type="text" formControlName="_TUNEL" class="form-control" id="autoSizingInputGroup" placeholder="">
 
 <!--             <select class="form-select" formControlName="_TUNEL" id="autoSizingSelect">
@@ -71,10 +71,10 @@
               <option value="5">Confirmar</option>
             </select> -->
           </div>
-       
+
 
           <div class="" style="width: 15rem;">
-            <label class="" for="autoSizingSelect">Disposición Final</label>
+            <label class="titlabel" for="autoSizingSelect">Disposición Final</label>
             <input type="text" formControlName="_DISPOSICION_FINAL" class="form-control" id="autoSizingInputGroup" placeholder="">
 
 <!--             <select class="form-select" formControlName="_DISPOSICION_FINAL" id="autoSizingSelect">
@@ -90,17 +90,17 @@
           </div>
 
           <div class="col-auto"  >
-            <label class="" for="autoSizingInputGroup">Cantidad SNF</label>
+            <label class="titlabel" for="autoSizingInputGroup">Cantidad SNF</label>
             <input type="text" formControlName="_CANTIDAD_SNF" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="col-auto" >
-            <label class="" for="autoSizingInputGroup">Cantidad Terreno</label>
+            <label class="titlabel" for="autoSizingInputGroup">Cantidad Terreno</label>
             <input type="text" formControlName="_CANTIDAD_TERRENO" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="col-auto" >
-            <label class="" for="autoSizingInputGroup">Diferencia</label>
+            <label class="titlabel" for="autoSizingInputGroup">Diferencia</label>
             <input type="text" formControlName="_DIFERENCIA" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
@@ -108,17 +108,17 @@
     </div>
     <div class="row " style="padding-top: 15px;">
         <div class="col-auto" >
-            <label class="" for="autoSizingInputGroup">Peso Unitario</label>
+            <label class="titlabel" for="autoSizingInputGroup">Peso Unitario</label>
             <input type="text" formControlName="_PESO_UNITARIO" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="col-auto" >
-            <label class="" for="autoSizingInputGroup">Peso Total</label>
+            <label class="titlabel" for="autoSizingInputGroup">Peso Total</label>
             <input type="text" formControlName="_PESO_TOTAL" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="" style="width: 15rem;">
-            <label class="" for="autoSizingSelect">Patio</label>
+            <label class="titlabel" for="autoSizingSelect">Patio</label>
             <input type="text" formControlName="_PATIO" class="form-control" id="autoSizingInputGroup" placeholder="">
 
             <!-- <select class="form-select" formControlName="_PATIO" id="autoSizingSelect">
@@ -128,29 +128,29 @@
           </div>
 
           <div class="col-auto" style="width: 14rem">
-            <label class="" for="autoSizingInputGroup">Proveedor</label>
+            <label class="titlabel" for="autoSizingInputGroup">Proveedor</label>
             <input type="text" formControlName="_PROVEEDOR" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
                   <div class="col-auto" >
-            <label class="" for="autoSizingInputGroup">Fecha llegada</label>
+            <label class="titlabel" for="autoSizingInputGroup">Fecha llegada</label>
             <input type="text" formControlName="_FECHA_LLEGADA" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
         <div class="col-auto" >
-            <label class="" for="autoSizingInputGroup">N° Bulto Asig. Terreno</label>
+            <label class="titlabel" for="autoSizingInputGroup">N° Bulto Asig. Terreno</label>
             <input type="text" formControlName="_NB_ASIG_TERR" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
 
     </div>
     <div class="row" style="padding-top: 15px; width: 89rem;">
         <div class="col-12" >
-            <label class="" for="autoSizingInputGroup">Observación</label>
+            <label class="titlabel" for="autoSizingInputGroup">Observación</label>
             <input type="text" formControlName="_OBSERVACION" class="form-control" id="autoSizingInputGroup" placeholder="">
         </div>
     </div>
 
     <div class="row" style="background-color: aqua;">
         <button mat-button>Basic</button>
-       
+
     </div>
 </form>
