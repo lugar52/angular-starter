@@ -36,10 +36,10 @@
     border: 0.5px;
     border-color: darkcyan;
     border-style: solid;
-    color:darkslategrey;
+    background-color: #158CBA !important;
+    color:antiquewhite ;
     font-size: small;
     padding-top: 10px;
-    font-weight: bold;
 
   }
 
@@ -61,6 +61,9 @@
     border-bottom: 0.5px !important;
     border-bottom-style:solid !important;
     border-bottom-color: darkcyan !important;
+    border-right: 0.5px;
+    border-right-color: darkcyan;
+    border-right-style: solid;
   }
 
   .grid-item-h-descrip {
@@ -90,7 +93,7 @@
 
   .grid-item-fila {
     .grid-item-base;
-    padding-top: 15px;
+    vertical-align:middle
   }
 
   .grid-item-percen
@@ -110,6 +113,7 @@
   .grid-item-base_req {
     .grid-item-base;
     text-align: right;
+    vertical-align:middle
   }
 
   .grid-item-h-sol_numero {
@@ -131,4 +135,65 @@
 
   .mat-badge-medium.mat-badge-above .mat-badge-content {
     top: -3px;
+}
+
+
+
+.col-h-select {
+  .grid-diseno-header;
+  min-width: 150px; /* Ajusta el ancho mínimo de cada celda */
+
+}
+
+.select-control {
+  .grid-item-fila;
+  width: 150px;
+  font-size:small;
+  height: 40px;
+  text-align: left;
+
+}
+
+.col-h-observacion {
+  .grid-diseno-header;
+  min-width: 650px; /* Ajusta el ancho mínimo de cada celda */
+
+}
+
+.input_cant {
+  .grid-item-fila;
+  width: 50px;
+  height: 30px;
+  font-size:small;
+  text-align: right;
+  vertical-align: top;
+  border-style: hidden;
+}
+
+.input-observacion {
+  .grid-item-fila;
+  width: 650px;
+  height: 30px;
+  font-size:small;
+  text-align: left;
+  vertical-align: top;
+  border-style: hidden;
+}
+
+.col-h-datepicker {
+  .grid-diseno-header;
+
+  min-width: 130px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.input-datepicker {
+  .grid-item-fila;
+  width: 80px;
+  padding-left: 0px;
+  margin-left: 3px;
+  height: 30px;
+  font-size:small;
+  text-align: left;
+  vertical-align: top;
+  border-style: hidden;
 }

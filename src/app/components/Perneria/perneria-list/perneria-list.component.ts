@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 
-import { Component, OnInit, ViewChild, HostBinding } from '@angular/core';
+import { Component, OnInit, ViewChild, HostBinding, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router  } from '@angular/router';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators, } from '@angular/forms';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/paginator';
@@ -12,19 +14,22 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { PerneriaService } from '../../../services/perneria.service'
-import { Perneria } from '../../../model/perneria'
+import { Perneria } from '../../../model/perneria';
 
 import { Subscription, tap } from 'rxjs';
 
-import { CommonModule } from '@angular/common';
+
 
 import { MatInputModule } from '@angular/material/input';
 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {FormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import 'moment/locale/es';
 
 @Component({
   selector: 'app-perneria-list',
@@ -36,16 +41,20 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatSlideToggleModule,
     MatPaginatorModule,
     MatTableModule,
-    FormsModule,
     MatButtonModule,
     MatTooltipModule,
     MatIconModule,
     MatProgressBarModule,
     MatBadgeModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    FormsModule,
+    ReactiveFormsModule
 
   ],
   templateUrl: './perneria-list.component.html',
-  styleUrl: './perneria-list.component.less'
+  styleUrl: './perneria-list.component.less',
+  providers: [DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'es'}]
 })
 export class PerneriaListComponent {
   listaPerneria: Perneria[] = []
@@ -53,6 +62,10 @@ export class PerneriaListComponent {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @HostBinding('class') classes = 'row';
+  private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
+  private readonly _locale = signal(inject<unknown>(MAT_DATE_LOCALE));
+
+
 
   subscription: Subscription[] = [];
 
@@ -79,8 +92,6 @@ export class PerneriaListComponent {
 displayedColumns = [
   'ITEMCODE', 'SNF', 'BULTO', 'TIPO_ELEMENTO', 'MARCA', 'TUNEL', 'DISPOSICION_FINAL', 'CANTIDAD_SNF', 'CANTIDAD_TERRENO', 'DIFERENCIA', 'PORCENT', 'PESO_UNITARIO', 'PESO_TOTAL', 'PROVEEDOR', 'PATIO', 'FECHA_LLEGADA', 'OBSERVACION'];
 
-  form_Perneria!: FormGroup;
-
   Registro_Perneria: Perneria = {
     ID_PERNO: 0,
     OC: 0,
@@ -101,7 +112,7 @@ displayedColumns = [
     PESO_TOTAL: 0,
     PROVEEDOR: '',
     PATIO: '',
-    FECHA_LLEGADA: '',
+    FECHA_LLEGADA: new Date(),
     OBSERVACION: '',
     NB_ASIG_TERR: '',
     TIPOELEM_DESCRIPCION: '',
@@ -110,15 +121,21 @@ displayedColumns = [
     PROVE_DESCRIPCION: '',
     PATIO_DESCRIPCION: '',
   }
-
   titulo: any = '';
+
+  // form_Perneria!: FormGroup;
+
+
  constructor(
     private perneriaService: PerneriaService,
     private fb: FormBuilder,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private datePipe: DatePipe
   ) {
+      this._locale.set('es');
+      this._adapter.setLocale(this._locale());
     }
 
   ngOnInit() {
@@ -136,11 +153,14 @@ displayedColumns = [
 
     this.perneriaService.getPerneria().subscribe( data => {
       this.listaPerneria = data;
-      console.log(data)
+
 
       this.dataSource = new MatTableDataSource(this.listaPerneria);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      console.log(this.listaPerneria)
+
+
 
     });
   }
@@ -165,7 +185,43 @@ miRouting(id: number) {
   });
 }
 
+createEquipoForm() {
+
+ /*  const fechaArray = this.Registro_Perneria.FECHA_LLEGADA?.split("-");
+
+    if (fechaArray?.length === 3) {
+      const fechaCorrecta = new Date(`${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}`);  // "2024-11-15"
+      const formattedDate = this.datePipe.transform(fechaCorrecta, 'dd-MM-yyyy');
+      console.log(formattedDate); // Friday, January 10, 2025
+
+      this.form_Perneria = this.formBuilder.group({
+        date: [formattedDate],
+      })
+    } else {
+      console.log('Fecha Incorrecta')
+    } */
 
 
+  }
+
+  miclick1(row: object) {
+/*     const miobj: Perneria = JSON.parse(JSON.stringify(row));
+    console.log(miobj)
+    const fechaArray = miobj.FECHA_LLEGADA?.split("-");
+
+    if (fechaArray?.length === 3) {
+      const fechaCorrecta = new Date(`${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}`);  // "2024-11-15"
+      const formattedDate = this.datePipe.transform(fechaCorrecta, 'dd-MM-yyyy');
+      console.log(formattedDate); // Friday, January 10, 2025
+
+      this.form_Perneria = this.formBuilder.group({
+        date: [formattedDate],
+      })
+    } else {
+      console.log('Fecha Incorrecta')
+    }
+ */
+
+  }
 
 }

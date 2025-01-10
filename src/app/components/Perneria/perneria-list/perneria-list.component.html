@@ -1,16 +1,21 @@
-<div class="container text-center">
-    <div class="row" >
-        <h2 class="text-primary" style="text-align: start; padding-left: 50px;">Pernería {{this.titulo}} </h2>
-        <div class="col-1" style="width: 30%;">
+
+<div class="container" style="padding: 0px !important; margin-top: 0px !important;">
+     <div class="row" style="padding-top: 0px;  background-color: burlywood !important;">
+      <div class="row" style="padding-top: 0px;  background-color:aquamarine !important;">
+        <div class="col-3" >
+          <h3 class="text-primary" style="text-align: start; padding-left: 50px;">Pernería {{this.titulo}} </h3>
         </div>
-        <div class="col-1" style="width: 70%;"></div>
-    </div>
-    <div class="row" style="padding-top: 5px;">
-        <div class="col-11" style="width: 99%;">
-            <div appearance="fill" class="full-width has-success" style="padding: 10px; align-content:start;" >
-                <mat-label style="padding-right: 20px;" >Filter</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Search Columns" #input>
-            </div>
+        <div class="col-3" ></div>
+        <div class="col-3" ></div>
+        <div class="col-3" >
+          <div appearance="fill" class="full-width has-success" style="padding: 10px; align-content:start;" >
+            <mat-label style="padding-right: 20px;" >Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Search Columns" #input>
+          </div>
+        </div>
+      </div>
+       <div class="col-11" style="width: 100%;">
+
 
             <div class="grid-container">
 
@@ -69,7 +74,15 @@
 
                     <ng-container matColumnDef="TIPO_ELEMENTO" >
                         <th mat-header-cell  *matHeaderCellDef mat-sort-header class="grid-diseno-header" >TIPO ELEMENTO</th>
-                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.TIPOELEM_DESCRIPCION}}</td>
+                        <td mat-cell class="select-control" *matCellDef="let row">
+
+                          <select class="form-select" id="autoSizingSelect" style="font-size:14px; width: 140px;">
+                            <option selected>{{row.TIPOELEM_DESCRIPCION}}</option>
+                            <option value="1">Pernos Roca</option>
+                            <option value="2">Pernos de anclaje</option>
+                          </select>
+
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="MARCA">
@@ -83,23 +96,50 @@
                     </ng-container>
 
                     <ng-container matColumnDef="TUNEL">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-descrip">TUNEL</th>
-                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.TUNEL_DESCRIPCION}}</td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-h-select">TUNEL</th>
+                        <td mat-cell class="select-control" *matCellDef="let row">
+
+                          <select class="form-select " id="autoSizingSelect" style="font-size:14px; width: 140px;">
+                            <option selected>{{row.TUNEL_DESCRIPCION}}</option>
+                            <option value="1">Coirón</option>
+                            <option value="2">La Guardia</option>
+                            <option value="3">Las Animas</option>
+                            <option value="4">NO LLEGO</option>
+                            <option value="5">Confirmar</option>
+                          </select>
+
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="DISPOSICION_FINAL">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-descrip">DISPO.FINAL</th>
-                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.DISPO_DESCRIPCION}}</td>
+                        <td mat-cell class="select-control" *matCellDef="let row">
+
+                          <select class="form-select" id="autoSizingSelect" style="font-size:14px; width: 140px;">
+                            <option selected>{{row.DISPO_DESCRIPCION}}</option>
+                            <option value="1">Boveda  </option>
+                            <option value="2">Contraboveda  </option>
+                            <option value="3">Fundación  </option>
+                            <option value="4">Hastial    </option>
+                            <option value="5">No sale</option>
+                            <option value="4">NO LLEGO    </option>
+                            <option value="5">N/A</option>
+                          </select>
+
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="CANTIDAD_SNF" >
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-descrip">CANT. SNF</th>
-                        <td mat-cell class="grid-item-base_req" *matCellDef="let row" >{{row.CANTIDAD_SNF}}</td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header">CANT. SNF</th>
+                        <td mat-cell class="grid-item-base_req" *matCellDef="let row">{{row.CANTIDAD_SNF}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="CANTIDAD_TERRENO">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-descrip">CANT. Terreno</th>
-                        <td mat-cell class="grid-item-base_req" *matCellDef="let row">{{row.CANTIDAD_TERRENO}}</td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header">CANT. Terreno</th>
+                        <td mat-cell class="grid-item-base_req" *matCellDef="let row"  >
+                          <input class="input_cant form-control" placeholder="" value={{row.CANTIDAD_SNF}} >
+                        </td>
+
                     </ng-container>
 
                     <ng-container matColumnDef="DIFERENCIA">
@@ -133,22 +173,41 @@
 
                     <ng-container matColumnDef="PROVEEDOR">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header">PROVEEDOR</th>
-                        <td mat-cell class="grid-item-base_req" *matCellDef="let row">{{row.PROVE_DESCRIPCION}}</td>
+                        <td mat-cell class="select-control" *matCellDef="let row">
+
+                          <select class="form-select" id="autoSizingSelect" style="font-size:14px; width: 140px;">
+                            <option selected>{{row.PROVE_DESCRIPCION}}</option>
+                            <option value="1">Reliper</option>
+                          </select>
+
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="PATIO">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header">PATIO</th>
-                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.PATIO_DESCRIPCION}}</td>
+                        <td mat-cell class="select-control" *matCellDef="let row">
+
+                          <select class="form-select" id="autoSizingSelect" style="font-size:14px; width: 140px;">
+                            <option selected>  {{row.PATIO_DESCRIPCION}} </option>
+                            <option value="1">Remanso  </option>
+                          </select>
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="FECHA_LLEGADA">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fecha">FECHA LLEGADA</th>
-                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.FECHA_LLEGADA}}</td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-h-datepicker" >FECHA LLEGADA</th>
+                        <td class="grid-item-base_req " mat-cell *matCellDef="let row">
+                            <input class="input-datepicker" matInput [matDatepicker]="picker" [value]="row.FECHA_LLEGADA"/>
+                            <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                            <mat-datepicker #picker style="color: chocolate;"></mat-datepicker>
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="OBSERVACION">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header">OBSERVACIÓN</th>
-                        <td mat-cell class="grid-item-fila" *matCellDef="let row">{{row.OBSERVACION}}</td>
+                        <td mat-cell class="grid-item-base_req" *matCellDef="let row">
+                            <input class="input-observacion form-control" placeholder="" value={{row.OBSERVACION}}>
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="NB_ASIG_TERR">
@@ -167,3 +226,4 @@
         <div class="col-1" style="width: 5%;"></div>
     </div>
 </div>
+

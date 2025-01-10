@@ -1,24 +1,18 @@
- 
-    <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-      <mat-toolbar class="example-toolbar">
+
+    <div class="example-container" [class.example-is-mobile]="mobileQuery.matches" >
+      <mat-toolbar class="example-toolbar" style="background-color: chocolate;">
         <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
         <h1 class="example-app-name">Bonatti - Control de Patio</h1>
       </mat-toolbar>
-  
-      <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+
+      <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0" style="background-color: black;">
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
 
           <mat-nav-list>
-           <!--  @for (nav of dataSource; track nav) {
-              <a mat-list-item routerLink= "{{ nav.route }}"> {{nav.label}}</a>
-              
-            } -->
+  
+            <mat-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor" class="example-tree" >
+              <mat-tree-node *matTreeNodeDef="let node" style="padding: 10px;"   (click)="enruta(node.route)"  > {{node.name}}
 
-           
-
-            <mat-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor" class="example-tree" > 
-              <mat-tree-node *matTreeNodeDef="let node" style="padding: 10px;"   (click)="enruta(node.route)"  > {{node.name}} 
-                
               </mat-tree-node>
               <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild"  matTreeNodeToggle [cdkTreeNodeTypeaheadLabel]="node.name">
                 <div class="mat-tree-node">
@@ -29,19 +23,21 @@
                   </button>
                    {{node.name}}
               </div>
-              <div [class.example-tree-invisible]="!tree.isExpanded(node)" role="group">
+
+              <address [class.example-tree-invisible]="!tree.isExpanded(node)" role="group">
                 <ng-container matTreeNodeOutlet></ng-container>
-              </div>
+              </address>
             </mat-nested-tree-node>
           </mat-tree>
-          
-          
+
+
 
           </mat-nav-list>
 
         </mat-sidenav>
-        <mat-sidenav-content>
-            <router-outlet></router-outlet>
+
+        <mat-sidenav-content style="background-color: cornflowerblue; margin: 0px; padding-top: 0px !important; width: 98%;">
+            <router-outlet ></router-outlet>
         </mat-sidenav-content>
       </mat-sidenav-container>
     </div>

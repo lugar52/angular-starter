@@ -18,7 +18,7 @@ export interface Perneria {
      PESO_TOTAL?: number;
      PROVEEDOR?: string;
      PATIO?: string;
-     FECHA_LLEGADA?: string;
+     FECHA_LLEGADA: Date | undefined;
      OBSERVACION?: string;
      NB_ASIG_TERR?: string;
      TIPOELEM_DESCRIPCION?: string;
