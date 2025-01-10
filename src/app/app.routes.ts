@@ -3,9 +3,10 @@ import { ListaIngresosEquiposComponent } from './components/equipos/lista-ingres
 
 
 import { SidebarComponent } from './components/sidebar/sidebar.component'
+import { NavbarComponent } from './components/navbar/navbar.component'
 
 export const routes: Routes = [
-    { path: '', component: SidebarComponent,
+    { path: '', component: NavbarComponent,
         children:
         [
             { path: 'equipos', loadComponent: () => import('./components/equipos/equipos-list/equipos-list.component') .then(m => m.EquiposListComponent )},

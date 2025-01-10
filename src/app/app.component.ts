@@ -14,12 +14,13 @@ import { SidenavService } from './components/sidenav/sidenav.service';
 
 import { DefaultSidenavComponent } from './sidenavs/default-sidenav/default-sidenav.component';
 import { SidenavComponent } from '../app/components/sidenav/sidenav.component'
+import { NavbarComponent } from '../app/components/navbar/navbar.component'
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SidenavComponent],
+  imports: [RouterOutlet, SidenavComponent, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
