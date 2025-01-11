@@ -1,10 +1,12 @@
+@baseLineHeight: 25px;
+
 :host {
     display: block;
-    padding: 20px;
+    padding: 15px;
 }
 
 .demo-table {
-    width: 95%;
+    width: 100%;
   }
 
   .mat-mdc-row .mat-mdc-cell {
@@ -36,8 +38,8 @@
     border: 0.5px;
     border-color: darkcyan;
     border-style: solid;
-    background-color: #158CBA !important;
-    color:antiquewhite ;
+    background-color: #CD212A !important;
+    color:white;
     font-size: small;
     padding-top: 10px;
 
@@ -77,11 +79,12 @@
   }
 
   .table-row {
-    height: 35px !important;
+    height: @baseLineHeight !important;
   }
 
   .vertical-text {
-      writing-mode: vertical-rl; /* Orientación vertical de derecha a izquierda */    text-orientation: upright; /* Coloca los caracteres en posición vertical */
+      writing-mode: vertical-rl; /* Orientación vertical de derecha a izquierda */
+      text-orientation: upright; /* Coloca los caracteres en posición vertical */
   }
 
   .grid-item-h-percent {
@@ -137,21 +140,17 @@
     top: -3px;
 }
 
-
-
 .col-h-select {
   .grid-diseno-header;
   min-width: 150px; /* Ajusta el ancho mínimo de cada celda */
-
 }
 
 .select-control {
   .grid-item-fila;
   width: 150px;
   font-size:small;
-  height: 40px;
+  height: @baseLineHeight;
   text-align: left;
-
 }
 
 .col-h-observacion {
@@ -163,7 +162,7 @@
 .input_cant {
   .grid-item-fila;
   width: 50px;
-  height: 30px;
+  height: @baseLineHeight;
   font-size:small;
   text-align: right;
   vertical-align: top;
@@ -173,7 +172,7 @@
 .input-observacion {
   .grid-item-fila;
   width: 650px;
-  height: 30px;
+  height: @baseLineHeight;
   font-size:small;
   text-align: left;
   vertical-align: top;
@@ -182,7 +181,6 @@
 
 .col-h-datepicker {
   .grid-diseno-header;
-
   min-width: 130px; /* Ajusta el ancho mínimo de cada celda */
 }
 
@@ -191,7 +189,7 @@
   width: 80px;
   padding-left: 0px;
   margin-left: 3px;
-  height: 30px;
+  height: @baseLineHeight;
   font-size:small;
   text-align: left;
   vertical-align: top;
