@@ -65,9 +65,6 @@ export class PerneriaIdComponent {
       this.fila = localStorage.getItem('perno_fila')!;
       this.get_Perno(this.fila)
 
-
-
-
       this.contratoSignal = toSignal(
         this.form_Perneria.get('_CONTRATO')?.valueChanges.pipe(debounceTime(100)) ??
           of(null),

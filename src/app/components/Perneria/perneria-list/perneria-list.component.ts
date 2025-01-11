@@ -65,8 +65,6 @@ export class PerneriaListComponent {
   private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
   private readonly _locale = signal(inject<unknown>(MAT_DATE_LOCALE));
 
-
-
   subscription: Subscription[] = [];
 
   length: number = 100;
@@ -89,7 +87,7 @@ export class PerneriaListComponent {
   /* displayedColumns = [
 'acciones', 'ID_PERNO', 'OC', 'CONTRATO', 'GUIA', 'SNF', 'BULTO', 'ITEMCODE', 'TIPO_ELEMENTO', 'MARCA', 'MARCA2', 'TUNEL', 'DISPOSICION_FINAL', 'CANTIDAD_SNF', 'CANTIDAD_TERRENO', 'DIFERENCIA', 'PESO_UNITARIO', 'PESO_TOTAL', 'PROVEEDOR', 'PATIO', 'FECHA_LLEGADA', 'OBSERVACION', 'NB_ASIG_TERR']; */
 
-displayedColumns = [
+displayedColumns = ['acciones',
   'ITEMCODE', 'SNF', 'BULTO', 'TIPO_ELEMENTO', 'MARCA', 'TUNEL', 'DISPOSICION_FINAL', 'CANTIDAD_SNF', 'CANTIDAD_TERRENO', 'DIFERENCIA', 'PORCENT', 'PESO_UNITARIO', 'PESO_TOTAL', 'PROVEEDOR', 'PATIO', 'FECHA_LLEGADA', 'OBSERVACION'];
 
   Registro_Perneria: Perneria = {
@@ -120,15 +118,15 @@ displayedColumns = [
     DISPO_DESCRIPCION: '',
     PROVE_DESCRIPCION: '',
     PATIO_DESCRIPCION: '',
+    isEdit: false,
+    isSelected: false,
   }
   titulo: any = '';
 
-  // form_Perneria!: FormGroup;
-
+  form_Perneria!: FormGroup;
 
  constructor(
     private perneriaService: PerneriaService,
-    private fb: FormBuilder,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -136,6 +134,8 @@ displayedColumns = [
   ) {
       this._locale.set('es');
       this._adapter.setLocale(this._locale());
+      this.createEquipoForm();
+
     }
 
   ngOnInit() {
@@ -160,8 +160,6 @@ displayedColumns = [
       this.dataSource.paginator = this.paginator;
       console.log(this.listaPerneria)
 
-
-
     });
   }
 
@@ -177,17 +175,71 @@ myClic(row: any) {
   this.miRouting(row.ID_PERNO)
 }
 
-miRouting(id: number) {
-  let  myurl = `${'perneria/id'}`;
+miRouting(row:any) {
+ /*  let  myurl = `${'perneria/id'}`;
   this.router.navigate([myurl] ).then(e => {
     if (e) {
     } else { }
-  });
+  }); */
+
+  //alert('inside editField')
+  console.timeLog(row)
 }
 
 createEquipoForm() {
+  this.form_Perneria = this.formBuilder.group({
+    _TIPOELEM_DESCRIPCION:  new FormControl('', Validators.required),
+    _TUNEL_DESCRIPCION:  new FormControl('', Validators.required),
+    _DISPO_DESCRIPCION:  new FormControl('', Validators.required),
+    _PROVE_DESCRIPCION:  new FormControl('', Validators.required),
+    _PATIO_DESCRIPCION:  new FormControl('', Validators.required),
+    _CANT_TERRENO:  new FormControl('', Validators.required),
+    _FECHA_LLEGADA:  new FormControl('', Validators.required),
+    _OBSERVACION:  new FormControl('', Validators.required),
+  })
+}
 
- /*  const fechaArray = this.Registro_Perneria.FECHA_LLEGADA?.split("-");
+ch_tpelem(e: any) {
+  console.log(e.target.value)
+}
+
+ch_tunel(e: any) {
+  console.log(e.target.value)
+}
+
+ch_dispo(e: any) {
+  console.log(e.target.value)
+}
+
+ch_proveedor(e: any) {
+  console.log(e.target.value)
+}
+
+ch_patio(e: any) {
+  console.log(e.target.value)
+}
+
+ch_cantidad(e:any, r:any) {
+  console.log(e.target.value)
+  console.log(r)
+  const cantTerr = Number(e.target.value)
+
+  console.log('cantTerr: ', cantTerr)
+  console.log(Number(r.CANTIDAD_SNF))
+  const percent = (cantTerr/Number(r.CANTIDAD_SNF))*100
+  console.log(percent)
+
+}
+
+cal_percent(value:any) {
+
+
+}
+
+/*
+createEquipoForm() {
+
+ const fechaArray = this.Registro_Perneria.FECHA_LLEGADA?.split("-");
 
     if (fechaArray?.length === 3) {
       const fechaCorrecta = new Date(`${fechaArray[2]}-${fechaArray[1]}-${fechaArray[0]}`);  // "2024-11-15"
@@ -199,7 +251,7 @@ createEquipoForm() {
       })
     } else {
       console.log('Fecha Incorrecta')
-    } */
+    }
 
 
   }
@@ -220,8 +272,8 @@ createEquipoForm() {
     } else {
       console.log('Fecha Incorrecta')
     }
- */
 
   }
+  */
 
 }

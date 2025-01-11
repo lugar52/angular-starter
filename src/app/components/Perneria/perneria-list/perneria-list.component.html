@@ -1,5 +1,5 @@
-
 <div class="container">
+  <form [formGroup]="form_Perneria">
 
       <div class="row">
         <div class="col-3" >
@@ -18,8 +18,8 @@
       <div class="row">
        <div class="col-12">
 
-            <div class="grid-container">
 
+            <div class="grid-container">
                 <table mat-table [dataSource]="dataSource" matSort >
 
                     <ng-container matColumnDef="acciones">
@@ -77,7 +77,7 @@
                         <th mat-header-cell  *matHeaderCellDef mat-sort-header class="grid-diseno-header" >TIPO ELEMENTO</th>
                         <td mat-cell class="select-control" *matCellDef="let row">
 
-                          <select class="form-select" id="autoSizingSelect" style="font-size:14px; width: 140px;">
+                          <select class="form-select " formControlName="_TIPOELEM_DESCRIPCION" id="autoSizingSelect" style="font-size:14px; width: 140px;" (change)="ch_tpelem($event)">
                             <option selected>{{row.TIPOELEM_DESCRIPCION}}</option>
                             <option value="1">Pernos Roca</option>
                             <option value="2">Pernos de anclaje</option>
@@ -132,13 +132,17 @@
 
                     <ng-container matColumnDef="CANTIDAD_SNF" >
                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header">CANT. SNF</th>
-                        <td mat-cell class="grid-item-base_req" *matCellDef="let row">{{row.CANTIDAD_SNF}}</td>
+                        <td mat-cell class="grid-item-base_req" *matCellDef="let row" [contentEditable]=true>{{row.CANTIDAD_SNF}}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="CANTIDAD_TERRENO">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header">CANT. Terreno</th>
-                        <td mat-cell class="grid-item-base_req" *matCellDef="let row"  >
-                          <input class="input_cant form-control" placeholder="" value={{row.CANTIDAD_SNF}} >
+                        <td mat-cell class="grid-item-base_req" *matCellDef="let row"  [contentEditable]=true>
+                          <input class="input_cant form-control"
+                            placeholder=""
+                            value={{row.CANTIDAD_TERRENO}}
+                            formControlName="_CANT_TERRENO"
+                            (change)="ch_cantidad($event, row)">
                         </td>
 
                     </ng-container>
@@ -220,11 +224,12 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns; " class="table-row">
                 </tr>
                 </table>
-            </div>
+              </div>
 
             <mat-paginator [pageSizeOptions]="[16, 40]" showFirstLastButtons aria-label="Select page of materiales" ></mat-paginator>
         </div>
       </div>
 
+    </form>
 </div>
 

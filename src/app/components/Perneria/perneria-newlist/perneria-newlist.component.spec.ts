@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Screen2Component } from './screen-2.component';
+import { PerneriaNewlistComponent } from './perneria-newlist.component';
 
-describe('Screen2Component', () => {
-  let component: Screen2Component;
-  let fixture: ComponentFixture<Screen2Component>;
+describe('PerneriaNewlistComponent', () => {
+  let component: PerneriaNewlistComponent;
+  let fixture: ComponentFixture<PerneriaNewlistComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Screen2Component]
+      imports: [PerneriaNewlistComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Screen2Component);
+    fixture = TestBed.createComponent(PerneriaNewlistComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

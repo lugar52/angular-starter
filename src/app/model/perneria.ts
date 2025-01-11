@@ -27,4 +27,42 @@ export interface Perneria {
      PROVE_DESCRIPCION?: string;
      PATIO_DESCRIPCION?: string;
      PORCENTAJE?: number;
+     isEdit: boolean;
+     isSelected: boolean;
 }
+
+export const UserColumns = [
+  {
+    key: 'isSelected',
+    type: 'isSelected',
+    label: '',
+  },
+  {
+    key: 'firstName',
+    type: 'text',
+    label: 'First Name',
+    required: true,
+  },
+  {
+    key: 'lastName',
+    type: 'text',
+    label: 'Last Name',
+  },
+  {
+    key: 'email',
+    type: 'email',
+    label: 'Email',
+    required: true,
+    pattern: '.+@.+',
+  },
+  {
+    key: 'birthDate',
+    type: 'date',
+    label: 'Date of Birth',
+  },
+  {
+    key: 'isEdit',
+    type: 'isEdit',
+    label: '',
+  },
+];

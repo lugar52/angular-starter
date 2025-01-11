@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { ListaIngresosEquiposComponent } from './components/equipos/lista-ingresos-equipos/lista-ingresos-equipos.component'
 
 
-import { SidebarComponent } from './components/sidebar/sidebar.component'
 import { NavbarComponent } from './components/navbar/navbar.component'
 
 export const routes: Routes = [
