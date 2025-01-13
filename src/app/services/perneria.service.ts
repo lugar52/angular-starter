@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpStatusCode, HttpErrorResponse } from  '@angular/common/http';
 import { catchError, lastValueFrom, shareReplay, throwError } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Perneria } from '../model/perneria'
-import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -12,10 +13,10 @@ export class PerneriaService {
 
   private API_URL: string = "";
   private httpOptions?:  any
-  
+
   constructor(
     private http: HttpClient,
-    ) { 
+    ) {
 
       this.API_URL = environment.apiUrl
       console.log(environment.apiUrl)
@@ -53,6 +54,34 @@ export class PerneriaService {
   private handleError(error: any) {
     console.error(error);
     return throwError(error);
+  }
+
+  // ---------------------------------------------------- new List ---------------------
+  getPernos(): Observable<Perneria[]> {
+    let seleccion = localStorage.getItem('Seleccion')
+    console.log('getPernos: ', seleccion)
+    return this.http.get<Perneria[]>(`${this.API_URL}${seleccion}`)
+    //.pipe<Perneria[]>(map((data: any) => data.pernos));
+  }
+
+  updatePerno(perneria: Perneria): Observable<Perneria> {
+    return this.http.patch<Perneria>(`${this.API_URL}/${perneria.ID_PERNO}`, perneria);
+  }
+
+  addPerno(perneria: Perneria): Observable<Perneria> {
+    return this.http.post<Perneria>(`${this.API_URL}/add`, perneria);
+  }
+
+  deleteUser(id: number): Observable<Perneria> {
+    return this.http.delete<Perneria>(`${this.API_URL}/${id}`);
+  }
+
+  deleteUsers(perneria: Perneria[]): Observable<Perneria[]> {
+    return forkJoin(
+      perneria.map((perneria) =>
+        this.http.delete<Perneria>(`${this.API_URL}/${perneria.ID_PERNO}`)
+      )
+    );
   }
 
 }

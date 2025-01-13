@@ -1,1 +1,92 @@
-<p>perneria-newlist works!</p>
+<article class="table-header" style="padding-top: 15px;">
+  <div>
+    <i>{{this.titulo}}</i>
+  </div>
+  <div>
+    <button class="button-remove-rows" mat-button (click)="removeSelectedRows()">Remove Rows </button>
+    <button class="button-add-row" mat-button (click)="addRow()">Add Row</button>
+  </div>
+</article>
+<table mat-table [dataSource]="dataSource">
+  <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
+    <th class="grid-diseno-header" mat-header-cell *matHeaderCellDef [ngSwitch]="col.key">
+      <span *ngSwitchCase="'isSelected'">
+        <mat-checkbox
+          (change)="selectAll($event)"
+          [checked]="isAllSelected()"
+          [indeterminate]="!isAllSelected() && isAnySelected()">
+        </mat-checkbox>
+      </span>
+      <span *ngSwitchDefault>{{ col.label }}</span>
+    </th>
+
+    <td mat-cell *matCellDef="let element" class="grid-item-fila">
+
+      <div [ngSwitch]="col.type" *ngIf="!element.isEdit">
+        <ng-container *ngSwitchCase="'isSelected'">
+          <mat-checkbox
+            (change)="element.isSelected = $event.checked"
+            [checked]="element.isSelected"
+          ></mat-checkbox>
+        </ng-container>
+
+        <div class="btn-edit" *ngSwitchCase="'isEdit'" >
+          <button mat-button (click)="element.isEdit = !element.isEdit">Edit</button>
+          <!-- <button mat-button class="button-remove" (click)="removeRow(element.ID_PERNO)"> Delete </button> -->
+        </div>
+
+          <span *ngSwitchCase="'date'">{{ element[col.key] | date: 'mediumDate' }}</span>
+          <span *ngSwitchDefault> {{ element[col.key] }} </span>
+        </div>
+
+      <div [ngSwitch]="col.type" *ngIf="element.isEdit">
+
+        <div *ngSwitchCase="'isSelected'"></div>
+
+        <div class="btn-edit" *ngSwitchCase="'isEdit'">
+          <button mat-button (click)="editRow(element)" [disabled]="disableSubmit(element.ID_PERNO)">Done</button>
+        </div>
+
+        <mat-form-field class="form-input" *ngSwitchCase="'date'" appearance="fill" >
+          <input matInput [matDatepicker]="picker" [(ngModel)]="element[col.key]"/>
+          <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+       <!--  <div class="form-input" *ngSwitchCase="'select'">
+          <select class="form-select " style="font-size:14px; width: 140px;"
+          [(ngModel)]="element[col.key]"
+          (change)="inputHandler($event, element.ID_PERNO, col.key)" >
+            <option selected>{{element[col.key]}}</option>
+              <option mat-option value="one">First option</option>
+              <option mat-option value="two">Second option</option>
+          </select>
+        </div> -->
+
+        <div class="form-input" *ngSwitchCase="'select'">
+          <select
+            (change)="selectHandler($event, element.ID_PERNO, col.key, col.seloptionTE)" >
+            @for (op of col.seloption; track op) {
+                <option [value]="op.value">{{op.viewValue}}</option>
+            }
+          </select>
+        </div>
+
+        <mat-form-field class="form-input form-control" *ngSwitchDefault>
+          <input class="input_cant "
+            matInput
+            [required]="col.required"
+            [pattern]="col.pattern"
+            [type]="col.type"
+            [readonly]="col.readonly"
+            [disabled]="col.disabled"
+            [(ngModel)]="element[col.key]"
+            (change)="inputHandler($event, element.ID_PERNO, col.key)" />
+        </mat-form-field>
+      </div>
+    </td>
+  </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+

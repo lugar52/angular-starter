@@ -27,42 +27,191 @@ export interface Perneria {
      PROVE_DESCRIPCION?: string;
      PATIO_DESCRIPCION?: string;
      PORCENTAJE?: number;
-     isEdit: boolean;
-     isSelected: boolean;
+     isSelected?: boolean;
+     isEdit?: boolean;
 }
 
-export const UserColumns = [
+type seloption = {
+  value: string;
+  viewValue: string;
+}
+
+type Food =  {
+  value: string;
+  viewValue: string;
+}
+
+const foods: Food[] = [
+  { value: 'steak-0', viewValue: 'Steak' },
+  { value: 'pizza-1', viewValue: 'Pizza' },
+  { value: 'tacos-2', viewValue: 'Tacos' },
+]
+
+export const PernoColumns = [
+  {
+    key: 'isEdit',
+    type: 'isEdit',
+    label: '',
+  },
   {
     key: 'isSelected',
     type: 'isSelected',
     label: '',
   },
   {
-    key: 'firstName',
-    type: 'text',
-    label: 'First Name',
+    key: 'ITEMCODE',
+    type: 'no-text',
+    label: 'ITEM',
+    required: false,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'SNF',
+    type: 'no-text',
+    label: 'SNF',
     required: true,
+    readonly:false,
+    disabled: true
   },
   {
-    key: 'lastName',
-    type: 'text',
-    label: 'Last Name',
-  },
-  {
-    key: 'email',
-    type: 'email',
-    label: 'Email',
+    key: 'TIPOELEM_DESCRIPCION',
+    type: 'select',
+    label: 'TIPO ELEMENTO',
     required: true,
-    pattern: '.+@.+',
+    readonly:false,
+    disabled: false,
+    seloptionvalue: ['1','2'],
+    seloption: [
+      { value: 0, viewValue: 'Perno Roca' },
+      { value: 1, viewValue: 'Perno de anclaje' },
+    ]
   },
   {
-    key: 'birthDate',
+    key: 'MARCA',
+    type: 'text',
+    label: 'MARCA',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'TUNEL',
+    type: 'select',
+    label: 'TUNEL',
+    required: true,
+    readonly:false,
+    disabled: false,
+    seloption: [
+        { value: 1, viewValue: 'Coirón' },
+        { value: 2, viewValue: 'La Guardia' },
+        { value: 3, viewValue: 'Las Animas' },
+        { value: 4, viewValue: 'NO LLEGO' },
+        { value: 5, viewValue: 'Confirmar' },
+    ]
+  },
+  {
+    key: 'DISPOSICION_FINAL',
+    type: 'select',
+    label: 'DISPOSICION FINAL',
+    required: true,
+    readonly:false,
+    disabled: false,
+    seloption: [
+      {value: 1, viewValue: 'Boveda'},
+      {value: 2, viewValue: 'Contraboveda' },
+      {value: 3, viewValue: 'Fundación' },
+      {value: 4, viewValue: 'Hastial' },
+      {value: 5, viewValue: 'No sale' },
+      {value: 4, viewValue: 'NO LLEGO'},
+      {value: 5, viewValue: 'N/A'},
+    ]
+  },
+  {
+    key: 'CANTIDAD_SNF',
+    type: 'text',
+    label: 'CANT. SNF',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'CANTIDAD_TERRENO',
+    type: 'text',
+    label: 'CANT. TERRENO',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+  {
+    key: 'DIFERENCIA',
+    type: 'text',
+    label: 'DIFERENCIA',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PORCENT',
+    type: 'text',
+    label: '% CUMPLIMIENTO',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PESO_UNITARIO',
+    type: 'text',
+    label: 'PESO UNITARIO',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PESO_TOTAL',
+    type: 'text',
+    label: 'PESO TOTAL',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PROVEEDOR',
+    type: 'select',
+    label: 'PROVEEDOR',
+    required: true,
+    readonly:false,
+    disabled: true,
+    seloption: [
+      {value: 1, viewValue: 'Reliper'},
+    ]
+  },
+  {
+    key: 'PATIO',
+    type: 'select',
+    label: 'PATIO',
+    required: true,
+    readonly:false,
+    disabled: false,
+    seloption: [
+      {value: 1, viewValue: 'Remanso'},
+    ]
+  },
+  {
+    key: 'FECHA_LLEGADA',
     type: 'date',
-    label: 'Date of Birth',
+    label: 'FECHA LLEGADA',
+    required: true,
+    readonly:false,
+    disabled: false
   },
   {
-    key: 'isEdit',
-    type: 'isEdit',
-    label: '',
+    key: 'OBSERVACION',
+    type: 'text',
+    label: 'OBSERVACION',
+    required: true,
+    readonly:false,
+    disabled: false
   },
+
 ];
