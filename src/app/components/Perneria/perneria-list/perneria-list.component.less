@@ -49,24 +49,7 @@
     .grid-diseno-header
   }
 
-  .grid-item-base {
-    vertical-align:middle;
-    background-color:white;
-    font-size: small;
-    overflow: hidden; /* Oculta contenido adicional */
-    text-overflow: ellipsis; /* Muestra "..." si el texto es demasiado largo */
-    white-space: nowrap; /* Evita que el texto se envuelva */
 
-    border-left: 0.5px;
-    border-left-color: darkcyan;
-    border-left-style: solid;
-    border-bottom: 0.5px !important;
-    border-bottom-style:solid !important;
-    border-bottom-color: darkcyan !important;
-    border-right: 0.5px;
-    border-right-color: darkcyan;
-    border-right-style: solid;
-  }
 
   .grid-item-h-descrip {
     .grid-diseno-header;
@@ -94,8 +77,27 @@
     padding-right: 5px
   }
 
+  .grid-item-base {
+    vertical-align:middle;
+    background-color:white;
+    font-size: small;
+    overflow: hidden; /* Oculta contenido adicional */
+    text-overflow: ellipsis; /* Muestra "..." si el texto es demasiado largo */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+
+    border-left: 0.5px;
+    border-left-color: darkcyan;
+    border-left-style: solid;
+    border-bottom: 0.5px !important;
+    border-bottom-style:solid !important;
+    border-bottom-color: darkcyan !important;
+    border-right: 0.5px;
+    border-right-color: darkcyan;
+    border-right-style: solid;
+  }
+
   .grid-item-fila {
-    .grid-item-base;
+    .grid-item-base !important;
     vertical-align:middle
   }
 

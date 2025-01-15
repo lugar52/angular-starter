@@ -3,77 +3,153 @@
     <i>{{this.titulo}}</i>
   </div>
   <div>
-    <button class="button-remove-rows" mat-button (click)="removeSelectedRows()">Remove Rows </button>
-    <button class="button-add-row" mat-button (click)="addRow()">Add Row</button>
+   <!--  <button class="button-remove-rows" mat-button (click)="removeSelectedRows()">Remove Rows </button>
+    <button class="button-add-row" mat-button (click)="addRow()">Add Row</button> -->
   </div>
 </article>
 <table mat-table [dataSource]="dataSource">
   <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
     <th class="grid-diseno-header" mat-header-cell *matHeaderCellDef [ngSwitch]="col.key">
-      <span *ngSwitchCase="'isSelected'">
+
+<!--       <div *ngSwitchCase="'isSelected'">
         <mat-checkbox
           (change)="selectAll($event)"
-          [checked]="isAllSelected()"
-          [indeterminate]="!isAllSelected() && isAnySelected()">
+            [checked]="isAllSelected()"
+            [indeterminate]="!isAllSelected() && isAnySelected()"
+            >
         </mat-checkbox>
-      </span>
+      </div> -->
+
       <span *ngSwitchDefault>{{ col.label }}</span>
     </th>
 
     <td mat-cell *matCellDef="let element" class="grid-item-fila">
 
       <div [ngSwitch]="col.type" *ngIf="!element.isEdit">
-        <ng-container *ngSwitchCase="'isSelected'">
+<!--         <ng-container *ngSwitchCase="'isSelected'">
           <mat-checkbox
             (change)="element.isSelected = $event.checked"
             [checked]="element.isSelected"
           ></mat-checkbox>
-        </ng-container>
+        </ng-container> -->
 
-        <div class="btn-edit" *ngSwitchCase="'isEdit'" >
-          <button mat-button (click)="element.isEdit = !element.isEdit">Edit</button>
+        <div class="" *ngSwitchCase="'isEdit'" style="width: 80px;">
+          <button mat-button mat-icon-button
+            style="padding-left: 15px; color:green ; padding-top: 15px; border-style: hidden;"
+            #tooltip="matTooltip"
+            matTooltip="Editar"
+            matTooltipPosition="right"
+            (click)="editDatos(element.ID_PERNO, element)"
+            [disabled]="valorDisable">
+            <mat-icon aria-label="visibility" class="mat-elevation-z4" >edit_note</mat-icon>
+          </button>
           <!-- <button mat-button class="button-remove" (click)="removeRow(element.ID_PERNO)"> Delete </button> -->
         </div>
 
-          <span *ngSwitchCase="'date'">{{ element[col.key] | date: 'mediumDate' }}</span>
-          <span *ngSwitchDefault> {{ element[col.key] }} </span>
+        <span *ngSwitchCase="'date'">{{ element[col.key] | date: 'mediumDate' }}</span>
+
+        <div *ngSwitchCase="'textCumpli'" style="width: 140px;">
+          <mat-progress-bar mode="determinate" value={{element.PORCENTAJE}}
+            matBadge={{element.PORCENTAJE}}%
+            matBadgePosition="after"
+            matBadgeOverlap="true"
+            style="width: 105px; align-content: end; "
+            ></mat-progress-bar>
         </div>
+
+        <!-- <div *ngSwitchCase="'isEdit'" style="width: 102px; "></div> -->
+
+        <span *ngSwitchDefault> {{ element[col.key] }} </span>
+      </div>
 
       <div [ngSwitch]="col.type" *ngIf="element.isEdit">
 
-        <div *ngSwitchCase="'isSelected'"></div>
+        <!-- <div *ngSwitchCase="'isSelected'" ></div> -->
 
-        <div class="btn-edit" *ngSwitchCase="'isEdit'">
-          <button mat-button (click)="editRow(element)" [disabled]="disableSubmit(element.ID_PERNO)">Done</button>
+        <div class="btn-edit" *ngSwitchCase="'isEdit'" style="width: 80px;">
+
+          <button mat-button mat-icon-button
+              style="padding-left: 15px; color:green ; padding-top: 15px; border-style: hidden;"
+              #tooltip="matTooltip"
+              matTooltip="Grabar"
+              matTooltipPosition="right"
+              (click)="editRow(element.ID_PERNO, element)"
+              [disabled]="disableSubmit(element.ID_PERNO)"
+              >
+              <mat-icon aria-label="visibility" class="mat-elevation-z4" >add_task</mat-icon>
+          </button>
+          <!-- <button mat-button (click)="editRow(element)" [disabled]="disableSubmit(element.ID_PERNO)">Ok</button> -->
+
+          <button mat-button mat-icon-button
+              style="padding-left: 15px; color:brown ; padding-top: 15px; border-style: hidden;"
+              #tooltip="matTooltip"
+              matTooltip="Cancelar"
+              matTooltipPosition="right"
+              (click)="canceledit($event, element.ID_PERNO, col.key, element)">
+              <mat-icon aria-label="visibility" class="mat-elevation-z4" >undo</mat-icon>
+          </button>
+          <!-- <button mat-button (click)="canceledit(element)" >Cancel</button>  -->
+
         </div>
 
-        <mat-form-field class="form-input" *ngSwitchCase="'date'" appearance="fill" >
-          <input matInput [matDatepicker]="picker" [(ngModel)]="element[col.key]"/>
+        <div  *ngSwitchCase="'date'"  style="width: 120px; " >
+          <input class="" matInput [matDatepicker]="picker" [(ngModel)]="element[col.key]"  style="font-size: small; width: 80px; padding-top: 1px; "/>
           <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+        </div>
 
-       <!--  <div class="form-input" *ngSwitchCase="'select'">
-          <select class="form-select " style="font-size:14px; width: 140px;"
-          [(ngModel)]="element[col.key]"
-          (change)="inputHandler($event, element.ID_PERNO, col.key)" >
-            <option selected>{{element[col.key]}}</option>
-              <option mat-option value="one">First option</option>
-              <option mat-option value="two">Second option</option>
-          </select>
-        </div> -->
-
-        <div class="form-input" *ngSwitchCase="'select'">
+        <div class="form-input" *ngSwitchCase="'select'"  style="font-size:small; " >
           <select
-            (change)="selectHandler($event, element.ID_PERNO, col.key, col.seloptionTE)" >
+            (change)="selectHandler($event, element.ID_PERNO, col.key, col.seloption)" >
             @for (op of col.seloption; track op) {
                 <option [value]="op.value">{{op.viewValue}}</option>
             }
           </select>
         </div>
 
-        <mat-form-field class="form-input form-control" *ngSwitchDefault>
-          <input class="input_cant "
+        <div class="form-input" *ngSwitchCase="'textCumpli'" >
+          <mat-progress-bar mode="determinate" value={{element.PORCENTAJE}}
+            matBadge={{element.PORCENTAJE}}%
+            matBadgePosition="after"
+            matBadgeOverlap="true"
+            style="width: 105px; align-content: end; "
+            ></mat-progress-bar>
+        </div>
+
+        <div class="" *ngSwitchCase="'textItem'" style="font-size: small; width: 120px; ">
+          <input
+            matInput
+            [required]="col.required"
+            [type]="col.type"
+            [disabled]="col.disabled"
+            [(ngModel)]="element[col.key]"
+            (change)="inputHandler($event, element.ID_PERNO, col.key)" />
+        </div>
+
+        <div class="" *ngSwitchCase="'textCant'">
+          <input
+            style="font-size: small; width: 80px; text-align: right; "
+            matInput
+            [required]="col.required"
+            [type]="col.type"
+            [disabled]="col.disabled"
+            [(ngModel)]="element[col.key]"
+            (change)="inputHandler($event, element.ID_PERNO, col.key)" />
+        </div>
+
+        <div class="" *ngSwitchCase="'textEditCant'" >
+          <input
+            style="font-size: small; width: 80px; text-align: right;  background-color: aqua; "
+            matInput
+            [required]="col.required"
+            [type]="col.type"
+            [disabled]="col.disabled"
+            [(ngModel)]="element[col.key]"
+            (change)="textEditHandler($event, element.ID_PERNO, col.key, element)" />
+        </div>
+
+        <div class="" *ngSwitchDefault >
+          <input style="width: 550px; font-size: small; background-color: aqua; padding-left: 5px;"
             matInput
             [required]="col.required"
             [pattern]="col.pattern"
@@ -82,7 +158,7 @@
             [disabled]="col.disabled"
             [(ngModel)]="element[col.key]"
             (change)="inputHandler($event, element.ID_PERNO, col.key)" />
-        </mat-form-field>
+        </div>
       </div>
     </td>
   </ng-container>

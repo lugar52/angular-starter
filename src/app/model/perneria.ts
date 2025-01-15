@@ -13,6 +13,7 @@ export interface Perneria {
      DISPOSICION_FINAL?: string;
      CANTIDAD_SNF?: number;
      CANTIDAD_TERRENO?: number;
+     PERCENT?: number;
      DIFERENCIA?: number;
      PESO_UNITARIO?: number;
      PESO_TOTAL?: number;
@@ -27,40 +28,19 @@ export interface Perneria {
      PROVE_DESCRIPCION?: string;
      PATIO_DESCRIPCION?: string;
      PORCENTAJE?: number;
-     isSelected?: boolean;
      isEdit?: boolean;
+     isSelected?: boolean;
 }
-
-type seloption = {
-  value: string;
-  viewValue: string;
-}
-
-type Food =  {
-  value: string;
-  viewValue: string;
-}
-
-const foods: Food[] = [
-  { value: 'steak-0', viewValue: 'Steak' },
-  { value: 'pizza-1', viewValue: 'Pizza' },
-  { value: 'tacos-2', viewValue: 'Tacos' },
-]
 
 export const PernoColumns = [
   {
     key: 'isEdit',
     type: 'isEdit',
-    label: '',
-  },
-  {
-    key: 'isSelected',
-    type: 'isSelected',
-    label: '',
+    label: 'Edit',
   },
   {
     key: 'ITEMCODE',
-    type: 'no-text',
+    type: 'textItem',
     label: 'ITEM',
     required: false,
     readonly:false,
@@ -68,7 +48,7 @@ export const PernoColumns = [
   },
   {
     key: 'SNF',
-    type: 'no-text',
+    type: 'textItem',
     label: 'SNF',
     required: true,
     readonly:false,
@@ -89,14 +69,14 @@ export const PernoColumns = [
   },
   {
     key: 'MARCA',
-    type: 'text',
+    type: 'textItem',
     label: 'MARCA',
     required: true,
     readonly:false,
     disabled: true
   },
   {
-    key: 'TUNEL',
+    key: 'TUNEL_DESCRIPCION',
     type: 'select',
     label: 'TUNEL',
     required: true,
@@ -110,8 +90,9 @@ export const PernoColumns = [
         { value: 5, viewValue: 'Confirmar' },
     ]
   },
+
   {
-    key: 'DISPOSICION_FINAL',
+    key: 'DISPO_DESCRIPCION',
     type: 'select',
     label: 'DISPOSICION FINAL',
     required: true,
@@ -129,7 +110,7 @@ export const PernoColumns = [
   },
   {
     key: 'CANTIDAD_SNF',
-    type: 'text',
+    type: 'textCant',
     label: 'CANT. SNF',
     required: true,
     readonly:false,
@@ -137,7 +118,7 @@ export const PernoColumns = [
   },
   {
     key: 'CANTIDAD_TERRENO',
-    type: 'text',
+    type: 'textEditCant',
     label: 'CANT. TERRENO',
     required: true,
     readonly:false,
@@ -145,7 +126,7 @@ export const PernoColumns = [
   },
   {
     key: 'DIFERENCIA',
-    type: 'text',
+    type: 'textCant',
     label: 'DIFERENCIA',
     required: true,
     readonly:false,
@@ -153,7 +134,7 @@ export const PernoColumns = [
   },
   {
     key: 'PORCENT',
-    type: 'text',
+    type: 'textCumpli',
     label: '% CUMPLIMIENTO',
     required: true,
     readonly:false,
@@ -161,7 +142,7 @@ export const PernoColumns = [
   },
   {
     key: 'PESO_UNITARIO',
-    type: 'text',
+    type: 'textCant',
     label: 'PESO UNITARIO',
     required: true,
     readonly:false,
@@ -169,14 +150,16 @@ export const PernoColumns = [
   },
   {
     key: 'PESO_TOTAL',
-    type: 'text',
+    type: 'textCant',
     label: 'PESO TOTAL',
     required: true,
     readonly:false,
     disabled: true
   },
+
+
   {
-    key: 'PROVEEDOR',
+    key: 'PROVE_DESCRIPCION',
     type: 'select',
     label: 'PROVEEDOR',
     required: true,
@@ -187,7 +170,7 @@ export const PernoColumns = [
     ]
   },
   {
-    key: 'PATIO',
+    key: 'PATIO_DESCRIPCION',
     type: 'select',
     label: 'PATIO',
     required: true,

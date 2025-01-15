@@ -8,10 +8,17 @@ import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/p
 import { MatSort } from '@angular/material/sort'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input'; // Import MatInputModule
 import { MatNativeDateModule } from '@angular/material/core';  // Import this
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { Perneria, PernoColumns } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
@@ -32,7 +39,16 @@ import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-di
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatBadgeModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    FormsModule,
+    MatTooltipModule,
+
   ],
   templateUrl: './perneria-newlist.component.html',
   styleUrl: './perneria-newlist.component.less',
@@ -55,6 +71,10 @@ export class PerneriaNewlistComponent {
   titulo: any = '';
 
   listaPerneria: Perneria[] = []
+  listaPerneriaBack: Perneria[] = []
+  valorDisable = false
+
+  paso: number = 0
 
   constructor(
     public dialog: MatDialog,
@@ -66,14 +86,14 @@ export class PerneriaNewlistComponent {
     this.titulo = resultado
 
     this.getPerneria();
-    console.log("columnsSchema: ", this.columnsSchema)
+    //console.log("columnsSchema: ", this.columnsSchema)
   }
 
   getPerneria() {
 
     this.perneriaService.getPernos().subscribe((res: any) => {
       this.listaPerneria = res;
-      //console.log(res)
+      console.log(res)
       //this.dataSource = new MatTableDataSource(this.listaPerneria);
       this.dataSource.data = res;
     });
@@ -101,18 +121,36 @@ export class PerneriaNewlistComponent {
    }
 
 
-  editRow(row: Perneria) {
-    console.log("0: ", row)
-    if (row.ID_PERNO === 0) {
-      this.perneriaService.addPerno(row).subscribe((newPerno: Perneria) => {
-        row.ID_PERNO = newPerno.ID_PERNO
-        row.isEdit = false
-      })
-    } else {
-      console.log("-0: ", row)
+   editDatos(id: number, elem: any) {
 
-      this.perneriaService.updatePerno(row).subscribe(() => (row.isEdit = false))
-    }
+    this.paso = this.paso + 1
+    console.log("A ", this.paso)
+
+    elem.isEdit = !elem.isEdit
+    this.listaPerneriaBack = this.listaPerneria
+    console.log(this.listaPerneriaBack)
+
+  }
+
+  editRow(id: number, row: Perneria) {
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+
+    this.paso = this.paso + 1
+    console.log("B ", this.paso)
+
+      console.log("editRow: ", row)
+      console.log("index: ", index)
+
+      console.log(this.listaPerneria)
+      console.log(this.listaPerneriaBack)
+      row.isEdit = false
+
+
+  }
+
+  canceledit(e: any, id: number, key: string, elem: any) {
+    elem.isEdit = false
+
   }
 
    addRow() {
@@ -131,6 +169,7 @@ export class PerneriaNewlistComponent {
       DISPOSICION_FINAL: '',
       CANTIDAD_SNF: 0,
       CANTIDAD_TERRENO: 0,
+      PERCENT: 0,
       DIFERENCIA: 0,
       PESO_UNITARIO: 0,
       PESO_TOTAL: 0,
@@ -145,7 +184,7 @@ export class PerneriaNewlistComponent {
       PROVE_DESCRIPCION: '',
       PATIO_DESCRIPCION: '',
       isEdit: true,
-      isSelected: true,
+      isSelected: false,
     }
     this.dataSource.data = [newRow, ...this.dataSource.data]
   }
@@ -175,46 +214,78 @@ export class PerneriaNewlistComponent {
   }
 
   inputHandler(e: any, id: number, key: string) {
-    if (!this.valid[id]) {
-      this.valid[id] = {}
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+    if (!this.valid[index]) {
+      this.valid[index] = {}
     }
-    this.valid[id][key] = e.target.validity.valid
+    this.valid[index][key] = e.target.validity.valid
   }
 
   selectHandler(e: any, id: number, key: string, options: string) {
-    if (!this.valid[id]) {
-      this.valid[id] = {}
+
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+    if (!this.valid[index]) {
+      this.valid[index] = {}
     }
-    this.valid[id][key] = e.target.validity.valid
-    console.log(this.valid[id][key])
+    this.valid[index][key] = e.target.validity.valid
+    console.log(this.valid[index][key])
     console.log(e.target.value)
   }
 
-  disableSubmit(id: number) {
-    if (this.valid[id]) {
-      return Object.values(this.valid[id]).some((item) => item === false)
+  textEditHandler(e: any, id: number, key: string, elem: any) {
+
+/*     console.log(e.target.value)
+    console.log(id)
+    console.log(key)
+    console.log(elem)
+
+    console.log(this.dataSource.data) */
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+    // console.log("index: ", index)
+
+
+
+    const cantTerr = Number(elem.CANTIDAD_TERRENO)
+    const percent = (cantTerr/Number(elem.CANTIDAD_SNF))*100
+    this.dataSource.data[index].PORCENTAJE = percent
+
+
+//    console.log(this.listaPerneriaBack[index])
+//    console.log(this.listaPerneria[index])
+
+    //console.log(this.listaPerneria[id-1])
+
+  }
+
+
+   disableSubmit(id: number) {
+    console.log("disableSubmit ")
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+    if (this.valid[index]) {
+      console.log("disable ", index)
+      return Object.values(this.valid[index]).some((item) => item === false)
     }
     return false
   }
 
-  isAllSelected() {
+
+
+  /* isAllSelected() {
+    console.log("isAllSelected")
     return this.dataSource.data.every((item) => item.isSelected)
   }
 
   isAnySelected() {
+    console.log("isAnySelected")
     return this.dataSource.data.some((item) => item.isSelected)
   }
 
   selectAll(event: any) {
+    console.log("selectAll")
     this.dataSource.data = this.dataSource.data.map((item) => ({
       ...item,
       isSelected: event.checked,
     }))
-  }
-
-
-  ch_tpelem(e: any) {
-    console.log(e.target.value)
-  }
+  } */
 
 }
