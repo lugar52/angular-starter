@@ -36,7 +36,6 @@ import dayjs from 'dayjs';
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
-    ConfirmDialogComponent,
     CommonModule,
     MatCheckboxModule,
     MatFormFieldModule,
