@@ -27,9 +27,7 @@ import { Perneria, PernoColumns } from '../../../model/perneria'
 import { DatosAGrabar } from '../../../model/inPernos'
 import { PerneriaService } from '../../../services/perneria.service'
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
-import moment from 'moment';
-import 'moment/locale/es';
-
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-perneria-newlist',
@@ -324,9 +322,9 @@ export class PerneriaNewlistComponent {
     this.dataSource.data[index].PORCENTAJE = Number(percent)
     this.dataSource.data[index].DIFERENCIA = Number(cantTerr) - Number(elem.CANTIDAD_SNF)
 
-    var fecha: Date = moment(this.listaPerneria[index].FECHA_LLEGADA, "DD-MM-YYYY").toDate();
+    var fecha: Date = dayjs(this.listaPerneria[index].FECHA_LLEGADA, "DD-MM-YYYY").toDate();
     console.log(typeof fecha)
-    this.dataSource.data[index].FECHA_LLEGADA = moment(this.dataSource.data[index].FECHA_LLEGADA).toDate()
+    this.dataSource.data[index].FECHA_LLEGADA = dayjs(this.dataSource.data[index].FECHA_LLEGADA).toDate()
 
     console.log("this.dataSource: ", this.dataSource.data[index].FECHA_LLEGADA)
 
