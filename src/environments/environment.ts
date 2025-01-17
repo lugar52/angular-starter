@@ -1,5 +1,5 @@
 export interface Environment {
-    production: true;
+    production: false;
     apiUrl: 'https://myfastapi-production.up.railway.app'
 };
 
