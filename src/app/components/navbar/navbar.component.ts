@@ -14,9 +14,9 @@ export class NavbarComponent {
   miClick(id: number) {
     console.log(id)
     if (id == 1) {
-      localStorage.setItem("Seleccion",'/perneria/perneria/entregada')
+      localStorage.setItem("Seleccion",'/api/perneria/entregada')
     } else {
-      localStorage.setItem("Seleccion",'/perneria/perneria/pendientes')
+      localStorage.setItem("Seleccion",'/api/perneria/pendientes')
     }
 
   }

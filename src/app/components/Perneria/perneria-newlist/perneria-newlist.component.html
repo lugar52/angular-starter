@@ -1,6 +1,6 @@
 <article class="table-header" style="padding-top: 15px;">
   <div>
-    <i>{{this.titulo}}</i>
+    <h4 class="" style="text-align: start; padding-left: 50px; padding-top: 15px; color:darkgreen">Pernería {{this.titulo}} </h4>
   </div>
   <div>
    <!--  <button class="button-remove-rows" mat-button (click)="removeSelectedRows()">Remove Rows </button>
@@ -35,25 +35,25 @@
 
         <div class="" *ngSwitchCase="'isEdit'" style="width: 80px;">
           <button mat-button mat-icon-button
-            style="padding-left: 15px; color:green ; padding-top: 15px; border-style: hidden;"
+            style="padding-left: 15px; color:green ; padding-top: 5px; border-style: hidden;"
             #tooltip="matTooltip"
             matTooltip="Editar"
             matTooltipPosition="right"
             (click)="editDatos(element.ID_PERNO, element)"
-            [disabled]="valorDisable">
+            [disabled]="">
             <mat-icon aria-label="visibility" class="mat-elevation-z4" >edit_note</mat-icon>
           </button>
           <!-- <button mat-button class="button-remove" (click)="removeRow(element.ID_PERNO)"> Delete </button> -->
         </div>
 
-        <span *ngSwitchCase="'date'">{{ element[col.key] | date: 'mediumDate' }}</span>
+        <span *ngSwitchCase="'date'">{{ element[col.key] | date: "dd-MM-YYYY" }}</span>
 
-        <div *ngSwitchCase="'textCumpli'" style="width: 140px;">
+        <div *ngSwitchCase="'textCumpli'" style="width: 140px; ">
           <mat-progress-bar mode="determinate" value={{element.PORCENTAJE}}
             matBadge={{element.PORCENTAJE}}%
             matBadgePosition="after"
             matBadgeOverlap="true"
-            style="width: 105px; align-content: end; "
+            style="font-size: small; width: 110px; color: aqua; "
             ></mat-progress-bar>
         </div>
 
@@ -73,9 +73,7 @@
               #tooltip="matTooltip"
               matTooltip="Grabar"
               matTooltipPosition="right"
-              (click)="editRow(element.ID_PERNO, element)"
-              [disabled]="disableSubmit(element.ID_PERNO)"
-              >
+              (click)="UpdateRow(element.ID_PERNO, element)">
               <mat-icon aria-label="visibility" class="mat-elevation-z4" >add_task</mat-icon>
           </button>
           <!-- <button mat-button (click)="editRow(element)" [disabled]="disableSubmit(element.ID_PERNO)">Ok</button> -->
@@ -145,7 +143,7 @@
             [type]="col.type"
             [disabled]="col.disabled"
             [(ngModel)]="element[col.key]"
-            (change)="textEditHandler($event, element.ID_PERNO, col.key, element)" />
+            (change)="Func_Percent(element.ID_PERNO, element, element.CANTIDAD_TERRENO)" />
         </div>
 
         <div class="" *ngSwitchDefault >
@@ -163,6 +161,6 @@
     </td>
   </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; " class="table-row">
 </table>
 

@@ -4,6 +4,7 @@ import { catchError, lastValueFrom, shareReplay, throwError } from 'rxjs';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Perneria } from '../model/perneria'
+import { DatosAGrabar } from '../model/inPernos'
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -59,13 +60,13 @@ export class PerneriaService {
   // ---------------------------------------------------- new List ---------------------
   getPernos(): Observable<Perneria[]> {
     let seleccion = localStorage.getItem('Seleccion')
-    console.log('getPernos: ', seleccion)
+    console.log('getPernos: ', `${this.API_URL}${seleccion}`)
     return this.http.get<Perneria[]>(`${this.API_URL}${seleccion}`)
     //.pipe<Perneria[]>(map((data: any) => data.pernos));
   }
 
-  updatePerno(perneria: Perneria): Observable<Perneria> {
-    return this.http.patch<Perneria>(`${this.API_URL}/${perneria.ID_PERNO}`, perneria);
+  updatePerno(id: number, perno: DatosAGrabar): Observable<any> {
+    return this.http.put<DatosAGrabar>(`${this.API_URL}/api/perneria/update_perno/${id}`, perno);
   }
 
   addPerno(perneria: Perneria): Observable<Perneria> {

@@ -1,6 +1,9 @@
-import { Component, ViewChild, HostBinding, NgModule, ChangeDetectionStrategy  } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ViewChild, HostBinding, NgModule, ChangeDetectionStrategy, inject, signal, Inject  } from '@angular/core';
+import { CommonModule, DatePipe, formatDate } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { Subscription, tap, lastValueFrom } from 'rxjs';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { ToastrService } from 'ngx-toastr';
 
 import { MatDialog } from '@angular/material/dialog'
 import { MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -21,8 +24,11 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { Perneria, PernoColumns } from '../../../model/perneria'
+import { DatosAGrabar } from '../../../model/inPernos'
 import { PerneriaService } from '../../../services/perneria.service'
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
+import moment from 'moment';
+import 'moment/locale/es';
 
 
 @Component({
@@ -53,15 +59,16 @@ import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-di
   templateUrl: './perneria-newlist.component.html',
   styleUrl: './perneria-newlist.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-
-  ]
+  providers: [ DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    ]
 })
 export class PerneriaNewlistComponent {
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @HostBinding('class') classes = 'row';
+  private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
+  private readonly _locale = signal(inject<unknown>(MAT_DATE_LOCALE));
 
   displayedColumns: string[] = PernoColumns.map((col) => col.key)
   columnsSchema: any = PernoColumns
@@ -71,14 +78,31 @@ export class PerneriaNewlistComponent {
   titulo: any = '';
 
   listaPerneria: Perneria[] = []
-  listaPerneriaBack: Perneria[] = []
+  DatosUpdate: DatosAGrabar = {
+    Tipo_Elemento: 0,
+    Tunel: 0,
+    Disposicion_Final: 0,
+    Cantidad_Terreno: 0,
+    Diferencia: 0,
+    Proveedor: 0,
+    Patio: 0,
+    Fecha_llegada: '',
+    Observacion: '',
+  }
   valorDisable = false
 
   paso: number = 0
+  datos: any
 
   constructor(
     public dialog: MatDialog,
-    private perneriaService: PerneriaService) {}
+    private perneriaService: PerneriaService,
+    private datePipe: DatePipe,
+    @Inject(ToastrService) private toastr: ToastrService,
+  ) {
+    this._locale.set('es');
+    this._adapter.setLocale(this._locale());
+  }
 
   ngOnInit() {
     this.titulo = localStorage.getItem("Seleccion")
@@ -122,35 +146,95 @@ export class PerneriaNewlistComponent {
 
 
    editDatos(id: number, elem: any) {
-
-    this.paso = this.paso + 1
-    console.log("A ", this.paso)
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
 
     elem.isEdit = !elem.isEdit
-    this.listaPerneriaBack = this.listaPerneria
-    console.log(this.listaPerneriaBack)
+
+    const fecha = this.listaPerneria[index].FECHA_LLEGADA
+    const fechaCorrecta = fecha;  // ""
+    console.log("editDatos: ",fechaCorrecta)
+
+    const datos = {"datos": {
+            Cantidad_Terreno:  Number(this.listaPerneria[index].CANTIDAD_TERRENO),
+            Tipo_Elemento: Number(this.listaPerneria[index].TIPO_ELEMENTO),
+            Tunel: Number(this.listaPerneria[index].TUNEL),
+            Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
+            Proveedor: Number(this.listaPerneria[index].PROVEEDOR),
+            Patio: Number(this.listaPerneria[index].PATIO),
+            PORCENTAJE: Number(this.listaPerneria[index].PORCENTAJE),
+            Diferencia: Number(this.listaPerneria[index].DIFERENCIA),
+            Fecha_llegada: fechaCorrecta,
+            Observacion: this.listaPerneria[index].OBSERVACION,
+    }}
+    console.log(datos)
+    localStorage.setItem("dataUpdate", JSON.stringify(datos) )
 
   }
 
-  editRow(id: number, row: Perneria) {
-    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+  UpdateRow(id: number, elem: any) {
 
-    this.paso = this.paso + 1
-    console.log("B ", this.paso)
+    console.log("elem: ", elem)
+    const storedData = localStorage.getItem("dataUpdate")
+    if (storedData) {
 
-      console.log("editRow: ", row)
-      console.log("index: ", index)
+      this.datos = JSON.parse(storedData);
+      const idx = this.Func_Percent(id, elem, this.datos.datos.Cantidad_Terreno)
 
-      console.log(this.listaPerneria)
-      console.log(this.listaPerneriaBack)
-      row.isEdit = false
+      const DatosOut: DatosAGrabar = {
+        Cantidad_Terreno: Number(this.dataSource.data[idx].CANTIDAD_TERRENO),
+        Tipo_Elemento: Number(this.dataSource.data[idx].TIPO_ELEMENTO),
+        Tunel: Number(this.dataSource.data[idx].TUNEL),
+        Disposicion_Final: Number(this.dataSource.data[idx].DISPOSICION_FINAL),
+        Proveedor: Number(this.dataSource.data[idx].PROVEEDOR),
+        Patio: Number(this.dataSource.data[idx].PATIO),
+        Diferencia: Number(this.dataSource.data[idx].DIFERENCIA),
+        Fecha_llegada: String(this.dataSource.data[idx].FECHA_LLEGADA),
+        Observacion: this.dataSource.data[idx].OBSERVACION ?? '',
+      }
 
+      this.perneriaService.updatePerno(id, DatosOut).pipe(
+        tap(res => {
+          console.log(res)
+          if (res.status_code == 200 )
+            this.toastr.success('Se ha guardado la información exitosamente!', 'Control Patio');
+          else {
+            this.toastr.info('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
+          }
+          //this.flagGrabacion = 1
+          //this.mensajeGrabacion('Bravo!', 'Has guardado la información de forma exitosa', 'Aceptar' , 'success')
+        } )
+      )
+      .subscribe({
+          error: (err) => {
+            this.toastr.info('Control Patio', 'Se ha producido un error, Inténtelo nuevamente');
+            // this.mensajeGrabacion('Se ha producido un error', 'Inténtelo nuevamente', 'Error', 'error')
+          },
+          // complete: () => this.spinner.hide()
+      });
+
+
+
+    } else {
+      console.log('No hay datos en localStorage');
+    }
+
+    elem.isEdit = false
 
   }
 
   canceledit(e: any, id: number, key: string, elem: any) {
-    elem.isEdit = false
 
+    console.log(elem)
+    const storedData = localStorage.getItem("dataUpdate")
+    if (storedData) {
+
+      this.datos = JSON.parse(storedData);
+      const idx = this.Func_Percent(id, elem, this.datos.datos.Cantidad_Terreno)
+
+    } else {
+      console.log('No hay datos en localStorage');
+    }
+    elem.isEdit = false
   }
 
    addRow() {
@@ -232,31 +316,22 @@ export class PerneriaNewlistComponent {
     console.log(e.target.value)
   }
 
-  textEditHandler(e: any, id: number, key: string, elem: any) {
-
-/*     console.log(e.target.value)
-    console.log(id)
-    console.log(key)
-    console.log(elem)
-
-    console.log(this.dataSource.data) */
+  Func_Percent(id: number, elem: any, cantTerr: string): number {
     const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
-    // console.log("index: ", index)
+    const percent = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 4 }).format((Number(cantTerr)/Number(elem.CANTIDAD_SNF))*100)
 
+    this.dataSource.data[index].CANTIDAD_TERRENO = Number(cantTerr)
+    this.dataSource.data[index].PORCENTAJE = Number(percent)
+    this.dataSource.data[index].DIFERENCIA = Number(cantTerr) - Number(elem.CANTIDAD_SNF)
 
+    var fecha: Date = moment(this.listaPerneria[index].FECHA_LLEGADA, "DD-MM-YYYY").toDate();
+    console.log(typeof fecha)
+    this.dataSource.data[index].FECHA_LLEGADA = moment(this.dataSource.data[index].FECHA_LLEGADA).toDate()
 
-    const cantTerr = Number(elem.CANTIDAD_TERRENO)
-    const percent = (cantTerr/Number(elem.CANTIDAD_SNF))*100
-    this.dataSource.data[index].PORCENTAJE = percent
+    console.log("this.dataSource: ", this.dataSource.data[index].FECHA_LLEGADA)
 
-
-//    console.log(this.listaPerneriaBack[index])
-//    console.log(this.listaPerneria[index])
-
-    //console.log(this.listaPerneria[id-1])
-
+    return index
   }
-
 
    disableSubmit(id: number) {
     console.log("disableSubmit ")
