@@ -5,7 +5,6 @@ import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Perneria } from '../model/perneria'
 import { DatosAGrabar } from '../model/inPernos'
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +18,8 @@ export class PerneriaService {
     private http: HttpClient,
     ) {
 
-      this.API_URL = environment.apiUrl
-      console.log(environment.apiUrl)
+      this.API_URL = 'https://myfastapi-production.up.railway.app'
+      console.log(this.API_URL)
 
 
     this.httpOptions = {

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpStatusCode, HttpErrorResponse } from  '@an
 import { catchError, lastValueFrom, shareReplay, throwError } from 'rxjs';
 import { Equipos } from '../model/equipos'
 import { Observable } from 'rxjs';
-import { environment } from '../../Mi_environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,8 @@ export class EquiposService {
     private http: HttpClient,
     ) {
 
-      this.API_URL = environment.apiUrl
-      console.log(environment.apiUrl)
+      this.API_URL = 'https://myfastapi-production.up.railway.app'
+      console.log(this.API_URL)
 
 
     this.httpOptions = {
