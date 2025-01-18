@@ -1,6 +1,8 @@
 import { Component, ViewChild, HostBinding, NgModule, ChangeDetectionStrategy, inject, signal, Inject  } from '@angular/core';
 import { CommonModule, DatePipe, formatDate } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 import { Subscription, tap, lastValueFrom } from 'rxjs';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ToastrService } from 'ngx-toastr';
@@ -61,6 +63,8 @@ import dayjs from 'dayjs';
 })
 export class PerneriaNewlistComponent {
 
+  public myForm!: FormGroup;
+
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @HostBinding('class') classes = 'row';
@@ -95,10 +99,12 @@ export class PerneriaNewlistComponent {
     public dialog: MatDialog,
     private perneriaService: PerneriaService,
     private datePipe: DatePipe,
+    public fb: FormBuilder,
     @Inject(ToastrService) private toastr: ToastrService,
   ) {
     this._locale.set('es');
     this._adapter.setLocale(this._locale());
+
   }
 
   ngOnInit() {

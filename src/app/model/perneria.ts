@@ -111,15 +111,15 @@ export const PernoColumns = [
   {
     key: 'CANTIDAD_SNF',
     type: 'textCant',
-    label: 'CANT. SNF',
+    label: 'CANT SNF',
     required: true,
     readonly:false,
     disabled: true
   },
   {
     key: 'CANTIDAD_TERRENO',
-    type: 'textEditCant',
-    label: 'CANT. TERRENO',
+    type: 'number',
+    label: 'CANT TERR.',
     required: true,
     readonly:false,
     disabled: false
@@ -127,7 +127,7 @@ export const PernoColumns = [
   {
     key: 'DIFERENCIA',
     type: 'textCant',
-    label: 'DIFERENCIA',
+    label: 'DIFER.',
     required: true,
     readonly:false,
     disabled: true
@@ -143,7 +143,7 @@ export const PernoColumns = [
   {
     key: 'PESO_UNITARIO',
     type: 'textCant',
-    label: 'PESO UNITARIO',
+    label: 'PESO UNIT.',
     required: true,
     readonly:false,
     disabled: true
@@ -156,8 +156,6 @@ export const PernoColumns = [
     readonly:false,
     disabled: true
   },
-
-
   {
     key: 'PROVE_DESCRIPCION',
     type: 'select',
