@@ -18,9 +18,9 @@ export class PerneriaService {
     private http: HttpClient,
     ) {
 
-      //this.API_URL = 'https://myfastapi-production.up.railway.app'
+      this.API_URL = 'https://myfastapi-production.up.railway.app'
 
-      this.API_URL = 'http://127.0.0.1:8000'
+      //this.API_URL = 'http://127.0.0.1:8000'
       console.log(this.API_URL)
 
 
