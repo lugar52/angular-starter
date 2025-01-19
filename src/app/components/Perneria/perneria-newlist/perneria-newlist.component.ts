@@ -1,7 +1,7 @@
 import { Component, ViewChild, HostBinding, NgModule, ChangeDetectionStrategy, inject, signal, Inject  } from '@angular/core';
 import { CommonModule, DatePipe, formatDate } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import { Subscription, tap, lastValueFrom } from 'rxjs';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -63,7 +63,9 @@ import dayjs from 'dayjs';
 })
 export class PerneriaNewlistComponent {
 
-  public myForm!: FormGroup;
+  public formGroup = new FormGroup({
+    CANTIDAD_TERRENO: new FormControl()
+  })
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -201,7 +203,7 @@ export class PerneriaNewlistComponent {
           if (res.status_code == 200 )
             this.toastr.success('Se ha guardado la información exitosamente!', 'Control Patio');
           else {
-            this.toastr.info('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
+            this.toastr.warning('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
           }
           //this.flagGrabacion = 1
           //this.mensajeGrabacion('Bravo!', 'Has guardado la información de forma exitosa', 'Aceptar' , 'success')

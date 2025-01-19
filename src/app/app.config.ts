@@ -10,7 +10,7 @@ import { timeout } from 'rxjs';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
-    provideToastr({timeOut: 2000, preventDuplicates: true }),
+    provideToastr({timeOut: 3000, preventDuplicates: true }),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
