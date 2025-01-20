@@ -95,7 +95,7 @@
 
         <div *ngSwitchCase="'TIPOELEM_DESCRIPCION'" style="width: 110px;">
           <select
-          (change)="selectHandler($event, element.ID_PERNO, col.key, col.seloption)" >
+          (change)="selectHandler($event, element.ID_PERNO, col.key)" >
           @for (op of col.seloption; track op) {
               <option [value]="op.value">{{op.viewValue}}</option>
           }
@@ -104,7 +104,7 @@
 
         <div *ngSwitchCase="'TUNEL_DESCRIPCION'" style="width: 90px;">
           <select
-          (change)="selectHandler($event, element.ID_PERNO, col.key, col.seloption)" >
+          (change)="selectHandler($event, element.ID_PERNO, col.key)" >
           @for (op of col.seloption; track op) {
               <option [value]="op.value">{{op.viewValue}}</option>
           }
@@ -113,14 +113,14 @@
 
         <div *ngSwitchCase="'DISPO_DESCRIPCION'" style="width: 90px;">
           <select style="width: 91px;"
-          (change)="selectHandler($event, element.ID_PERNO, col.key, col.seloption)" >
+          (change)="selectHandler($event, element.ID_PERNO, col.key)" >
           @for (op of col.seloption; track op) {
               <option [value]="op.value">{{op.viewValue}}</option>
           }
           </select>
         </div>
 
-        <form #form="ngForm">
+
         <div *ngSwitchCase="'CANTIDAD_TERRENO'" >
           <input
             style="font-size: 12px; width: 50px; text-align: right;  background-color: aqua; border-color: cadetblue; padding-top: 0px; height: 22px;"
@@ -132,7 +132,6 @@
             [(ngModel)]="element[col.key]"
             (change)="Func_Percent(element.ID_PERNO, element, element.CANTIDAD_TERRENO)" />
         </div>
-      </form>
 
         <div *ngSwitchCase="'PORCENT'" style="width: 100px; ">
           <mat-progress-bar mode="determinate" value={{element.PORCENTAJE}}
@@ -145,7 +144,7 @@
 
         <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px;">
           <select style="width: 69px;"
-          (change)="selectHandler($event, element.ID_PERNO, col.key, col.seloption)" >
+          (change)="selectHandler($event, element.ID_PERNO, col.key)" >
           @for (op of col.seloption; track op) {
               <option [value]="op.value">{{op.viewValue}}</option>
           }
@@ -154,7 +153,7 @@
 
         <div *ngSwitchCase="'PATIO_DESCRIPCION'" style="width: 70px;">
           <select style="width: 69px;"
-          (change)="selectHandler($event, element.ID_PERNO, col.key, col.seloption)" >
+          (change)="selectHandler($event, element.ID_PERNO, col.key)" >
           @for (op of col.seloption; track op) {
               <option [value]="op.value">{{op.viewValue}}</option>
           }
@@ -164,21 +163,11 @@
         <span  *ngSwitchCase="'FECHA_LLEGADA'"  style="width: 120px; margin-top: 3px;" >
           <input matInput [matDatepicker]="picker" [(ngModel)]="element[col.key]"
             style="width: 70px; text-align:left;  height: 22px; padding-top: -5px !important; "
+            (dateChange)="SelectFecha($event, element.ID_PERNO, element.FECHA_LLEGADA)"
           />
-          <mat-datepicker-toggle matSuffix [for]="picker" style="padding-left: 9px !important; "
-          ></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker" style="padding-left: 9px !important; "></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </span>
-
-        <div class="" *ngSwitchCase="'textItem'" style="font-size: small; width: 120px; ">
-          <input
-            matInput
-            [required]="col.required"
-            [type]="col.type"
-            [disabled]="col.disabled"
-            [(ngModel)]="element[col.key]"
-            (change)="inputHandler($event, element.ID_PERNO, col.key)" />
-        </div>
 
         <div class="" *ngSwitchCase="'OBSERVACION'">
           <input style="width: 550px; height: 22px; background-color: aqua;"
@@ -189,7 +178,7 @@
             [readonly]="col.readonly"
             [disabled]="col.disabled"
             [(ngModel)]="element[col.key]"
-            (change)="inputHandler($event, element.ID_PERNO, col.key)" />
+            (blur)="inputHandler($event, element.ID_PERNO, col.key)" />
         </div>
 
       </div>

@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerInputEvent, MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
@@ -30,6 +30,8 @@ import { DatosAGrabar } from '../../../model/inPernos'
 import { PerneriaService } from '../../../services/perneria.service'
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
 import dayjs from 'dayjs';
+import 'moment/locale/es';
+import moment from 'moment';
 
 @Component({
   selector: 'app-perneria-newlist',
@@ -92,6 +94,8 @@ export class PerneriaNewlistComponent {
     Fecha_llegada: '',
     Observacion: '',
   }
+  DatosOriginales?: Perneria
+
   valorDisable = false
 
   paso: number = 0
@@ -122,8 +126,7 @@ export class PerneriaNewlistComponent {
 
     this.perneriaService.getPernos().subscribe((res: any) => {
       this.listaPerneria = res;
-      console.log(res)
-      //this.dataSource = new MatTableDataSource(this.listaPerneria);
+
       this.dataSource.data = res;
     });
 
@@ -132,78 +135,65 @@ export class PerneriaNewlistComponent {
 
   }
 
-  myClic(row: any) {
+    editDatos(id: number, elem: any) {
+      const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+      elem.isEdit = !elem.isEdit
 
-    localStorage.setItem('perno_fila', row.ID_PERNO);
-    this.miRouting(row.ID_PERNO)
-  }
+      // Se guardan los datos originales de la linea en localstorage
+      const datos = {
+              Cantidad_Terreno:  Number(this.listaPerneria[index].CANTIDAD_TERRENO),
+              Tipo_Elemento: Number(this.listaPerneria[index].TIPO_ELEMENTO),
+              Tunel: Number(this.listaPerneria[index].TUNEL),
+              Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
+              Proveedor: Number(this.listaPerneria[index].PROVEEDOR),
+              Patio: Number(this.listaPerneria[index].PATIO),
+              porcentaje: Number(this.listaPerneria[index].PORCENTAJE),
+              Diferencia: Number(this.listaPerneria[index].DIFERENCIA),
+              Fecha_llegada: this.listaPerneria[index].FECHA_LLEGADA,
+              Observacion: this.listaPerneria[index].OBSERVACION,
+      }
 
-  miRouting(row:any) {
-    /*  let  myurl = `${'perneria/id'}`;
-     this.router.navigate([myurl] ).then(e => {
-       if (e) {
-       } else { }
-     }); */
-
-     //alert('inside editField')
-     console.timeLog(row)
-   }
-
-
-   editDatos(id: number, elem: any) {
-    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
-
-    elem.isEdit = !elem.isEdit
-
-    const fecha = this.listaPerneria[index].FECHA_LLEGADA
-    const fechaCorrecta = fecha;  // ""
-    console.log("editDatos: ",fechaCorrecta)
-
-    const datos = {"datos": {
-            Cantidad_Terreno:  Number(this.listaPerneria[index].CANTIDAD_TERRENO),
-            Tipo_Elemento: Number(this.listaPerneria[index].TIPO_ELEMENTO),
-            Tunel: Number(this.listaPerneria[index].TUNEL),
-            Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
-            Proveedor: Number(this.listaPerneria[index].PROVEEDOR),
-            Patio: Number(this.listaPerneria[index].PATIO),
-            PORCENTAJE: Number(this.listaPerneria[index].PORCENTAJE),
-            Diferencia: Number(this.listaPerneria[index].DIFERENCIA),
-            Fecha_llegada: fechaCorrecta,
-            Observacion: this.listaPerneria[index].OBSERVACION,
-    }}
-    console.log(datos)
-    localStorage.setItem("dataUpdate", JSON.stringify(datos) )
+      localStorage.setItem("dataUpdate", JSON.stringify(datos) )
 
   }
 
-  UpdateRow(id: number, elem: any) {
+  // Se devuelven los datos desde el local estorage a la linea que se edito, borrando todoas los datos ingresados
 
-    console.log("elem: ", elem)
+  canceledit(e: any, id: number, key: string, elem: any) {
+    const idx = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+
     const storedData = localStorage.getItem("dataUpdate")
     if (storedData) {
 
       this.datos = JSON.parse(storedData);
-      const idx = this.Func_Percent(id, elem, this.datos.datos.Cantidad_Terreno)
+      this.dataSource.data[idx].CANTIDAD_TERRENO = this.datos.Cantidad_Terreno
+      this.dataSource.data[idx].TIPO_ELEMENTO = this.datos.Tipo_Elemento
+      this.dataSource.data[idx].TUNEL = this.datos.Tunel
+      this.dataSource.data[idx].DISPOSICION_FINAL = this.datos.Disposicion_Final
+      this.dataSource.data[idx].PROVEEDOR = this.datos.Proveedor
+      this.dataSource.data[idx].PATIO = this.datos.Patio
+      this.dataSource.data[idx].DIFERENCIA = this.datos.Diferencia
+      this.dataSource.data[idx].PORCENTAJE = this.datos.porcentaje
+      this.dataSource.data[idx].FECHA_LLEGADA = this.datos.Fecha_llegada
+      this.dataSource.data[idx].OBSERVACION = this.datos.Observacion
 
-      const DatosOut: DatosAGrabar = {
-        Cantidad_Terreno: Number(this.dataSource.data[idx].CANTIDAD_TERRENO),
-        Tipo_Elemento: Number(this.dataSource.data[idx].TIPO_ELEMENTO),
-        Tunel: Number(this.dataSource.data[idx].TUNEL),
-        Disposicion_Final: Number(this.dataSource.data[idx].DISPOSICION_FINAL),
-        Proveedor: Number(this.dataSource.data[idx].PROVEEDOR),
-        Patio: Number(this.dataSource.data[idx].PATIO),
-        Diferencia: Number(this.dataSource.data[idx].DIFERENCIA),
-        Fecha_llegada: String(this.dataSource.data[idx].FECHA_LLEGADA),
-        Observacion: this.dataSource.data[idx].OBSERVACION ?? '',
-      }
+    } else {
+      console.log('No hay datos en localStorage');
+    }
+    elem.isEdit = false
+  }
 
-      this.perneriaService.updatePerno(id, DatosOut).pipe(
+
+  UpdateRow(id: number, elem: any) {
+
+    console.log(this.DatosUpdate)
+    this.perneriaService.updatePerno(id, this.DatosUpdate).pipe(
         tap(res => {
           console.log(res)
           if (res.status_code == 200 )
             this.toastr.success('Se ha guardado la información exitosamente!', 'Control Patio');
           else {
-            this.toastr.warning('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
+            this.toastr.error('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
           }
           //this.flagGrabacion = 1
           //this.mensajeGrabacion('Bravo!', 'Has guardado la información de forma exitosa', 'Aceptar' , 'success')
@@ -217,32 +207,95 @@ export class PerneriaNewlistComponent {
           // complete: () => this.spinner.hide()
       });
 
-
-
-    } else {
-      console.log('No hay datos en localStorage');
-    }
-
     elem.isEdit = false
 
   }
 
-  canceledit(e: any, id: number, key: string, elem: any) {
+  SelectFecha(e: MatDatepickerInputEvent<Date>, id: number, fecha: Date ) {
 
-    console.log(elem)
-    const storedData = localStorage.getItem("dataUpdate")
-    if (storedData) {
+    console.log(e.value)
+    console.log(fecha.toLocaleString())
+    console.log(fecha.toString())
+    const midate = (fecha)
+    this.DatosUpdate.Fecha_llegada = fecha.toLocaleString()
+    console.log(this.DatosUpdate)
 
-      this.datos = JSON.parse(storedData);
-      const idx = this.Func_Percent(id, elem, this.datos.datos.Cantidad_Terreno)
-
-    } else {
-      console.log('No hay datos en localStorage');
-    }
-    elem.isEdit = false
   }
 
-   addRow() {
+  inputHandler(e: any, id: number, key: string) {
+
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+
+    if (!this.valid[index]) {
+      this.valid[index] = {}
+    }
+    this.valid[index][key] = e.target.validity.valid
+
+    if (key = 'OBSERVACION') {
+      this.DatosUpdate.Observacion = e.target.value
+    }
+
+    console.log(this.DatosUpdate)
+
+  }
+
+  selectHandler(e: any, id: number, key: string) {
+
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+    if (!this.valid[index]) {
+      this.valid[index] = {}
+    }
+    this.valid[index][key] = e.target.validity.valid
+
+    const storedData: any = localStorage.getItem("dataUpdate")
+    this.datos = JSON.parse(storedData);
+     switch (key) {
+       case 'TIPOELEM_DESCRIPCION':
+          this.DatosUpdate.Tipo_Elemento = e.target.value
+          break;
+        case 'TUNEL_DESCRIPCION':
+          this.DatosUpdate.Tunel = e.target.value
+          break;
+        case 'DISPO_DESCRIPCION':
+          this.DatosUpdate.Disposicion_Final = e.target.value
+          break;
+       default:
+         break;
+    // Bloque de código por defecto
+    }
+
+    console.log(this.DatosUpdate)
+  }
+
+
+
+  Func_Percent(id: number, elem: any, cantTerr: string): number {
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+    const percent = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 4 }).format((Number(cantTerr)/Number(elem.CANTIDAD_SNF))*100)
+
+    this.dataSource.data[index].CANTIDAD_TERRENO = Number(cantTerr)
+    this.dataSource.data[index].PORCENTAJE = Number(percent)
+    this.dataSource.data[index].DIFERENCIA = Number(cantTerr) - Number(elem.CANTIDAD_SNF)
+
+    this.DatosUpdate.Cantidad_Terreno = Number(cantTerr)
+    this.DatosUpdate.Diferencia = this.dataSource.data[index].DIFERENCIA
+
+    console.log(this.DatosUpdate)
+    return index
+  }
+
+   disableSubmit(id: number) {
+    console.log("disableSubmit ")
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+    if (this.valid[index]) {
+      console.log("disable ", index)
+      return Object.values(this.valid[index]).some((item) => item === false)
+    }
+    return false
+  }
+
+
+  addRow() {
     const newRow: Perneria = {
       ID_PERNO: 0,
       OC: 0,
@@ -302,55 +355,7 @@ export class PerneriaNewlistComponent {
       })
   }
 
-  inputHandler(e: any, id: number, key: string) {
-    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
-    if (!this.valid[index]) {
-      this.valid[index] = {}
-    }
-    this.valid[index][key] = e.target.validity.valid
-  }
-
-  selectHandler(e: any, id: number, key: string, options: string) {
-
-    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
-    if (!this.valid[index]) {
-      this.valid[index] = {}
-    }
-    this.valid[index][key] = e.target.validity.valid
-    console.log(this.valid[index][key])
-    console.log(e.target.value)
-  }
-
-  Func_Percent(id: number, elem: any, cantTerr: string): number {
-    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
-    const percent = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 4 }).format((Number(cantTerr)/Number(elem.CANTIDAD_SNF))*100)
-
-    this.dataSource.data[index].CANTIDAD_TERRENO = Number(cantTerr)
-    this.dataSource.data[index].PORCENTAJE = Number(percent)
-    this.dataSource.data[index].DIFERENCIA = Number(cantTerr) - Number(elem.CANTIDAD_SNF)
-
-    var fecha: Date = dayjs(this.listaPerneria[index].FECHA_LLEGADA, "DD-MM-YYYY").toDate();
-    console.log(typeof fecha)
-    this.dataSource.data[index].FECHA_LLEGADA = dayjs(this.dataSource.data[index].FECHA_LLEGADA).toDate()
-
-    console.log("this.dataSource: ", this.dataSource.data[index].FECHA_LLEGADA)
-
-    return index
-  }
-
-   disableSubmit(id: number) {
-    console.log("disableSubmit ")
-    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
-    if (this.valid[index]) {
-      console.log("disable ", index)
-      return Object.values(this.valid[index]).some((item) => item === false)
-    }
-    return false
-  }
-
-
-
-  /* isAllSelected() {
+  isAllSelected() {
     console.log("isAllSelected")
     return this.dataSource.data.every((item) => item.isSelected)
   }
@@ -366,6 +371,6 @@ export class PerneriaNewlistComponent {
       ...item,
       isSelected: event.checked,
     }))
-  } */
+  }
 
 }
