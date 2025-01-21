@@ -45,13 +45,18 @@
 
         <div *ngSwitchCase="'CANTIDAD_SNF'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
         <div *ngSwitchCase="'CANTIDAD_TERRENO'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-        <div *ngSwitchCase="'PORCENT'" style="width: 100px; ">
-          <mat-progress-bar mode="determinate" value={{element.PORCENTAJE}}
-            matBadge={{element.PORCENTAJE}}%
-            matBadgePosition="after"
-            matBadgeOverlap="true"
-            style="width: 60px; "
+        <div *ngSwitchCase="'PORCENT'" style="width: 110px; ">
+
+          <mat-progress-bar  class="mat-mdc-progress-bar "
+              matBadge="{{element.PORCENTAJE}}"
+              matBadgePosition="after"
+              matBadgeOverlap="true"
+              style="width: 80px; "
+              matBadgePosition="below"
+          mode="determinate" value={{element.PORCENTAJE}}
+
             ></mat-progress-bar>
+
         </div>
         <div *ngSwitchCase="'DIFERENCIA'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
 
@@ -133,14 +138,29 @@
             (change)="Func_Percent(element.ID_PERNO, element, element.CANTIDAD_TERRENO)" />
         </div>
 
-        <div *ngSwitchCase="'PORCENT'" style="width: 100px; ">
+        <div *ngSwitchCase="'PORCENT'" style="width: 100px; color:chartreuse">
+          <span></span>
+          <mat-progress-bar mode="determinate"
+            matBadge={{element.PORCENTAJE}}%
+            matBadgePosition="after"
+            matBadgeOverlap="true"
+            matBadgeColor="accent"
+            style="width: 60px; align-content: end; background: brown !important; color:yellow !important;"
+
+            ></mat-progress-bar>
+        </div>
+
+<!--         <div *ngSwitchCase="'PORCENT'" style="width: 100px; color:chartreuse">
+          <span></span>
           <mat-progress-bar mode="determinate" value={{element.PORCENTAJE}}
             matBadge={{element.PORCENTAJE}}%
             matBadgePosition="after"
             matBadgeOverlap="true"
-            style="width: 60px; align-content: end; "
+            matBadgeColor="accent"
+
+            style="width: 60px; align-content: end; background: brown !important; color:yellow !important;"
             ></mat-progress-bar>
-        </div>
+        </div> -->
 
         <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px;">
           <select style="width: 69px;"

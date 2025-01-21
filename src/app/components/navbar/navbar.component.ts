@@ -13,11 +13,20 @@ export class NavbarComponent {
 
   miClick(id: number) {
     console.log(id)
-    if (id == 1) {
-      localStorage.setItem("Seleccion",'/api/perneria/entregada')
-    } else {
-      localStorage.setItem("Seleccion",'/api/perneria/pendientes')
-    }
+    switch (id) {
 
+      case 1:
+        localStorage.setItem("Seleccion",'/api/perneria/entregada')
+        break;
+      case 2:
+        localStorage.setItem("Seleccion",'/api/perneria/pendientes')
+        break
+      case 3:
+        localStorage.setItem("Seleccion",'/api/materiales/entregados')
+        break
+      case 4:
+        localStorage.setItem("Seleccion",'/api/materiales/pendientes')
+        break
+      }
   }
 }

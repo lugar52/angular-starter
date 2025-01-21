@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostBinding, NgModule, ChangeDetectionStrategy, inject, signal, Inject  } from '@angular/core';
+import { Component, ViewChild, HostBinding, NgModule, ChangeDetectionStrategy, inject, signal, Inject, Input  } from '@angular/core';
 import { CommonModule, DatePipe, formatDate } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
@@ -68,7 +68,7 @@ export class PerneriaNewlistComponent {
   public formGroup = new FormGroup({
     CANTIDAD_TERRENO: new FormControl()
   })
-
+  
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @HostBinding('class') classes = 'row';
