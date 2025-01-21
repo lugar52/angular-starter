@@ -11,6 +11,7 @@ export interface Material {
   cantidad_snf?: number;
   cantidad_terreno?: number;
   diferencia?: number;
+  porcentaje?: number;
   peso_unitario?: string;
   peso_total?: number;
   bulto?: string;
@@ -20,10 +21,11 @@ export interface Material {
   id_subpatio?: number;
   id_coordenada?: number;
   observacion?: string;
-
+  isEdit?: boolean;
+  isSelected?: boolean;
 }
 
-export const PernoColumns = [
+export const MaterialesColumns = [
   {
     key: 'isEdit',
     type: 'isEdit',
@@ -260,3 +262,19 @@ export const PernoColumns = [
     disabled: false
   },
 ];
+
+
+
+export interface Material_AGrabar {
+  Cantidad_Terreno: number
+  Tipo_Elemento: number;
+  Disposicion_Final: number;
+  Proveedor: number;
+  Patio: number;
+  Diferencia: number;
+  Fecha_llegada: string ;
+  SubPatio: number;
+  Coordenada: number;
+  Observacion: string ;
+}
+

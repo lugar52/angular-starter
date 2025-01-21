@@ -8,6 +8,7 @@
   </div>
 </article>
 
+<div>
 <table mat-table [dataSource]="dataSource" style="margin-top: 5px !important;">
   <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
 
@@ -207,4 +208,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; " class="table-row">
 </table>
-
+</div>
+<mat-paginator [pageSizeOptions]="[16, 40]" showFirstLastButtons aria-label="Select page of materiales" ></mat-paginator>

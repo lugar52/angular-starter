@@ -68,7 +68,7 @@ export class PerneriaNewlistComponent {
   public formGroup = new FormGroup({
     CANTIDAD_TERRENO: new FormControl()
   })
-  
+
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @HostBinding('class') classes = 'row';
@@ -98,7 +98,6 @@ export class PerneriaNewlistComponent {
 
   valorDisable = false
 
-  paso: number = 0
   datos: any
 
   constructor(
@@ -114,7 +113,7 @@ export class PerneriaNewlistComponent {
   }
 
   ngOnInit() {
-    this.titulo = localStorage.getItem("Seleccion")
+   this.titulo = localStorage.getItem("Seleccion")
     var resultado = (this.titulo != null ) ? this.titulo.split("/")[3] : "Perneria";
     this.titulo = resultado
 
