@@ -1,0 +1,199 @@
+@baseLineHeight: 25px;
+
+:host {
+    display: block;
+    padding: 15px;
+}
+
+.demo-table {
+    width: 100%;
+  }
+
+  .mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .demo-row-is-clicked {
+    font-weight: bold;
+  }
+
+  .full-width {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Ajusta el tamaño mínimo */
+    overflow-x: auto; /* Habilita desplazamiento horizontal */
+    white-space: nowrap; /* Evita el ajuste automático de las celdas */
+    font-size: 10px;
+  }
+
+.grid-diseno-header {
+    text-align: center;
+    vertical-align: middle;
+    border: 0.5px;
+    border-color: darkcyan;
+    border-style: solid;
+    background-color: #CD212A !important;
+    color:white;
+    font-size: small;
+    padding-top: 10px;
+
+  }
+
+  .column_snf {
+    .grid-diseno-header
+  }
+
+
+
+  .grid-item-h-descrip {
+    .grid-diseno-header;
+    text-align: center;
+  }
+
+  .grid-item-h-reqnum + .grid-diseno-header, .grid-item-h-ct + .grid-diseno-header{
+
+    text-align:left;
+  }
+
+  .table-row {
+    height: @baseLineHeight !important;
+  }
+
+  .vertical-text {
+      writing-mode: vertical-rl; /* Orientación vertical de derecha a izquierda */
+      text-orientation: upright; /* Coloca los caracteres en posición vertical */
+  }
+
+  .grid-item-h-percent {
+    .grid-diseno-header;
+    min-width: 150px;
+    width: 500px !important;
+    padding-right: 5px
+  }
+
+  .grid-item-base {
+    vertical-align:middle;
+    background-color:white;
+    font-size: small;
+    overflow: hidden; /* Oculta contenido adicional */
+    text-overflow: ellipsis; /* Muestra "..." si el texto es demasiado largo */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+
+    border-left: 0.5px;
+    border-left-color: darkcyan;
+    border-left-style: solid;
+    border-bottom: 0.5px !important;
+    border-bottom-style:solid !important;
+    border-bottom-color: darkcyan !important;
+    border-right: 0.5px;
+    border-right-color: darkcyan;
+    border-right-style: solid;
+  }
+
+  .grid-item-fila {
+    .grid-item-base !important;
+    vertical-align:middle
+  }
+
+  .grid-item-percen
+  {
+    .grid-item-base;
+    vertical-align: middle;
+    padding-left: 3px;
+    align-items:start;
+
+  }
+
+  .grid-item-h-numero {
+      .grid-diseno-header;
+      min-width: 200px; /* Ajusta el ancho mínimo de cada celda */
+    }
+
+  .grid-item-base_req {
+    .grid-item-base;
+    text-align: right;
+    vertical-align:middle
+  }
+
+  .grid-item-h-sol_numero {
+      .grid-diseno-header;
+      min-width: 100px; /* Ajusta el ancho mínimo de cada celda */
+  }
+
+  .grid-item-h-fecha
+  {
+    .grid-diseno-header;
+    min-width: 100px; /* Ajusta el ancho mínimo de cada celda */
+  }
+
+  .grid-item-h-idp {
+    .grid-diseno-header;
+    padding-left: 5px;
+    min-width: 60px; /* Ajusta el ancho mínimo de cada celda */
+  }
+
+  .mat-badge-medium.mat-badge-above .mat-badge-content {
+    top: -3px;
+}
+
+.col-h-select {
+  .grid-diseno-header;
+  min-width: 150px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.select-control {
+  .grid-item-fila;
+  width: 150px;
+  font-size:small;
+  height: @baseLineHeight;
+  text-align: left;
+}
+
+.col-h-observacion {
+  .grid-diseno-header;
+  min-width: 650px; /* Ajusta el ancho mínimo de cada celda */
+
+}
+
+.input_cant {
+  .grid-item-fila;
+  width: 50px;
+  height: @baseLineHeight;
+  font-size:small;
+  text-align: right;
+  vertical-align: top;
+  border-style: hidden;
+}
+
+.input-observacion {
+  .grid-item-fila;
+  width: 650px;
+  height: @baseLineHeight;
+  font-size:small;
+  text-align: left;
+  vertical-align: top;
+  border-style: hidden;
+}
+
+.col-h-datepicker {
+  .grid-diseno-header;
+  min-width: 130px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.input-datepicker {
+  .grid-item-fila;
+  width: 80px;
+  padding-left: 0px;
+  margin-left: 3px;
+  height: @baseLineHeight;
+  font-size:small;
+  text-align: left;
+  vertical-align: top;
+  border-style: hidden;
+}

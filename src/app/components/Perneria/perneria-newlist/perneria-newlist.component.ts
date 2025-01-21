@@ -126,7 +126,10 @@ export class PerneriaNewlistComponent {
     this.perneriaService.getPernos().subscribe((res: any) => {
       this.listaPerneria = res;
 
-      this.dataSource.data = res;
+      //this.dataSource.data = res;
+      this.dataSource = new MatTableDataSource(this.listaPerneria);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
 
       //this.dataSource.sort = this.sort;
