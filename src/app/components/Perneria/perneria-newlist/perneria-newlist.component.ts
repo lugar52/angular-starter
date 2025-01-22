@@ -25,8 +25,7 @@ import { MatDatepickerInputEvent, MatDatepickerIntl, MatDatepickerModule } from 
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
-import { Perneria, PernoColumns } from '../../../model/perneria'
-import { DatosAGrabar } from '../../../model/inPernos'
+import { Perneria, PernoColumns, DatosAGrabar } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
 import dayjs from 'dayjs';
@@ -91,6 +90,8 @@ export class PerneriaNewlistComponent {
     Diferencia: 0,
     Proveedor: 0,
     Patio: 0,
+    subPatio: 0,
+    coordenada: 0,
     Fecha_llegada: '',
     Observacion: '',
   }
@@ -149,6 +150,8 @@ export class PerneriaNewlistComponent {
               Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
               Proveedor: Number(this.listaPerneria[index].PROVEEDOR),
               Patio: Number(this.listaPerneria[index].PATIO),
+              subPatio: Number(this.listaPerneria[index].ID_SUBPATIO),
+              coordenada: Number(this.listaPerneria[index].ID_COORDENADA),
               porcentaje: Number(this.listaPerneria[index].PORCENTAJE),
               Diferencia: Number(this.listaPerneria[index].DIFERENCIA),
               Fecha_llegada: this.listaPerneria[index].FECHA_LLEGADA,
@@ -174,6 +177,8 @@ export class PerneriaNewlistComponent {
       this.dataSource.data[idx].DISPOSICION_FINAL = this.datos.Disposicion_Final
       this.dataSource.data[idx].PROVEEDOR = this.datos.Proveedor
       this.dataSource.data[idx].PATIO = this.datos.Patio
+      this.dataSource.data[idx].ID_SUBPATIO = this.datos.subpatio
+      this.dataSource.data[idx].ID_COORDENADA = this.datos.coordenada
       this.dataSource.data[idx].DIFERENCIA = this.datos.Diferencia
       this.dataSource.data[idx].PORCENTAJE = this.datos.porcentaje
       this.dataSource.data[idx].FECHA_LLEGADA = this.datos.Fecha_llegada
@@ -213,14 +218,9 @@ export class PerneriaNewlistComponent {
 
   }
 
-  SelectFecha(e: MatDatepickerInputEvent<Date>, id: number, fecha: Date ) {
+  SelectFecha(fecha: Date ) {
 
-    console.log(e.value)
-    console.log(fecha.toLocaleString())
-    console.log(fecha.toString())
-    const midate = (fecha)
     this.DatosUpdate.Fecha_llegada = fecha.toLocaleString()
-    console.log(this.DatosUpdate)
 
   }
 
@@ -261,6 +261,12 @@ export class PerneriaNewlistComponent {
         case 'DISPO_DESCRIPCION':
           this.DatosUpdate.Disposicion_Final = e.target.value
           break;
+        case 'PATIO_1':
+          this.DatosUpdate.subPatio = e.target.value
+          break;
+        case 'COORDENADAS':
+          this.DatosUpdate.coordenada = e.target.value
+          break;
        default:
          break;
     // Bloque de código por defecto
@@ -268,8 +274,6 @@ export class PerneriaNewlistComponent {
 
     console.log(this.DatosUpdate)
   }
-
-
 
   Func_Percent(id: number, elem: any, cantTerr: string): number {
     const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
@@ -319,6 +323,8 @@ export class PerneriaNewlistComponent {
       PESO_TOTAL: 0,
       PROVEEDOR: '',
       PATIO: '',
+      ID_SUBPATIO: 0,
+      ID_COORDENADA: 0,
       FECHA_LLEGADA: new Date(),
       OBSERVACION: '',
       NB_ASIG_TERR: '',
