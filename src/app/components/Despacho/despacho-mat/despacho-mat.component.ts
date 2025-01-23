@@ -199,14 +199,10 @@ export class DespachoMatComponent {
         this.despacho.cantidad = formvalue._CANTIDAD
         this.despacho.stock_final = Number(formvalue._STOCK) - Number(formvalue._CANTIDAD)
         this.despacho.peso_despacho = formvalue._PESOUNITARIO
-
         this.despacho.lugar_despacho = formvalue._LUGAR_DESPACHO
         this.despacho.destino = formvalue._DESTINO
-
         this.despacho.rut_Retira = formvalue._RUT_RETIRA
         this.despacho.Nombre_retira = formvalue._NOMBRE_RETIRA
-
-
         this.despacho.stock_final = formvalue._GUIA,
         this.despacho.guia = formvalue._GUIA
 
