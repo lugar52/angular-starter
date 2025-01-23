@@ -22,7 +22,7 @@ export class NavbarComponent {
         localStorage.setItem("Seleccion",'/api/perneria/pendientes')
         break
       case 0:
-        localStorage.setItem("Seleccion",'/api/perneria')
+        localStorage.setItem("Seleccion",'/api/perneria/todos')
         break
       }
   }
