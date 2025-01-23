@@ -21,11 +21,8 @@ export class NavbarComponent {
       case 2:
         localStorage.setItem("Seleccion",'/api/perneria/pendientes')
         break
-      case 3:
-        localStorage.setItem("Seleccion",'/api/materiales/entregados')
-        break
-      case 4:
-        localStorage.setItem("Seleccion",'/api/materiales/pendientes')
+      case 0:
+        localStorage.setItem("Seleccion",'/api/perneria')
         break
       }
   }

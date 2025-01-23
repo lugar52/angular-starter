@@ -1,7 +1,7 @@
 import { Component, ViewChild, HostBinding, NgModule, ChangeDetectionStrategy, inject, signal, Inject, Input  } from '@angular/core';
-import { CommonModule, DatePipe, formatDate } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
+import {FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
+import { ActivatedRoute, Router  } from '@angular/router';
 
 import { Subscription, tap, lastValueFrom } from 'rxjs';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -47,11 +47,11 @@ import moment from 'moment';
     MatNativeDateModule,
     MatSelectModule,
     MatIconModule,
-    MatIconModule,
     MatProgressBarModule,
     MatBadgeModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    FormsModule,
     FormsModule,
     MatTooltipModule,
 
@@ -64,19 +64,17 @@ import moment from 'moment';
 })
 export class PerneriaNewlistComponent {
 
-  public formGroup = new FormGroup({
-    CANTIDAD_TERRENO: new FormControl()
-  })
-
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @HostBinding('class') classes = 'row';
   private readonly _adapter = inject<DateAdapter<unknown, unknown>>(DateAdapter);
   private readonly _locale = signal(inject<unknown>(MAT_DATE_LOCALE));
 
+  subscription: Subscription[] = [];
+  dataSource = new MatTableDataSource<Perneria>()
+
   displayedColumns: string[] = PernoColumns.map((col) => col.key)
   columnsSchema: any = PernoColumns
-  dataSource = new MatTableDataSource<Perneria>()
   valid: any = {}
 
   titulo: any = '';
@@ -100,37 +98,42 @@ export class PerneriaNewlistComponent {
   valorDisable = false
 
   datos: any
+  hayDatos: boolean = true
 
   constructor(
     public dialog: MatDialog,
     private perneriaService: PerneriaService,
     private datePipe: DatePipe,
     public fb: FormBuilder,
+    private router: Router,
     @Inject(ToastrService) private toastr: ToastrService,
   ) {
     this._locale.set('es');
     this._adapter.setLocale(this._locale());
-
+    this.getPerneria();
   }
 
   ngOnInit() {
    this.titulo = localStorage.getItem("Seleccion")
     var resultado = (this.titulo != null ) ? this.titulo.split("/")[3] : "Perneria";
     this.titulo = resultado
+    console.log("INi ", this.hayDatos)
 
-    this.getPerneria();
     //console.log("columnsSchema: ", this.columnsSchema)
   }
 
   getPerneria() {
 
-    this.perneriaService.getPernos().subscribe((res: any) => {
-      this.listaPerneria = res;
+    this.perneriaService.getPernos().subscribe(data => {
+      this.listaPerneria = data;
 
-      //this.dataSource.data = res;
       this.dataSource = new MatTableDataSource(this.listaPerneria);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      console.log(this.listaPerneria)
+
+      this.hayDatos  = true
+      console.log("per ", this.hayDatos)
     });
 
       //this.dataSource.sort = this.sort;
@@ -160,6 +163,19 @@ export class PerneriaNewlistComponent {
 
       localStorage.setItem("dataUpdate", JSON.stringify(datos) )
 
+  }
+
+  applyFilter(filterValue: any) {
+
+// Verificar que filterValue es una cadena
+    const trimmedValue = typeof filterValue === 'string' ? filterValue.trim() : String(filterValue).trim();
+
+// Ahora, puedes usar trimmedValue sin problemas
+    // console.log(trimmedValue); // 'Some text'
+
+    filterValue = trimmedValue.trim(); // Remove whitespace
+    filterValue = trimmedValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   // Se devuelven los datos desde el local estorage a la linea que se edito, borrando todoas los datos ingresados
@@ -380,5 +396,18 @@ export class PerneriaNewlistComponent {
       isSelected: event.checked,
     }))
   }
+
+  Despachar(id: number, elem: any, ) {
+
+    let  myurl = `${'despacho'}/${id}`;
+    this.router.navigate([myurl], { queryParams: { message: id  }, queryParamsHandling: "merge" } ).then(e => {
+      if (e) {
+      } else {
+        console.log('error: ', e)
+      }
+    });
+  }
+
+
 
 }

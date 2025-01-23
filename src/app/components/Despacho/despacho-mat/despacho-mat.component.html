@@ -1,0 +1,179 @@
+<form [formGroup]="form_Despacho"
+    autocomplete="off" class="row gy-2 gx-3 align-items-center" style="padding-left: 50px; font-size: 14px;"  >
+
+    <div class="row " style="padding-top: 25px;">
+    <div>
+      <h4>Despacho</h4>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 15px;">
+    <div class="col-sm-3" >
+      <section>
+        <div class="row " style="padding-top: 15px;">
+          <div class="col-4">
+            <label class="titlabel" for="fecha_despacho">Fecha Despacho</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_FECHA_DESPACHO"  class="form-control conf-control"
+            id="fecha_despacho"  placeholder="" readonly="true">
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="itemcode">Item code</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_ITEMCODE" class="form-control conf-control"
+            id="itemcode" placeholder="" readonly="true">
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="descripcion">Descripción</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_DESCRIPCION" class="form-control conf-control"
+            id="descripcion" placeholder="" readonly="true">
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="snf">SNF</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_SNF" class="form-control conf-control"
+            id="snf" placeholder="" readonly="true">
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="stock">Stock Disponible</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_STOCK" class="form-control conf-control"
+            id="stock" placeholder="" style="width: 80px; text-align: right;" readonly="true">
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="pesototal">Peso Total</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_PESOTOTAL" class="form-control conf-control"
+            id="pesototal" placeholder="" style="width: 80px; text-align: right;" readonly="true">
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 20px;">
+          <div class="col-sm-4">
+            <label class="titlabel" for="cantidad">Cantidad</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_CANTIDAD" class="form-control conf-control"
+            id="cantidad" placeholder="" style="width: 80px; text-align: right;" (blur)="calculaPeso(form_Despacho.value)"
+            required >
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="pesounit">Peso</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_PESOUNITARIO" class="form-control conf-control"
+            id="pesounit" placeholder="" style="width: 80px; text-align: right;" readonly="true">
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="lugar">Lugar Despacho</label>
+          </div>
+          <div class="col-8">
+            <input type="text" formControlName="_LUGAR_DESPACHO" class="form-control conf-control"
+            id="lugar" placeholder=""
+            required maxLength="50" minlength="3" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"
+            >
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="lugar">Destino</label>
+          </div>
+          <div class="col-8">
+            <select class="form-select conf-control" id="autoSizingSelect"
+              style="font-size:13px; width: 140px; padding-top: 2px;"
+              formControlName="_DESTINO"
+              required
+              (change)="SelecionaDestino(form_Despacho.value)">
+              <option selected></option>
+              <option value="1">Coirón</option>
+              <option value="2">La Guardia</option>
+              <option value="3">Las Animas II</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="guia">Guia</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_GUIA" class="form-control conf-control"
+            id="guia" placeholder="" style="width: 120px; text-align: right;"
+            required maxLength="8" minlength="1" >
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="rut">Rut Retira</label>
+          </div>
+          <div class="col-6">
+            <input type="text" formControlName="_RUT_RETIRA" class="form-control conf-control"
+            id="rut" placeholder="" style="width: 120px; text-align: right;" required maxLength="10" minlength="8" >
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 10px;">
+          <div class="col-4">
+            <label class="titlabel" for="nombre">Nombre </label>
+          </div>
+          <div class="col-8">
+            <input type="text" formControlName="_NOMBRE_RETIRA" class="form-control conf-control"
+            id="nombre" placeholder="" style="text-align:left;" required maxLength="50" minlength="8" >
+          </div>
+        </div>
+
+        <div class="row " style="padding-top: 30px; padding-bottom: 20px;">
+
+            <div class="col-6" style="padding-left: 45px;">
+              <button type="button" class="btn btn-primary" style="width: 130px;" (click)="GrabarDespacho(form_Despacho.value)"
+              [disabled]="form_Despacho.invalid">
+                Grabar
+              </button>
+            </div>
+
+          <div class="col-6">
+            <button type="button" class="btn btn-warning" style="width: 130px" (click)="volverListado()">Cancelar</button>
+          </div>
+
+        </div>
+      </section>
+    </div>
+    <div class="col-sm-8">
+      <h5>Listado de despachos realizados</h5>
+      <p>Se requiere defición de estructura de datos para continuar</p>
+    </div>
+  </div>
+
+
+</form>

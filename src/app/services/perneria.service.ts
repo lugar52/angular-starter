@@ -18,7 +18,8 @@ export class PerneriaService {
     ) {
 
       this.API_URL = 'https://myfastapi-production.up.railway.app'
-      //this.API_URL = 'http://127.0.0.1:8000'
+
+      this.API_URL = 'http://127.0.0.1:8000'
 
       console.log(this.API_URL)
 
@@ -36,7 +37,7 @@ export class PerneriaService {
 
   getPerneriaSel(id: number): Observable<any[]> {
     console.log("Sel: ", id )
-    return this.http.get<any[]>(`${this.API_URL}/perneria/${id}`)
+    return this.http.get<any[]>(`${this.API_URL}/api/perneria/get_item/${id}`)
   }
 
   get_Perno(id: string) {

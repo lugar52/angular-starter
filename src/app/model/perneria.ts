@@ -266,3 +266,20 @@ export interface DatosAGrabar {
   Fecha_llegada: string ;
   Observacion: string ;
 }
+
+export interface regDespacho {
+  id_perno: number;
+  Fecha_despacho: string ;
+  Codigo: number ;
+  descricpcion: string ;
+  snf: string ;
+  stock_Inicial: number;
+  cantidad: number;
+  stock_final: number;
+  guia: string
+  peso_despacho: number
+  lugar_despacho: number;
+  destino: number;
+  rut_Retira: string;
+  Nombre_retira: string;
+}

@@ -6,6 +6,10 @@ import { FormBuilder,
   Validators,  } from '@angular/forms';
 import { ActivatedRoute, Router  } from '@angular/router';
 
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
+
 import { Perneria } from '../../../model/perneria';
 import { PerneriaService } from '../../../services/perneria.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -16,9 +20,13 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-perneria-id',
   standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './perneria-id.component.html',
-  styleUrl: './perneria-id.component.scss'
+  imports: [
+    ReactiveFormsModule,
+    MatIconModule,
+    MatDividerModule,
+    MatButtonModule],
+  templateUrl: './despacho-id.component.html',
+  styleUrl: './despacho-id.component.scss'
 })
 export class PerneriaIdComponent {
   @HostBinding('class') classes = 'row';

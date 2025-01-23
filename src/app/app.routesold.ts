@@ -14,7 +14,7 @@ export const routes: Routes = [
             { path: 'pendientes', loadComponent: () => import('./components/Perneria/perneria-list/perneria-list.component') .then(m => m.PerneriaListComponent )},
             { path: 'entregada', loadComponent: () => import('./components/Perneria/perneria-list/perneria-list.component') .then(m => m.PerneriaListComponent )},
 
-            { path: 'perneria/id', loadComponent: () => import('./components/Perneria/perneria-id/perneria-id.component') .then(m => m.PerneriaIdComponent )},
+            { path: 'perneria/id', loadComponent: () => import('./components/Perneria/despacho-id/despacho-id.component') .then(m => m.PerneriaIdComponent )},
 
             { path: 'pendientes-new', loadComponent: () => import('./components/Perneria/perneria-newlist/perneria-newlist.component') .then(m => m.PerneriaNewlistComponent )},
             { path: 'entregada-new', loadComponent: () => import('./components/Perneria/perneria-newlist/perneria-newlist.component') .then(m => m.PerneriaNewlistComponent )},
