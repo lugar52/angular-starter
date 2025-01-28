@@ -2,24 +2,26 @@
 
   <div class="row" >
     <div class="col-5" >
-      <h4 class="" style="padding-left: 100px; padding-top: 25px; color:darkgreen">Pernería {{this.titulo}} </h4>
+      <h4 class="" style="padding-left: 100px; padding-top: 25px; color:darkgreen"> Materiales {{this.titulo}} </h4>
     </div>
     <div class="col-2" ></div>
     <div class="col-3" >
-     <!--  <div appearance="fill" class="full-width has-success" style="padding-top: 30px; font-size: 14px; " >
-        <mat-label style="padding-right: 20px;" >Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Search Columns" #input style="height: 20px">
-      </div> -->
+     <div appearance="fill" class="full-width has-success" style="padding-top: 30px; font-size: 14px; " >
+        <mat-label style="padding-right: 20px;" >Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
+      </div>
     </div>
   </div>
 
   <div class="grid-container">
-    <table mat-table [dataSource]="dataSource" matSort style="margin-top: 5px !important;">
+    <table mat-table [dataSource]="dataSource" matSort style="margin-top: 15px !important;">
       <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header" style="text-align: center; font-size: 12px;" [ngSwitch]="col.key">
           <div *ngSwitchCase="'CANTIDAD_TERRENO'" style="width: 50px !important; "> {{ col.label }} </div>
           <div *ngSwitchCase="'ITEMCODE'" style="width: 50px !important; " > {{ col.label }} </div>
-          <div style="min-width: 50px; padding-right: 3px; margin-right: 0px;" *ngSwitchDefault>{{ col.label }}</div>
+          <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="min-width: 80px !important; " > {{ col.label }} </div>
+
+          <div style="min-width: 60px; padding-right: 3px; margin-right: 0px;" *ngSwitchDefault>{{ col.label }}</div>
         </th>
 
         <td mat-cell *matCellDef="let element" class="grid-item-fila">
@@ -31,7 +33,7 @@
                   <button mat-button mat-icon-button
                   style="padding-left: 15px; color:green ; padding-top: 5px; border-style: hidden;"
                   #tooltip="matTooltip"
-                  matTooltip="Editar"
+                  matTooltip="Ingresar"
                   matTooltipPosition="right"
                   (click)="editDatos(element.ID_PERNO, element)"
                   [disabled]="false">
@@ -104,6 +106,9 @@
             <div *ngSwitchCase="'PESO_TOTAL'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
             <div *ngSwitchCase="'FECHA_LLEGADA'" style="width: 120px;">{{ element[col.key] | date: "dd-MM-YYYY" }}</div>
 
+            <div *ngSwitchCase="'SUBPATIO_DESCRIPCION'" style="width: 70px;">{{ element[col.key] }}</div>
+            <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="width: 70px;">{{ element[col.key] }}</div>
+
             <span *ngSwitchDefault> {{ element[col.key] }} </span>
           </div>
 
@@ -138,15 +143,18 @@
             <div *ngSwitchCase="'PESO_UNITARIO'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
             <div *ngSwitchCase="'PESO_TOTAL'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
 
-            <div *ngSwitchCase="'TIPOELEM_DESCRIPCION'" style="width: 110px;">
-              <select
+            <div *ngSwitchCase="'TIPOELEM_DESCRIPCION'" style="width: 110px; "> {{ element[col.key] }} </div>
+
+<!--             <div *ngSwitchCase="'TIPOELEM_DESCRIPCION'" style="width: 110px;">
+              <select style="width: 108px;"
               (change)="selectHandler($event, element.ID_PERNO, col.key)" >
               @for (op of col.seloption; track op) {
                   <option [value]="op.value">{{op.viewValue}}</option>
               }
+                  <option opcion selected="op.value"></option>
               </select>
             </div>
-
+ -->
             <div *ngSwitchCase="'TUNEL_DESCRIPCION'" style="width: 90px;">
               <select
               (change)="selectHandler($event, element.ID_PERNO, col.key)" >
@@ -165,7 +173,6 @@
               </select>
             </div>
 
-
             <div>
               <div *ngSwitchCase="'CANTIDAD_TERRENO'" >
                 <input
@@ -175,10 +182,11 @@
                   [required]="col.required"
                   [type]="col.type"
                   [disabled]="col.disabled"
-                  [(ngModel)]="element[col.key]"
+
                   (change)="Func_Percent(element.ID_PERNO, element, element.CANTIDAD_TERRENO)" />
               </div>
               <div *ngSwitchCase="'DIFERENCIA'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+              <div *ngSwitchCase="'STOCK'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
             </div>
 
             <div *ngSwitchCase="'PORCENT'" style="width: 110px; color:chartreuse">
@@ -193,14 +201,16 @@
                 ></mat-progress-bar>
             </div>
 
-            <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px;">
+            <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px; "> {{ element[col.key] }} </div>
+
+<!--             <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px;">
               <select style="width: 69px;"
               (change)="selectHandler($event, element.ID_PERNO, col.key)" >
               @for (op of col.seloption; track op) {
                   <option [value]="op.value">{{op.viewValue}}</option>
               }
               </select>
-            </div>
+            </div> -->
 
             <div *ngSwitchCase="'PATIO_DESCRIPCION'" style="width: 70px;">
               <select style="width: 69px;"
@@ -232,6 +242,24 @@
                 (blur)="inputHandler($event, element.ID_PERNO, col.key)" />
             </div>
 
+            <div *ngSwitchCase="'SUBPATIO_DESCRIPCION'" style="width: 70px;">
+              <select style="width: 68px;"
+              (change)="selectHandler($event, element.ID_PERNO, col.key)" >
+              @for (op of col.seloption; track op) {
+                  <option [value]="op.value">{{op.viewValue}}</option>
+              }
+              </select>
+            </div>
+
+            <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="width: 80px;">
+              <select style="width: 80px !important;"
+              (change)="selectHandler($event, element.ID_PERNO, col.key)" >
+              @for (op of col.seloption; track op) {
+                  <option [value]="op.value">{{op.viewValue}}</option>
+              }
+              </select>
+            </div>
+
           </div>
         </td>
       </ng-container>
@@ -242,7 +270,7 @@
   <div class="row">
     <div class="col-1"></div>
     <div class="col">
-      <mat-paginator [pageSizeOptions]="[16, 40]" showFirstLastButtons aria-label="Select page of materiales" style="padding-left: 15px;" ></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[17, 40]" showFirstLastButtons aria-label="Select page of materiales" style="padding-left: 15px;" ></mat-paginator>
 
     </div>
     <div class="col-2"></div>

@@ -1,6 +1,6 @@
 import { Component, ViewChild, HostBinding, NgModule, ChangeDetectionStrategy, inject, signal, Inject, Input  } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import {FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
 import { ActivatedRoute, Router  } from '@angular/router';
 
 import { Subscription, tap, lastValueFrom } from 'rxjs';
@@ -81,17 +81,16 @@ export class PerneriaNewlistComponent {
 
   listaPerneria: Perneria[] = []
   DatosUpdate: DatosAGrabar = {
-    Tipo_Elemento: 0,
     Tunel: 0,
     Disposicion_Final: 0,
     Cantidad_Terreno: 0,
     Diferencia: 0,
-    Proveedor: 0,
     Patio: 0,
-    subPatio: 0,
-    coordenada: 0,
+    SubPatio: 0,
+    Coordenada: 0,
     Fecha_llegada: '',
     Observacion: '',
+    Stock: 0,
   }
   DatosOriginales?: Perneria
 
@@ -99,7 +98,7 @@ export class PerneriaNewlistComponent {
 
   datos: any
   hayDatos: boolean = true
-
+  parentMessage = "message from parent";
   constructor(
     public dialog: MatDialog,
     private perneriaService: PerneriaService,
@@ -118,6 +117,10 @@ export class PerneriaNewlistComponent {
     var resultado = (this.titulo != null ) ? this.titulo.split("/")[3] : "Perneria";
     this.titulo = resultado
     console.log("INi ", this.hayDatos)
+    let miDatos: any = localStorage.getItem('dataUpdate')
+    this.datos = JSON.parse(miDatos)
+
+
 
     //console.log("columnsSchema: ", this.columnsSchema)
   }
@@ -142,10 +145,19 @@ export class PerneriaNewlistComponent {
   }
 
     editDatos(id: number, elem: any) {
+
+      localStorage.setItem("iddespacho", id.toString())
       const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
       elem.isEdit = !elem.isEdit
 
       // Se guardan los datos originales de la linea en localstorage
+      if (this.listaPerneria[index].ID_SUBPATIO == null) {
+        this.listaPerneria[index].ID_SUBPATIO = 0
+      }
+
+      if (this.listaPerneria[index].ID_COORDENADA == null) {
+        this.listaPerneria[index].ID_COORDENADA = 0
+      }
       const datos = {
               Cantidad_Terreno:  Number(this.listaPerneria[index].CANTIDAD_TERRENO),
               Tipo_Elemento: Number(this.listaPerneria[index].TIPO_ELEMENTO),
@@ -153,30 +165,25 @@ export class PerneriaNewlistComponent {
               Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
               Proveedor: Number(this.listaPerneria[index].PROVEEDOR),
               Patio: Number(this.listaPerneria[index].PATIO),
-              subPatio: Number(this.listaPerneria[index].ID_SUBPATIO),
-              coordenada: Number(this.listaPerneria[index].ID_COORDENADA),
+              SubPatio: Number(this.listaPerneria[index].ID_SUBPATIO),
+              Coordenada: Number(this.listaPerneria[index].ID_COORDENADA),
               porcentaje: Number(this.listaPerneria[index].PORCENTAJE),
               Diferencia: Number(this.listaPerneria[index].DIFERENCIA),
               Fecha_llegada: this.listaPerneria[index].FECHA_LLEGADA,
               Observacion: this.listaPerneria[index].OBSERVACION,
+              Stock: Number(this.listaPerneria[index].STOCK),
       }
 
       localStorage.setItem("dataUpdate", JSON.stringify(datos) )
 
   }
 
+
   applyFilter(filterValue: any) {
-
-// Verificar que filterValue es una cadena
-    const trimmedValue = typeof filterValue === 'string' ? filterValue.trim() : String(filterValue).trim();
-
-// Ahora, puedes usar trimmedValue sin problemas
-    // console.log(trimmedValue); // 'Some text'
-
-    filterValue = trimmedValue.trim(); // Remove whitespace
-    filterValue = trimmedValue.toLowerCase(); // Datasource defaults to lowercase matches
+    filterValue = filterValue.target.value.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
-  }
+  };
 
   // Se devuelven los datos desde el local estorage a la linea que se edito, borrando todoas los datos ingresados
 
@@ -193,46 +200,79 @@ export class PerneriaNewlistComponent {
       this.dataSource.data[idx].DISPOSICION_FINAL = this.datos.Disposicion_Final
       this.dataSource.data[idx].PROVEEDOR = this.datos.Proveedor
       this.dataSource.data[idx].PATIO = this.datos.Patio
-      this.dataSource.data[idx].ID_SUBPATIO = this.datos.subpatio
-      this.dataSource.data[idx].ID_COORDENADA = this.datos.coordenada
+      this.dataSource.data[idx].ID_SUBPATIO = this.datos.Subpatio
+      this.dataSource.data[idx].ID_COORDENADA = this.datos.Coordenada
       this.dataSource.data[idx].DIFERENCIA = this.datos.Diferencia
       this.dataSource.data[idx].PORCENTAJE = this.datos.porcentaje
       this.dataSource.data[idx].FECHA_LLEGADA = this.datos.Fecha_llegada
       this.dataSource.data[idx].OBSERVACION = this.datos.Observacion
+      this.dataSource.data[idx].STOCK = this.datos.Stock
 
     } else {
       console.log('No hay datos en localStorage');
     }
+
+    localStorage.removeItem('dataUpdate');
     elem.isEdit = false
   }
 
 
   UpdateRow(id: number, elem: any) {
 
-    console.log(this.DatosUpdate)
+    console.log(elem)
+
+
+      this.DatosUpdate.Tunel = elem.TUNEL
+      this.DatosUpdate.Disposicion_Final = elem.DISPOSICION_FINAL
+      this.DatosUpdate.Cantidad_Terreno = elem.CANTIDAD_TERRENO
+      // this.DatosUpdate.Diferencia =  Number(elem.CANTIDAD_TERRENO) - Number(elem.CANTIDAD_SNF)
+
+      this.DatosUpdate.Diferencia = (Number(elem.CANTIDAD_TERRENO) + Number(elem.STOCK)) - Number(elem.CANTIDAD_SNF)
+      this.DatosUpdate.Stock = elem.STOCK + Number(elem.CANTIDAD_TERRENO)
+
+      this.DatosUpdate.Patio = elem.PATIO
+
+      this.DatosUpdate.SubPatio =  elem.ID_SUBPATIO
+
+      this.DatosUpdate.Coordenada =  elem.ID_COORDENADA
+
+      const midate = this.formatDate(elem.FECHA_LLEGADA)
+
+      this.DatosUpdate.Fecha_llegada = midate  // elem.FECHA_LLEGADA
+      this.DatosUpdate.Observacion = elem.OBSERVACION
+
     this.perneriaService.updatePerno(id, this.DatosUpdate).pipe(
         tap(res => {
-          console.log(res)
+          console.log(this.DatosUpdate)
           if (res.status_code == 200 )
+
             this.toastr.success('Se ha guardado la información exitosamente!', 'Control Patio');
           else {
             this.toastr.error('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
           }
-          //this.flagGrabacion = 1
-          //this.mensajeGrabacion('Bravo!', 'Has guardado la información de forma exitosa', 'Aceptar' , 'success')
         } )
       )
       .subscribe({
           error: (err) => {
-            this.toastr.info('Control Patio', 'Se ha producido un error, Inténtelo nuevamente');
-            // this.mensajeGrabacion('Se ha producido un error', 'Inténtelo nuevamente', 'Error', 'error')
+            this.toastr.error('Control Patio', 'Se ha producido un error, Inténtelo nuevamente');
           },
-          // complete: () => this.spinner.hide()
       });
 
     elem.isEdit = false
 
   }
+
+  formatDate(date: Date): string {
+    const d = new Date(date);
+
+    // Obtener el día, mes y año
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');  // Meses de 0 a 11
+    const year = d.getFullYear();
+
+    // Retornar el formato DD-MM-YYYY
+    return `${day}-${month}-${year}`;
+}
 
   SelectFecha(fecha: Date ) {
 
@@ -269,7 +309,7 @@ export class PerneriaNewlistComponent {
     this.datos = JSON.parse(storedData);
      switch (key) {
        case 'TIPOELEM_DESCRIPCION':
-          this.DatosUpdate.Tipo_Elemento = e.target.value
+
           break;
         case 'TUNEL_DESCRIPCION':
           this.DatosUpdate.Tunel = e.target.value
@@ -278,10 +318,10 @@ export class PerneriaNewlistComponent {
           this.DatosUpdate.Disposicion_Final = e.target.value
           break;
         case 'PATIO_1':
-          this.DatosUpdate.subPatio = e.target.value
+          this.DatosUpdate.SubPatio = e.target.value
           break;
         case 'COORDENADAS':
-          this.DatosUpdate.coordenada = e.target.value
+          this.DatosUpdate.Coordenada = e.target.value
           break;
        default:
          break;
@@ -297,10 +337,25 @@ export class PerneriaNewlistComponent {
 
     this.dataSource.data[index].CANTIDAD_TERRENO = Number(cantTerr)
     this.dataSource.data[index].PORCENTAJE = Number(percent)
-    this.dataSource.data[index].DIFERENCIA = Number(cantTerr) - Number(elem.CANTIDAD_SNF)
 
-    this.DatosUpdate.Cantidad_Terreno = Number(cantTerr)
+
+    this.dataSource.data[index].STOCK = Number(this.dataSource.data[index].STOCK) + Number(cantTerr)
+
+    this.dataSource.data[index].DIFERENCIA = (Number(cantTerr) + Number(this.dataSource.data[index].STOCK)) - Number(elem.CANTIDAD_SNF)
+
+    //
+
+
+    //
+
+    // this.DatosUpdate.Diferencia = Number(elem.DIFERENCIA)  - Number(elem.CANTIDAD_TERRENO)
+
     this.DatosUpdate.Diferencia = this.dataSource.data[index].DIFERENCIA
+    this.DatosUpdate.Stock = this.dataSource.data[index].STOCK
+    this.DatosUpdate.Cantidad_Terreno = this.DatosUpdate.Stock
+
+    console.log(this.dataSource.data[index].CANTIDAD_TERRENO + ' ' + this.dataSource.data[index].STOCK)
+    this.dataSource.data[index].CANTIDAD_TERRENO = this.dataSource.data[index].STOCK
 
     console.log(this.DatosUpdate)
     return index
@@ -351,6 +406,8 @@ export class PerneriaNewlistComponent {
       PATIO_DESCRIPCION: '',
       isEdit: true,
       isSelected: false,
+      CANT_DESPACHOS: 0,
+      STOCK: 0,
     }
     this.dataSource.data = [newRow, ...this.dataSource.data]
   }

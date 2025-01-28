@@ -32,13 +32,15 @@ export interface Perneria {
      PORCENTAJE?: number;
      isEdit?: boolean;
      isSelected?: boolean;
+     CANT_DESPACHOS: number;
+     STOCK: number;
 }
 
 export const PernoColumns = [
   {
     key: 'isEdit',
     type: 'isEdit',
-    label: 'Edit',
+    label: 'Acción',
   },
   {
     key: 'ITEMCODE',
@@ -66,8 +68,25 @@ export const PernoColumns = [
     disabled: false,
     seloptionvalue: ['1','2'],
     seloption: [
-      { value: 0, viewValue: 'Perno Roca' },
-      { value: 1, viewValue: 'Perno de anclaje' },
+      { value: 1 , viewValue: 'Pernos Roca' },
+      { value: 2 , viewValue: 'Pernos de anclaje' },
+      { value: 3 , viewValue: '2D Soldado' },
+      { value: 4 , viewValue: '2D_SOLDADO' },
+      { value: 5 , viewValue: '3D PREENSAMB' },
+      { value: 6 , viewValue: '3D_PREENSAMB***' },
+      { value: 7 , viewValue: 'ABRAZADERA' },
+      { value: 8 , viewValue: 'Abrazadera FC' },
+      { value: 9 , viewValue: 'ABRAZADERA_F.C.' },
+      { value: 10, viewValue: 'Angulo' },
+      { value: 11, viewValue: 'Columna' },
+      { value: 12, viewValue: 'INSERTO' },
+      { value: 13, viewValue: 'MISCELANEO' },
+      { value: 14, viewValue: 'Plancha' },
+      { value: 15, viewValue: 'PLANCHA_PERF***' },
+      { value: 16, viewValue: 'Soporte' },
+      { value: 17, viewValue: 'SOPORTE_ESPE' },
+      { value: 18, viewValue: 'SOPORTE_ESPE***' },
+      { value: 19, viewValue: 'Viga' }
     ]
   },
   {
@@ -89,8 +108,6 @@ export const PernoColumns = [
         { value: 1, viewValue: 'Coirón' },
         { value: 2, viewValue: 'La Guardia' },
         { value: 3, viewValue: 'Las Animas' },
-        { value: 4, viewValue: 'NO LLEGO' },
-        { value: 5, viewValue: 'Confirmar' },
     ]
   },
 
@@ -106,9 +123,6 @@ export const PernoColumns = [
       {value: 2, viewValue: 'Contraboveda' },
       {value: 3, viewValue: 'Fundación' },
       {value: 4, viewValue: 'Hastial' },
-      {value: 5, viewValue: 'No sale' },
-      {value: 4, viewValue: 'NO LLEGO'},
-      {value: 5, viewValue: 'N/A'},
     ]
   },
   {
@@ -127,6 +141,7 @@ export const PernoColumns = [
     readonly:false,
     disabled: false
   },
+  
   {
     key: 'DIFERENCIA',
     type: 'textCant',
@@ -160,6 +175,22 @@ export const PernoColumns = [
     disabled: true
   },
   {
+    key: 'CANT_DESPACHOS',
+    type: 'number',
+    label: 'DESPACHOS',
+    required: true,
+    readonly:true,
+    disabled: true
+  },
+  {
+    key: 'STOCK',
+    type: 'number',
+    label: 'STOCK',
+    required: true,
+    readonly:true,
+    disabled: true
+  },
+  {
     key: 'PROVE_DESCRIPCION',
     type: 'select',
     label: 'PROVEEDOR',
@@ -182,9 +213,9 @@ export const PernoColumns = [
     ]
   },
   {
-    key: 'PATIO_1',
+    key: 'SUBPATIO_DESCRIPCION',
     type: 'select',
-    label: 'PATIO_1',
+    label: 'PATIO 1',
     required: true,
     readonly:false,
     disabled: false,
@@ -196,14 +227,13 @@ export const PernoColumns = [
     ]
   },
   {
-    key: 'COORDENADAS',
+    key: 'COORDENADA_DESCRIPCION',
     type: 'select',
     label: 'COORDENADAS',
     required: true,
     readonly:false,
     disabled: false,
     seloption: [
-      {value: 1, viewValue:	'2 Norte' },
       {value: 1	, viewValue: '10 SUR' },
       {value: 2	, viewValue: '20 SUR' },
       {value: 3	, viewValue: '30 SUR' },
@@ -249,37 +279,37 @@ export const PernoColumns = [
     disabled: false
   },
 
-
-
 ];
 
 export interface DatosAGrabar {
   Cantidad_Terreno: number
-  Tipo_Elemento: number;
   Tunel: number;
   Disposicion_Final: number;
-  Proveedor: number;
   Patio: number;
-  subPatio: number;
-  coordenada: number;
+  SubPatio: number;
+  Coordenada: number;
   Diferencia: number;
   Fecha_llegada: string ;
   Observacion: string ;
+  Stock: number ;
 }
 
-export interface regDespacho {
+export interface RegDespacho {
   id_perno: number;
   Fecha_despacho: string ;
-  Codigo: number ;
+  Hora_despacho: string ;
+  Codigo: string ;
   descricpcion: string ;
   snf: string ;
   stock_Inicial: number;
   cantidad: number;
   stock_final: number;
-  guia: string
+  guia: number
   peso_despacho: number
   lugar_despacho: number;
+  lugar_descripcion: string;
   destino: number;
+  destino_descripcion: string;
   rut_Retira: string;
   Nombre_retira: string;
 }

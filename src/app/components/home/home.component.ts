@@ -11,6 +11,7 @@ export class HomeComponent {
 
   Constructor() {
     console.log("Home")
+    localStorage.setItem("Seleccion",'/api/perneria/todos')
   }
 
 }

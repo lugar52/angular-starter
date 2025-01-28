@@ -1,6 +1,6 @@
 <form [formGroup]="form_Despacho"
     autocomplete="off" class="row gy-2 gx-3 align-items-center" style="padding-left: 50px; font-size: 14px;"  >
-
+    Message from parent: {{id}}
     <div class="row " style="padding-top: 25px;">
     <div>
       <h4>Despacho</h4>
@@ -87,7 +87,7 @@
           </div>
           <div class="col-6">
             <input type="text" formControlName="_PESOUNITARIO" class="form-control conf-control"
-            id="pesounit" placeholder="" style="width: 80px; text-align: right;" readonly="true">
+            id="pesounit" placeholder="" style="width: 100px; text-align: right;" readonly="true">
           </div>
         </div>
 
@@ -98,7 +98,7 @@
           <div class="col-8">
             <input type="text" formControlName="_LUGAR_DESPACHO" class="form-control conf-control"
             id="lugar" placeholder=""
-            required maxLength="50" minlength="3" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"
+            readonly maxLength="50" minlength="3" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"
             >
           </div>
         </div>
@@ -169,9 +169,9 @@
         </div>
       </section>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-9">
       <h5>Listado de despachos realizados</h5>
-      <p>Se requiere defición de estructura de datos para continuar</p>
+      <app-despacho-list></app-despacho-list>
     </div>
   </div>
 

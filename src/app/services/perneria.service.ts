@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpStatusCode, HttpErrorResponse } from  '@an
 import { catchError, lastValueFrom, shareReplay, throwError } from 'rxjs';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Perneria, DatosAGrabar } from '../model/perneria'
+import { Perneria, DatosAGrabar, RegDespacho } from '../model/perneria'
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +53,8 @@ export class PerneriaService {
     return this.http.post(`${this.API_URL}/railway`, Mireg)
   }
 
+
+
   private handleError(error: any) {
     console.error(error);
     return throwError(error);
@@ -67,6 +69,7 @@ export class PerneriaService {
   }
 
   updatePerno(id: number, perno: DatosAGrabar): Observable<any> {
+    console.log("servicio: ", perno)
     return this.http.put<DatosAGrabar>(`${this.API_URL}/api/perneria/update_perno/${id}`, perno);
   }
 
@@ -84,6 +87,17 @@ export class PerneriaService {
         this.http.delete<Perneria>(`${this.API_URL}/${perneria.ID_PERNO}`)
       )
     );
+  }
+
+  despacho(Mireg: RegDespacho): Observable<any> {
+    console.log(Mireg)
+    return this.http.post(`${this.API_URL}/api/despachos/ingresos`, Mireg)
+  }
+
+  getDespachos(id: number) {
+    const od: number = 0
+    return this.http.get<any[]>(`${this.API_URL}/api/despachos/get_idpernos/${id}`)
+    //.pipe<Perneria[]>(map((data: any) => data.pernos));
   }
 
 }

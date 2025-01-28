@@ -1,0 +1,171 @@
+@baseLineHeight: 25px;
+
+p {
+  font-family: Lato;
+}
+table {
+  width: 90%;
+  margin: auto;
+  margin-top: 25px;
+}
+.btn-edit {
+  text-align: right;
+}
+h2 {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.table-header {
+  width: 90%;
+  margin: auto;
+  text-align: right;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button-add-row {
+  background: #1b9e1b;
+  color: #ffffff;
+}
+
+.button-remove-rows {
+  background: red;
+  color: #ffffff;
+  margin-right: 5px;
+}
+
+.button-remove {
+  color: red;
+}
+
+::ng-deep .mat-form-field-infix {
+  width: 100% !important;
+}
+
+.form-input {
+  padding-right: 5px;
+}
+
+.grid-diseno-header {
+  height: @baseLineHeight;
+  text-align: center;
+  vertical-align: middle;
+  border: 0.5px;
+  border-color: darkcyan;
+  border-style: solid;
+  background-color: #CD212A !important;
+  color:white;
+  font-size: small;
+}
+
+.grid-item-base {
+  vertical-align:middle;
+  background-color:white;
+  font-size: small;
+  overflow: hidden; /* Oculta contenido adicional */
+  text-overflow: ellipsis; /* Muestra "..." si el texto es demasiado largo */
+  white-space: nowrap; /* Evita que el texto se envuelva */
+
+  border-left: 0.5px;
+  border-left-color: darkcyan;
+  border-left-style: solid;
+  border-bottom: 0.5px !important;
+  border-bottom-style:solid !important;
+  border-bottom-color: darkcyan !important;
+  border-right: 0.5px;
+  border-right-color: darkcyan;
+  border-right-style: solid;
+}
+
+.table-row {
+  height: @baseLineHeight !important;
+}
+
+.grid-item-fila {
+  .grid-item-base;
+  vertical-align:middle
+}
+
+ .mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding-left: 3px;
+  padding-right: 3px;
+ }
+
+
+ .grid-item-h-fecha {
+  .grid-diseno-header;
+  padding-left: 5px;
+  min-width: 40px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-r-fecha {
+  .grid-item-base;
+  width: 40px; /* Ajusta el ancho mínimo de cada celda */
+  text-align:center;
+}
+
+.grid-item-h-itemcode {
+  .grid-diseno-header;
+  min-width: 40px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-r-itemcode {
+  .grid-item-base;
+  width: 50px; /* Ajusta el ancho mínimo de cada celda */
+  text-align: center;
+}
+
+.grid-item-h_descrip {
+  .grid-diseno-header;
+  min-width: 120px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-r_descrip {
+  .grid-item-base;
+  width: 180px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-h_snf {
+  .grid-diseno-header;
+  min-width: 80px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-r_snf {
+  .grid-item-base;
+  width: 120px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-h_guia {
+  .grid-diseno-header;
+  min-width: 50px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-r_guia {
+  .grid-item-base;
+  width: 50px; /* Ajusta el ancho mínimo de cada celda */
+  text-align: right;
+}
+
+.grid-item-h_cant {
+  .grid-diseno-header;
+  min-width: 60px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-r_cant {
+  .grid-item-base;
+  width: 60px; /* Ajusta el ancho mínimo de cada celda */
+  text-align: right;
+}
+
+.grid-item-h-nombre {
+  .grid-diseno-header;
+  min-width: 80px; /* Ajusta el ancho mínimo de cada celda */
+}
+
+.grid-item-r-nombre {
+  .grid-item-base;
+  width: 110px; /* Ajusta el ancho mínimo de cada celda */
+}

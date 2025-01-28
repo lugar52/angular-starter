@@ -120,6 +120,8 @@ displayedColumns = ['acciones',
     PATIO_DESCRIPCION: '',
     isEdit: false,
     isSelected: false,
+    CANT_DESPACHOS: 0,
+    STOCK: 0,
   }
   titulo: any = '';
 

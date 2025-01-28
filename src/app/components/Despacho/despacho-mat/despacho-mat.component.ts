@@ -6,15 +6,19 @@ import { FormBuilder,
   ReactiveFormsModule,
   Validators,  } from '@angular/forms';
 
-  import {MatIconModule} from '@angular/material/icon';
-  import {MatDividerModule} from '@angular/material/divider';
-  import {MatButtonModule} from '@angular/material/button';
+import { Subscription, tap, lastValueFrom } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+
+import {  MatIconModule } from '@angular/material/icon';
+import {  MatDividerModule } from '@angular/material/divider';
+import {  MatButtonModule } from '@angular/material/button';
 
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Perneria, regDespacho } from '../../../model/perneria'
+import { Perneria, RegDespacho } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
+import { DespachoListComponent } from '../despacho-list/despacho-list.component'
 
 @Component({
   selector: 'app-despacho-mat',
@@ -23,7 +27,8 @@ import { PerneriaService } from '../../../services/perneria.service'
     ReactiveFormsModule,
     MatIconModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    DespachoListComponent
   ],
   templateUrl: './despacho-mat.component.html',
   styleUrl: './despacho-mat.component.less'
@@ -67,31 +72,38 @@ export class DespachoMatComponent {
     PATIO_DESCRIPCION: '',
     isEdit: true,
     isSelected: false,
+    CANT_DESPACHOS: 0,
+    STOCK: 0,
   }
 
-  despacho: regDespacho = {
+  regdespacho: RegDespacho = {
     id_perno: 0,
     Fecha_despacho: '' ,
-    Codigo: 0 ,
+    Hora_despacho: '' ,
+    Codigo: '' ,
     descricpcion: '' ,
     snf: '' ,
     stock_Inicial: 0,
     cantidad: 0,
     peso_despacho: 0,
     lugar_despacho: 0,
+    lugar_descripcion: '',
     destino: 0,
+    destino_descripcion: '',
     rut_Retira: '',
     Nombre_retira: '',
     stock_final: 0,
-    guia: '',
+    guia: 0,
   }
+
+  MiId: number = 0
 
   constructor(
     private router: Router,
     private perneriaService: PerneriaService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-
+    @Inject(ToastrService) private toastr: ToastrService,
     )
     {
       this.createControlForm();
@@ -102,7 +114,9 @@ export class DespachoMatComponent {
 
       console.log(this.id)
 
-      this.perneriaService.getPerneriaSel(this.id).subscribe( data => {
+      localStorage.setItem("iddespacho", this.id.toString())
+
+       this.perneriaService.getPerneriaSel(this.id).subscribe( data => {
         this.Registro_Sel = data[0];
         console.log('this.Registro_Sel ', this.Registro_Sel)
 
@@ -143,11 +157,11 @@ export class DespachoMatComponent {
         _ITEMCODE:  [this.Registro_Sel.ITEMCODE] ,
         _DESCRIPCION:  [this.Registro_Sel.TIPOELEM_DESCRIPCION] ,
         _SNF:  [this.Registro_Sel.SNF] ,
-        _STOCK: [this.Registro_Sel.CANTIDAD_TERRENO] ,
+        _STOCK: [this.Registro_Sel.STOCK] ,
         _PESOTOTAL: [this.Registro_Sel.PESO_TOTAL] ,
         _CANTIDAD:  [0] ,
         _PESOUNITARIO: [0] ,
-        _LUGAR_DESPACHO:  [''] ,
+        _LUGAR_DESPACHO:  [this.Registro_Sel.DISPO_DESCRIPCION] ,
         _GUIA:  [''] ,
         _DESTINO:  [''] ,
         _FECHA_DESPACHO:  [formattedDate] ,
@@ -159,26 +173,36 @@ export class DespachoMatComponent {
 
     calculaPeso(formValue: any) {
 
-      const mipeso = Number(formValue._CANTIDAD) * Number(this.Registro_Sel.PESO_UNITARIO)
-      console.log(mipeso)
+      const miStock = Number(this.Registro_Sel.CANTIDAD_TERRENO) - Number(formValue._CANTIDAD)
+      console.log(Number(formValue._CANTIDAD) + ' ' + Number(miStock))
 
-      this.form_Despacho = this.formBuilder.group({
-        _ID_PERNO:  [this.Registro_Sel.ID_PERNO] ,
-        _ITEMCODE:  [this.Registro_Sel.ITEMCODE] ,
-        _DESCRIPCION:  [this.Registro_Sel.TIPOELEM_DESCRIPCION] ,
-        _SNF:  [this.Registro_Sel.SNF] ,
-        _STOCK: [this.Registro_Sel.CANTIDAD_TERRENO] ,
-        _PESOTOTAL: [this.Registro_Sel.PESO_TOTAL] ,
-        _CANTIDAD:  [formValue._CANTIDAD] ,
-        _PESOUNITARIO:  [mipeso],
-        _LUGAR_DESPACHO:  [formValue._LUGAR_DESPACHO],
-        _GUIA:  [formValue._GUIA],
-        _DESTINO:  [formValue._DESTINO],
-        _FECHA_DESPACHO:   [formValue._FECHA_DESPACHO] ,
-        _RUT_RETIRA:  [formValue._RUT_RETIRA],
-        _NOMBRE_RETIRA:  [formValue._NOMBRE_RETIRA],
+      if (Number(formValue._CANTIDAD) < Number(miStock)) {
+        const mipeso = Number(formValue._CANTIDAD) * Number(this.Registro_Sel.PESO_UNITARIO)
 
-      })
+        this.form_Despacho = this.formBuilder.group({
+          _ID_PERNO:  [this.Registro_Sel.ID_PERNO] ,
+          _ITEMCODE:  [this.Registro_Sel.ITEMCODE] ,
+          _DESCRIPCION:  [this.Registro_Sel.TIPOELEM_DESCRIPCION] ,
+          _SNF:  [this.Registro_Sel.SNF] ,
+          _STOCK: [miStock] ,
+          _PESOTOTAL: [this.Registro_Sel.PESO_TOTAL] ,
+          _CANTIDAD:  [formValue._CANTIDAD] ,
+          _PESOUNITARIO:  [mipeso],
+          _LUGAR_DESPACHO:  [formValue._LUGAR_DESPACHO],
+          _GUIA:  [formValue._GUIA],
+          _DESTINO:  [formValue._DESTINO],
+          _FECHA_DESPACHO:   [formValue._FECHA_DESPACHO] ,
+          _RUT_RETIRA:  [formValue._RUT_RETIRA],
+          _NOMBRE_RETIRA:  [formValue._NOMBRE_RETIRA],
+
+        })
+      }
+      else {
+
+        console.log("Error en cantidad ingresada")
+        this.FillControlDespacho()
+      }
+
 
     }
 
@@ -189,25 +213,52 @@ export class DespachoMatComponent {
 
     GrabarDespacho(formvalue: any) {
 
+
       console.log(formvalue)
-        this.despacho.id_perno = formvalue._ID_PERNO
-        this.despacho.Fecha_despacho = formvalue._FECHA_DESPACHO
-        this.despacho.Codigo = formvalue._ITEMCODE
-        this.despacho.descricpcion = formvalue._DESCRIPCION
-        this.despacho.snf = formvalue._SNF
-        this.despacho.stock_Inicial = formvalue._STOCK
-        this.despacho.cantidad = formvalue._CANTIDAD
-        this.despacho.stock_final = Number(formvalue._STOCK) - Number(formvalue._CANTIDAD)
-        this.despacho.peso_despacho = formvalue._PESOUNITARIO
-        this.despacho.lugar_despacho = formvalue._LUGAR_DESPACHO
-        this.despacho.destino = formvalue._DESTINO
-        this.despacho.rut_Retira = formvalue._RUT_RETIRA
-        this.despacho.Nombre_retira = formvalue._NOMBRE_RETIRA
-        this.despacho.stock_final = formvalue._GUIA,
-        this.despacho.guia = formvalue._GUIA
+        this.regdespacho.id_perno = Number(formvalue._ID_PERNO)
+        this.regdespacho.Fecha_despacho = formvalue._FECHA_DESPACHO.split(",")[0].trim()
+        this.regdespacho.Hora_despacho = formvalue._FECHA_DESPACHO.split(",")[1].trim()
+        this.regdespacho.Codigo = formvalue._ITEMCODE
+        this.regdespacho.descricpcion = formvalue._DESCRIPCION
+        this.regdespacho.snf = formvalue._SNF
+        this.regdespacho.stock_Inicial = Number(formvalue._STOCK) + Number(formvalue._CANTIDAD)
+        this.regdespacho.cantidad = Number(formvalue._CANTIDAD)
+        this.regdespacho.stock_final = Number(formvalue._STOCK)
+        this.regdespacho.peso_despacho = Number(formvalue._PESOUNITARIO)
+        this.regdespacho.lugar_despacho = Number(this.Registro_Sel.DISPOSICION_FINAL)
+        this.regdespacho.destino = Number(formvalue._DESTINO)
+        this.regdespacho.rut_Retira = formvalue._RUT_RETIRA
+        this.regdespacho.Nombre_retira = formvalue._NOMBRE_RETIRA
+        this.regdespacho.guia = Number(formvalue._GUIA)
 
-        console.log(this.despacho)
+        console.log(this.regdespacho)
 
+            this.perneriaService.despacho(this.regdespacho).pipe(
+                tap(res => {
+                  console.log(res)
+                  if (res.status_code == 200 ) {
+
+                    this.toastr.success('Se ha guardado la información exitosamente!', 'Control Patio');
+
+                    let  myurl = `${'despacholist'}/${this.regdespacho.id_perno}`;
+                    this.router.navigate([myurl]  ).then(e => {
+                      if (e) {
+                      } else {
+                        console.log('error: ', e)
+                      }
+                    });
+                  }
+
+                  else {
+                    this.toastr.error('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
+                  }
+                })
+              )
+              .subscribe({
+                  error: (err) => {
+                    this.toastr.info('Control Patio', 'Se ha producido un error, Inténtelo nuevamente');
+                  },
+              });
     }
 
     volverListado() {
@@ -221,3 +272,5 @@ export class DespachoMatComponent {
     }
 
 }
+
+
