@@ -42,7 +42,7 @@ import { PerneriaService } from '../../../services/perneria.service'
 
   ],
   templateUrl: './despacho-list.component.html',
-  styleUrl: './despacho-list.component.less',
+  styleUrl: './despacho-list.component.scss',
   providers: [DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'es'}]
 })
 export class DespachoListComponent  {
