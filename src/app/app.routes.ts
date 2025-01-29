@@ -14,7 +14,6 @@ export const routes: Routes = [
 /*   { path: 'perneria', component: PerneriaListComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full'}, */
 
-  { path: 'perneria', loadComponent: () => import('./components/Perneria/perneria-list/perneria-list.component') .then(m => m.PerneriaListComponent )},
   { path: 'perneria-new', loadComponent: () => import('./components/Perneria/perneria-newlist/perneria-newlist.component') .then(m => m.PerneriaNewlistComponent )},
   { path: 'materiales', loadComponent: () => import('./components/Materiales/materiales-list/materiales-list.component') .then(m => m.MaterialesListComponent )},
 ];

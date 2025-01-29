@@ -11,9 +11,6 @@ export const routes: Routes = [
             { path: 'equipos', loadComponent: () => import('./components/equipos/equipos-list/equipos-list.component') .then(m => m.EquiposListComponent )},
             { path: 'materiales', loadComponent: () => import('./components/Materiales/materiales-list/materiales-list.component') .then(m => m.MaterialesListComponent )},
 
-            { path: 'pendientes', loadComponent: () => import('./components/Perneria/perneria-list/perneria-list.component') .then(m => m.PerneriaListComponent )},
-            { path: 'entregada', loadComponent: () => import('./components/Perneria/perneria-list/perneria-list.component') .then(m => m.PerneriaListComponent )},
-
             { path: 'perneria/id', loadComponent: () => import('./components/Perneria/despacho-id/despacho-id.component') .then(m => m.PerneriaIdComponent )},
 
             { path: 'pendientes-new', loadComponent: () => import('./components/Perneria/perneria-newlist/perneria-newlist.component') .then(m => m.PerneriaNewlistComponent )},
