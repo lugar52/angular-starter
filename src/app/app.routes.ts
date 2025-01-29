@@ -15,5 +15,5 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'}, */
 
   { path: 'perneria-new', loadComponent: () => import('./components/Perneria/perneria-newlist/perneria-newlist.component') .then(m => m.PerneriaNewlistComponent )},
-  { path: 'materiales', loadComponent: () => import('./components/Materiales/materiales-list/materiales-list.component') .then(m => m.MaterialesListComponent )},
+  
 ];
