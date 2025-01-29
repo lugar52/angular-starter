@@ -74,6 +74,7 @@ export class DespachoMatComponent {
     isSelected: false,
     CANT_DESPACHOS: 0,
     STOCK: 0,
+    INGRESOS: 0
   }
 
   regdespacho: RegDespacho = {
@@ -169,15 +170,17 @@ export class DespachoMatComponent {
         _NOMBRE_RETIRA:  [''] ,
 
       })
+      localStorage.setItem("Stock_despacho", this.Registro_Sel.STOCK.toString())
     }
 
     calculaPeso(formValue: any) {
 
-      const miStock = Number(this.Registro_Sel.CANTIDAD_TERRENO) - Number(formValue._CANTIDAD)
-      console.log(Number(formValue._CANTIDAD) + ' ' + Number(miStock))
+      const StockReal = localStorage.getItem("Stock_despacho")
+      console.log(Number(formValue._CANTIDAD) + ' ' + Number(StockReal))
 
-      if (Number(formValue._CANTIDAD) < Number(miStock)) {
+      if (Number(formValue._CANTIDAD) <= Number(StockReal)) {
         const mipeso = Number(formValue._CANTIDAD) * Number(this.Registro_Sel.PESO_UNITARIO)
+        const miStock: number = Number(StockReal) - Number(formValue._CANTIDAD)
 
         this.form_Despacho = this.formBuilder.group({
           _ID_PERNO:  [this.Registro_Sel.ID_PERNO] ,

@@ -34,6 +34,7 @@ export interface Perneria {
      isSelected?: boolean;
      CANT_DESPACHOS: number;
      STOCK: number;
+     INGRESOS: number;
 }
 
 export const PernoColumns = [
@@ -141,7 +142,7 @@ export const PernoColumns = [
     readonly:false,
     disabled: false
   },
-  
+
   {
     key: 'DIFERENCIA',
     type: 'textCant',
@@ -173,6 +174,14 @@ export const PernoColumns = [
     required: true,
     readonly:false,
     disabled: true
+  },
+  {
+    key: 'INGRESOS',
+    type: 'number',
+    label: 'INGRESOS',
+    required: true,
+    readonly:false,
+    disabled: false
   },
   {
     key: 'CANT_DESPACHOS',

@@ -116,11 +116,9 @@ export class PerneriaNewlistComponent {
    this.titulo = localStorage.getItem("Seleccion")
     var resultado = (this.titulo != null ) ? this.titulo.split("/")[3] : "Perneria";
     this.titulo = resultado
-    console.log("INi ", this.hayDatos)
+
     let miDatos: any = localStorage.getItem('dataUpdate')
     this.datos = JSON.parse(miDatos)
-
-
 
     //console.log("columnsSchema: ", this.columnsSchema)
   }
@@ -133,10 +131,8 @@ export class PerneriaNewlistComponent {
       this.dataSource = new MatTableDataSource(this.listaPerneria);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(this.listaPerneria)
 
       this.hayDatos  = true
-      console.log("per ", this.hayDatos)
     });
 
       //this.dataSource.sort = this.sort;
@@ -159,19 +155,17 @@ export class PerneriaNewlistComponent {
         this.listaPerneria[index].ID_COORDENADA = 0
       }
       const datos = {
-              Cantidad_Terreno:  Number(this.listaPerneria[index].CANTIDAD_TERRENO),
-              Tipo_Elemento: Number(this.listaPerneria[index].TIPO_ELEMENTO),
-              Tunel: Number(this.listaPerneria[index].TUNEL),
-              Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
-              Proveedor: Number(this.listaPerneria[index].PROVEEDOR),
-              Patio: Number(this.listaPerneria[index].PATIO),
-              SubPatio: Number(this.listaPerneria[index].ID_SUBPATIO),
-              Coordenada: Number(this.listaPerneria[index].ID_COORDENADA),
-              porcentaje: Number(this.listaPerneria[index].PORCENTAJE),
-              Diferencia: Number(this.listaPerneria[index].DIFERENCIA),
-              Fecha_llegada: this.listaPerneria[index].FECHA_LLEGADA,
-              Observacion: this.listaPerneria[index].OBSERVACION,
-              Stock: Number(this.listaPerneria[index].STOCK),
+        Tunel: Number(this.listaPerneria[index].TUNEL),
+        Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
+        Patio: Number(this.listaPerneria[index].PATIO),
+        SubPatio: Number(this.listaPerneria[index].ID_SUBPATIO),
+        Coordenada: Number(this.listaPerneria[index].ID_COORDENADA),
+        Fecha_llegada: this.listaPerneria[index].FECHA_LLEGADA,
+        Observacion: this.listaPerneria[index].OBSERVACION,
+        Cantidad_Terreno:  Number(this.listaPerneria[index].CANTIDAD_TERRENO),
+        Diferencia: Number(this.listaPerneria[index].DIFERENCIA),
+        Stock: Number(this.listaPerneria[index].STOCK),
+        porcentaje: Number(this.listaPerneria[index].PORCENTAJE),
       }
 
       localStorage.setItem("dataUpdate", JSON.stringify(datos) )
@@ -195,10 +189,8 @@ export class PerneriaNewlistComponent {
 
       this.datos = JSON.parse(storedData);
       this.dataSource.data[idx].CANTIDAD_TERRENO = this.datos.Cantidad_Terreno
-      this.dataSource.data[idx].TIPO_ELEMENTO = this.datos.Tipo_Elemento
       this.dataSource.data[idx].TUNEL = this.datos.Tunel
       this.dataSource.data[idx].DISPOSICION_FINAL = this.datos.Disposicion_Final
-      this.dataSource.data[idx].PROVEEDOR = this.datos.Proveedor
       this.dataSource.data[idx].PATIO = this.datos.Patio
       this.dataSource.data[idx].ID_SUBPATIO = this.datos.Subpatio
       this.dataSource.data[idx].ID_COORDENADA = this.datos.Coordenada
@@ -225,10 +217,9 @@ export class PerneriaNewlistComponent {
       this.DatosUpdate.Tunel = elem.TUNEL
       this.DatosUpdate.Disposicion_Final = elem.DISPOSICION_FINAL
       this.DatosUpdate.Cantidad_Terreno = elem.CANTIDAD_TERRENO
-      // this.DatosUpdate.Diferencia =  Number(elem.CANTIDAD_TERRENO) - Number(elem.CANTIDAD_SNF)
 
-      this.DatosUpdate.Diferencia = (Number(elem.CANTIDAD_TERRENO) + Number(elem.STOCK)) - Number(elem.CANTIDAD_SNF)
-      this.DatosUpdate.Stock = elem.STOCK + Number(elem.CANTIDAD_TERRENO)
+      this.DatosUpdate.Diferencia = elem.DIFERENCIA
+      this.DatosUpdate.Stock = elem.STOCK
 
       this.DatosUpdate.Patio = elem.PATIO
 
@@ -308,9 +299,6 @@ export class PerneriaNewlistComponent {
     const storedData: any = localStorage.getItem("dataUpdate")
     this.datos = JSON.parse(storedData);
      switch (key) {
-       case 'TIPOELEM_DESCRIPCION':
-
-          break;
         case 'TUNEL_DESCRIPCION':
           this.DatosUpdate.Tunel = e.target.value
           break;
@@ -331,33 +319,38 @@ export class PerneriaNewlistComponent {
     console.log(this.DatosUpdate)
   }
 
-  Func_Percent(id: number, elem: any, cantTerr: string): number {
-    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
-    const percent = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 4 }).format((Number(cantTerr)/Number(elem.CANTIDAD_SNF))*100)
+  Func_Percent(id: number, elem: any, Ingresos: string): number {
 
-    this.dataSource.data[index].CANTIDAD_TERRENO = Number(cantTerr)
+    const storedData = localStorage.getItem("dataUpdate")
+    if (storedData) {
+      this.datos = JSON.parse(storedData);
+      this.datos.Cantidad_Terreno
+    }
+
+    const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
+
+    const TotIngresos = Number(this.datos.Cantidad_Terreno) + Number(Ingresos)
+
+    const percent = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 4 }).format((Number(TotIngresos)/Number(elem.CANTIDAD_SNF))*100)
     this.dataSource.data[index].PORCENTAJE = Number(percent)
 
-
-    this.dataSource.data[index].STOCK = Number(this.dataSource.data[index].STOCK) + Number(cantTerr)
-
-    this.dataSource.data[index].DIFERENCIA = (Number(cantTerr) + Number(this.dataSource.data[index].STOCK)) - Number(elem.CANTIDAD_SNF)
-
-    //
+    this.dataSource.data[index].CANTIDAD_TERRENO = Number(TotIngresos)
+    this.dataSource.data[index].STOCK = Number(this.datos.Stock) + Number(Ingresos)
 
 
-    //
+    this.dataSource.data[index].DIFERENCIA = Number(TotIngresos) - Number(elem.CANTIDAD_SNF)
+
+    this.dataSource.data[index].INGRESOS = 0
 
     // this.DatosUpdate.Diferencia = Number(elem.DIFERENCIA)  - Number(elem.CANTIDAD_TERRENO)
 
-    this.DatosUpdate.Diferencia = this.dataSource.data[index].DIFERENCIA
+/*     this.DatosUpdate.Diferencia = this.dataSource.data[index].DIFERENCIA
     this.DatosUpdate.Stock = this.dataSource.data[index].STOCK
     this.DatosUpdate.Cantidad_Terreno = this.DatosUpdate.Stock
 
     console.log(this.dataSource.data[index].CANTIDAD_TERRENO + ' ' + this.dataSource.data[index].STOCK)
-    this.dataSource.data[index].CANTIDAD_TERRENO = this.dataSource.data[index].STOCK
+    this.dataSource.data[index].CANTIDAD_TERRENO = this.dataSource.data[index].STOCK */
 
-    console.log(this.DatosUpdate)
     return index
   }
 
@@ -408,6 +401,7 @@ export class PerneriaNewlistComponent {
       isSelected: false,
       CANT_DESPACHOS: 0,
       STOCK: 0,
+      INGRESOS: 0,
     }
     this.dataSource.data = [newRow, ...this.dataSource.data]
   }
@@ -464,7 +458,5 @@ export class PerneriaNewlistComponent {
       }
     });
   }
-
-
 
 }

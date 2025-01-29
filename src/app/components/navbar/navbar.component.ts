@@ -13,6 +13,7 @@ export class NavbarComponent {
 
   miClick(id: number) {
     console.log(id)
+    localStorage.removeItem('dataUpdate');
     switch (id) {
 
       case 1:

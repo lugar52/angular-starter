@@ -122,6 +122,7 @@ displayedColumns = ['acciones',
     isSelected: false,
     CANT_DESPACHOS: 0,
     STOCK: 0,
+    INGRESOS: 0,
   }
   titulo: any = '';
 
