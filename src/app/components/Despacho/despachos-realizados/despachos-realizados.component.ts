@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
@@ -37,7 +36,7 @@ import { PerneriaService } from '../../../services/perneria.service'
     MatProgressBarModule,
     MatBadgeModule,
     MatDatepickerModule,
-    MatMomentDateModule,],
+  ],
   templateUrl: './despachos-realizados.component.html',
   styleUrl: './despachos-realizados.component.scss'
 })

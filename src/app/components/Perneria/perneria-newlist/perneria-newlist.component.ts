@@ -22,7 +22,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDatepickerInputEvent, MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { Perneria, PernoColumns, DatosAGrabar } from '../../../model/perneria'
@@ -48,11 +47,9 @@ import dayjs from 'dayjs';
     MatProgressBarModule,
     MatBadgeModule,
     MatDatepickerModule,
-    MatMomentDateModule,
     FormsModule,
     FormsModule,
     MatTooltipModule,
-
   ],
   templateUrl: './perneria-newlist.component.html',
   styleUrl: './perneria-newlist.component.less',
