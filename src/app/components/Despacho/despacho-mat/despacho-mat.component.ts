@@ -18,7 +18,7 @@ import { filter } from 'rxjs/operators';
 
 import { Perneria, RegDespacho } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
-import { DespachoListComponent } from '../despacho-list/despacho-list.component'
+import { DespachosRealizadosComponent } from '../despachos-realizados/despachos-realizados.component'
 
 @Component({
   selector: 'app-despacho-mat',
@@ -28,7 +28,7 @@ import { DespachoListComponent } from '../despacho-list/despacho-list.component'
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
-    DespachoListComponent
+    DespachosRealizadosComponent
   ],
   templateUrl: './despacho-mat.component.html',
   styleUrl: './despacho-mat.component.less'
