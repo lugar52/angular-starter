@@ -10,9 +10,7 @@ tags:
 
 # Angular + TypeScript + Caddy
 
-This project was originally generated with [`ng new my-app`](https://angular.dev/tools/cli/setup-local#create-a-workspace-and-initial-application)
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/13NBfA?referralCode=brody)
 
 ## ✨ Features
 

@@ -30,7 +30,6 @@ import { PerneriaService } from '../../../services/perneria.service'
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
 import dayjs from 'dayjs';
 import 'moment/locale/es';
-import moment from 'moment';
 
 @Component({
   selector: 'app-perneria-newlist',

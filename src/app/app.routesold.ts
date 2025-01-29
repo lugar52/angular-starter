@@ -9,7 +9,6 @@ export const routes: Routes = [
         children:
         [
             { path: 'equipos', loadComponent: () => import('./components/equipos/equipos-list/equipos-list.component') .then(m => m.EquiposListComponent )},
-            { path: 'materiales', loadComponent: () => import('./components/Materiales/materiales-list/materiales-list.component') .then(m => m.MaterialesListComponent )},
 
             { path: 'perneria/id', loadComponent: () => import('./components/Perneria/despacho-id/despacho-id.component') .then(m => m.PerneriaIdComponent )},
 
