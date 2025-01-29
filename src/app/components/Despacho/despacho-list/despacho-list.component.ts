@@ -80,7 +80,6 @@ export class DespachoListComponent  {
       'guia', 'Fecha_despacho', 'Hora_despacho', 'Item_Code', 'descricpcion', 'snf', 'stock_Inicial', 'cantidad' , 'stock_final'  , 'peso_despacho' , 'rut_Retira', 'Nombre_retira' , 'lugar_descripcion', 'destino_descrip'];
 
   titulo: any = '';
-
   MiCodigo: number = 0
 
   constructor(
@@ -114,10 +113,9 @@ export class DespachoListComponent  {
   }
 
   applyFilter(filterValue: any) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
  };
-
 
 }
