@@ -29,7 +29,6 @@ import { Perneria, PernoColumns, DatosAGrabar } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
 import dayjs from 'dayjs';
-import 'moment/locale/es';
 
 @Component({
   selector: 'app-perneria-newlist',
