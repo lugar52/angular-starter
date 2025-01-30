@@ -16,9 +16,9 @@ import {  MatButtonModule } from '@angular/material/button';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Perneria, RegDespacho } from '../../../model/perneria'
+import { Perneria, RegMovimientoStock } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
-import { DespachosRealizadosComponent } from '../despachos-realizados/despachos-realizados.component'
+import { DespachoListComponent } from '../despacho-list/despacho-list.component'
 
 @Component({
   selector: 'app-despacho-mat',
@@ -28,7 +28,7 @@ import { DespachosRealizadosComponent } from '../despachos-realizados/despachos-
     MatIconModule,
     MatDividerModule,
     MatButtonModule,
-    DespachosRealizadosComponent
+    DespachoListComponent
   ],
   templateUrl: './despacho-mat.component.html',
   styleUrl: './despacho-mat.component.less'
@@ -50,7 +50,7 @@ export class DespachoMatComponent {
     TIPO_ELEMENTO: '',
     MARCA: '',
     MARCA2: '',
-    TUNEL: '',
+    TUNEL: 0,
     DISPOSICION_FINAL: '',
     CANTIDAD_SNF: 0,
     CANTIDAD_TERRENO: 0,
@@ -77,7 +77,8 @@ export class DespachoMatComponent {
     INGRESOS: 0
   }
 
-  regdespacho: RegDespacho = {
+  regdespacho: RegMovimientoStock = {
+    tipo_movimiento: 0,
     id_perno: 0,
     Fecha_despacho: '' ,
     Hora_despacho: '' ,
@@ -96,6 +97,8 @@ export class DespachoMatComponent {
     stock_final: 0,
     guia: 0,
   }
+
+  DESPACHO: number = 2
 
   MiId: number = 0
 
@@ -218,6 +221,7 @@ export class DespachoMatComponent {
 
 
       console.log(formvalue)
+        this.regdespacho.tipo_movimiento = this.DESPACHO
         this.regdespacho.id_perno = Number(formvalue._ID_PERNO)
         this.regdespacho.Fecha_despacho = formvalue._FECHA_DESPACHO.split(",")[0].trim()
         this.regdespacho.Hora_despacho = formvalue._FECHA_DESPACHO.split(",")[1].trim()

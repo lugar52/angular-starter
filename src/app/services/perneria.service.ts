@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpStatusCode, HttpErrorResponse } from  '@an
 import { catchError, lastValueFrom, shareReplay, throwError } from 'rxjs';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Perneria, DatosAGrabar, RegDespacho } from '../model/perneria'
+import { Perneria, DatosAGrabar, RegMovimientoStock } from '../model/perneria'
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,9 @@ export class PerneriaService {
     private http: HttpClient,
     ) {
 
-      this.API_URL = 'https://myfastapi-production.up.railway.app'
+      // this.API_URL = 'https://myfastapi-production.up.railway.app'
 
-      // this.API_URL = 'http://127.0.0.1:8000'
+      this.API_URL = 'http://127.0.0.1:8000'
 
       console.log(this.API_URL)
 
@@ -89,14 +89,19 @@ export class PerneriaService {
     );
   }
 
-  despacho(Mireg: RegDespacho): Observable<any> {
+  despacho(Mireg: RegMovimientoStock): Observable<any> {
     console.log(Mireg)
-    return this.http.post(`${this.API_URL}/api/despachos/ingresos`, Mireg)
+    return this.http.post(`${this.API_URL}/api/movimientos/despacho`, Mireg)
+  }
+
+  Ingresos(MiregIngreso: RegMovimientoStock): Observable<any> {
+    console.log("servicio ingresos: ", MiregIngreso)
+    return this.http.post(`${this.API_URL}/api/movimientos/ingresos`, MiregIngreso)
   }
 
   getDespachos(id: number) {
     const od: number = 0
-    return this.http.get<any[]>(`${this.API_URL}/api/despachos/get_idpernos/${id}`)
+    return this.http.get<any[]>(`${this.API_URL}/api/movimientos/get_idpernos/${id}`)
     //.pipe<Perneria[]>(map((data: any) => data.pernos));
   }
 

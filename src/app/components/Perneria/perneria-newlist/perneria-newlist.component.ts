@@ -24,10 +24,12 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatDatepickerInputEvent, MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
-import { Perneria, PernoColumns, DatosAGrabar } from '../../../model/perneria'
+import { Perneria, PernoColumns, DatosAGrabar, RegMovimientoStock } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
 import dayjs from 'dayjs';
+import 'moment/locale/es';
+import moment from 'moment';
 
 @Component({
   selector: 'app-perneria-newlist',
@@ -50,6 +52,7 @@ import dayjs from 'dayjs';
     FormsModule,
     FormsModule,
     MatTooltipModule,
+
   ],
   templateUrl: './perneria-newlist.component.html',
   styleUrl: './perneria-newlist.component.less',
@@ -89,6 +92,27 @@ export class PerneriaNewlistComponent {
   }
   DatosOriginales?: Perneria
 
+  regMovim: RegMovimientoStock = {
+    tipo_movimiento: 0,
+    id_perno: 0,
+    Fecha_despacho: '',
+    Hora_despacho: '',
+    Codigo: '',
+    descricpcion: '',
+    snf: '',
+    stock_Inicial: 0,
+    cantidad: 0,
+    stock_final: 0,
+    guia: 0,
+    peso_despacho: 0,
+    lugar_despacho: 0,
+    lugar_descripcion: '',
+    destino: 0,
+    destino_descripcion: '',
+    rut_Retira: '',
+    Nombre_retira: '',
+  }
+
   valorDisable = false
 
   datos: any
@@ -122,7 +146,7 @@ export class PerneriaNewlistComponent {
 
     this.perneriaService.getPernos().subscribe(data => {
       this.listaPerneria = data;
-
+      console.log("this.listaPerneria: ", this.listaPerneria)
       this.dataSource = new MatTableDataSource(this.listaPerneria);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -149,6 +173,7 @@ export class PerneriaNewlistComponent {
       if (this.listaPerneria[index].ID_COORDENADA == null) {
         this.listaPerneria[index].ID_COORDENADA = 0
       }
+      this.dataSource.data[index].GUIA = 0
       const datos = {
         Tunel: Number(this.listaPerneria[index].TUNEL),
         Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
@@ -223,6 +248,7 @@ export class PerneriaNewlistComponent {
       this.DatosUpdate.Coordenada =  elem.ID_COORDENADA
 
       const midate = this.formatDate(elem.FECHA_LLEGADA)
+      console.log("Fecha: ", midate)
 
       this.DatosUpdate.Fecha_llegada = midate  // elem.FECHA_LLEGADA
       this.DatosUpdate.Observacion = elem.OBSERVACION
@@ -230,13 +256,14 @@ export class PerneriaNewlistComponent {
     this.perneriaService.updatePerno(id, this.DatosUpdate).pipe(
         tap(res => {
           console.log(this.DatosUpdate)
-          if (res.status_code == 200 )
-
+          if (res.status_code == 200 ) {
             this.toastr.success('Se ha guardado la información exitosamente!', 'Control Patio');
-          else {
-            this.toastr.error('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
+            this.LlenaregMovim(id, elem, this.DatosUpdate)
           }
-        } )
+            else {
+              this.toastr.error('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
+          }
+        })
       )
       .subscribe({
           error: (err) => {
@@ -335,16 +362,7 @@ export class PerneriaNewlistComponent {
 
     this.dataSource.data[index].DIFERENCIA = Number(TotIngresos) - Number(elem.CANTIDAD_SNF)
 
-    this.dataSource.data[index].INGRESOS = 0
-
-    // this.DatosUpdate.Diferencia = Number(elem.DIFERENCIA)  - Number(elem.CANTIDAD_TERRENO)
-
-/*     this.DatosUpdate.Diferencia = this.dataSource.data[index].DIFERENCIA
-    this.DatosUpdate.Stock = this.dataSource.data[index].STOCK
-    this.DatosUpdate.Cantidad_Terreno = this.DatosUpdate.Stock
-
-    console.log(this.dataSource.data[index].CANTIDAD_TERRENO + ' ' + this.dataSource.data[index].STOCK)
-    this.dataSource.data[index].CANTIDAD_TERRENO = this.dataSource.data[index].STOCK */
+    // this.dataSource.data[index].INGRESOS = 0
 
     return index
   }
@@ -372,7 +390,7 @@ export class PerneriaNewlistComponent {
       TIPO_ELEMENTO: '',
       MARCA: '',
       MARCA2: '',
-      TUNEL: '',
+      TUNEL: 0,
       DISPOSICION_FINAL: '',
       CANTIDAD_SNF: 0,
       CANTIDAD_TERRENO: 0,
@@ -443,7 +461,7 @@ export class PerneriaNewlistComponent {
     }))
   }
 
-  Despachar(id: number, elem: any, ) {
+  GotoDespachar(id: number, elem: any, ) {
 
     let  myurl = `${'despacho'}/${id}`;
     this.router.navigate([myurl], { queryParams: { message: id  }, queryParamsHandling: "merge" } ).then(e => {
@@ -453,5 +471,70 @@ export class PerneriaNewlistComponent {
       }
     });
   }
+
+  LlenaregMovim(id: number, elem: any, DatosUpdate: DatosAGrabar) {
+
+      const storedData = localStorage.getItem("dataUpdate")
+      if (storedData) {
+        this.datos = JSON.parse(storedData);
+      }
+
+      const d = new Date();
+
+      // Obtener el día, mes y año
+      const day = d.getDate().toString().padStart(2, '0');
+      const month = (d.getMonth() + 1).toString().padStart(2, '0');  // Meses de 0 a 11
+      const year = d.getFullYear();
+
+      const hor = d.getHours().toString().padStart(2, '0');
+      const min = d.getMinutes().toString().padStart(2, '0');
+      const seg = d.getSeconds().toString().padStart(2, '0');
+
+      this.regMovim.tipo_movimiento = 1
+      this.regMovim.id_perno = elem.ID_PERNO
+      this.regMovim.Fecha_despacho = `${day}-${month}-${year}`;
+      this.regMovim.Hora_despacho = `${hor}-${min}-${seg}`;
+      this.regMovim.Codigo = ''
+      this.regMovim.descricpcion = elem.TIPOELEM_DESCRIPCION
+      this.regMovim.snf = String(elem.CANTIDAD_SNF)
+      this.regMovim.stock_Inicial = this.datos.Stock
+      this.regMovim.cantidad = elem.INGRESOS
+      this.regMovim.stock_final = DatosUpdate.Stock
+      this.regMovim.peso_despacho = Number(elem.PESO_UNITARIO) * Number(elem.INGRESOS)
+      this.regMovim.lugar_despacho = elem.DISPOSICION_FINAL
+      this.regMovim.destino = elem.PATIO
+      this.regMovim.rut_Retira = ''
+      this.regMovim.Nombre_retira = ''
+      this.regMovim.guia = elem.GUIA
+
+      this.perneriaService.Ingresos(this.regMovim).pipe(
+        tap(res => {
+
+          if (res.status_code == 200 ) {
+
+            this.toastr.success('Se ha guardado la información exitosamente!', 'Control Patio');
+
+            let  myurl = `${'despacholist'}/${this.regMovim.id_perno}`;
+            this.router.navigate([myurl]  ).then(e => {
+              if (e) {
+              } else {
+                console.log('error: ', e)
+              }
+            });
+          }
+
+          else {
+            this.toastr.error('Se ha producido un error, Inténtelo nuevamente' , 'Control Patio');
+          }
+        })
+      )
+      .subscribe({
+          error: (err) => {
+            this.toastr.info('Control Patio', 'Se ha producido un error, Inténtelo nuevamente');
+          },
+      });
+
+    }
+
 
 }

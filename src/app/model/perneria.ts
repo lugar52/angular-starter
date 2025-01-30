@@ -9,7 +9,7 @@ export interface Perneria {
      TIPO_ELEMENTO?: string;
      MARCA?: string;
      MARCA2?: string;
-     TUNEL?: string;
+     TUNEL: number;
      DISPOSICION_FINAL?: string;
      CANTIDAD_SNF?: number;
      CANTIDAD_TERRENO?: number;
@@ -57,7 +57,7 @@ export const PernoColumns = [
     label: 'GUIA',
     required: true,
     readonly:false,
-    disabled: true
+    disabled: false
   },
 
   {
@@ -186,7 +186,7 @@ export const PernoColumns = [
   {
     key: 'CANT_DESPACHOS',
     type: 'number',
-    label: 'DESPACHOS',
+    label: 'DESPACHA DOS',
     required: true,
     readonly:true,
     disabled: true
@@ -303,7 +303,8 @@ export interface DatosAGrabar {
   Stock: number ;
 }
 
-export interface RegDespacho {
+export interface RegMovimientoStock {
+  tipo_movimiento: number;
   id_perno: number;
   Fecha_despacho: string ;
   Hora_despacho: string ;

@@ -1,0 +1,119 @@
+<div class="container" *ngIf="this.hayDatos">
+
+      <div class="row">
+        <div class="col-3" >
+        </div>
+        <div class="col-3" ></div>
+        <div class="col-3" ></div>
+        <div class="col-3" >
+          <div appearance="fill" class="full-width has-success" style="padding: 10px; align-content:start;" >
+            <mat-label style="padding-right: 20px;" >Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Search Columns" #input>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+       <div class="col-8">
+
+            <div class="grid-container">
+                <table mat-table [dataSource]="dataSource" matSort >
+
+                  <ng-container  matColumnDef="movim" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h_guia" style="max-width: 85px !important;">Movimientos</th>
+                    <div *matCellDef="let row">
+
+                        <td *ngIf="row.tipo_movimiento===2" mat-cell class="grid-item-r_guia" style="height: 25px; border-right: hidden;">DESPACHOS</td>
+                        <td *ngIf="row.tipo_movimiento===1" mat-cell class="grid-item-r_guia" style="height: 25px; border-right: hidden; width: 85px;" >INGRESOS</td>
+
+                    </div>
+                  </ng-container>
+
+                  <ng-container matColumnDef="guia" >
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h_guia">Guia</th>
+                    <td mat-cell class="grid-item-r_guia" *matCellDef="let row" [contentEditable]=true>{{row.guia}}</td>
+                  </ng-container>
+
+                    <ng-container matColumnDef="Fecha_despacho">
+                        <th mat-header-cell *matHeaderCellDef class="grid-item-h-fecha">Fecha</th>
+                        <td mat-cell class="grid-item-r-fecha" *matCellDef="let row" >{{row.Fecha_despacho}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Hora_despacho">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-fecha">Hora</th>
+                        <td mat-cell class="grid-item-r-fecha" *matCellDef="let row">{{row.Hora_despacho}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Item_Code">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-itemcode">Item Code</th>
+                        <td class="grid-item-r-itemcode" mat-cell *matCellDef="let row"> {{row.Codigo}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="descricpcion">
+                        <th mat-header-cell *matHeaderCellDef class="grid-item-h_descrip">Descripción</th>
+                        <td class="grid-item-r_descrip" mat-cell *matCellDef="let row"> {{row.Descripcion}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="snf">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h_snf">SNF</th>
+                        <td mat-cell class="grid-item-r_snf" *matCellDef="let row"> {{row.snf}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="stock_Inicial">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h_cant">Stock Inicial</th>
+                        <td class="grid-item-r_cant" mat-cell *matCellDef="let row"> {{row.stock_Inicial}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h_cant">Cantidad</th>
+                        <td mat-cell class="grid-item-r_cant" *matCellDef="let row">{{row.cantidad}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="stock_final">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h_cant">Stock Final</th>
+                      <td mat-cell class="grid-item-r_cant" *matCellDef="let row">{{row.stock_final}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="peso_despacho">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h_cant">Peso despacho</th>
+                        <td mat-cell class="grid-item-r_cant" *matCellDef="let row">{{row.peso_despacho}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lugar_descripcion" >
+                        <th mat-header-cell  *matHeaderCellDef mat-sort-header class="grid-item-h-nombre" >Lugar</th>
+                        <td mat-cell class="grid-item-r-nombre" *matCellDef="let row">{{row.lugar_descripcion}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="destino_descrip">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-nombre">Destino</th>
+                        <td mat-cell class="grid-item-r-nombre" *matCellDef="let row">{{row.destino_descripcion}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="rut_Retira">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-nombre">Solicitante</th>
+                        <td mat-cell class="grid-item-r-nombre" *matCellDef="let row">{{row.rut_Retira}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Nombre_retira" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-nombre">Nombre</th>
+                        <td mat-cell class="grid-item-r-nombre" *matCellDef="let row">{{row.Nombre_retira}}</td>
+                    </ng-container>
+
+
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns" > </tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns; " class="table-row"></tr>
+
+
+                </table>
+            </div>
+
+            <mat-paginator [pageSizeOptions]="[16, 40]" showFirstLastButtons aria-label="Select page of despachos" style="padding-top: 15px; "></mat-paginator>
+        </div>
+      </div>
+
+
+</div>
+
+
