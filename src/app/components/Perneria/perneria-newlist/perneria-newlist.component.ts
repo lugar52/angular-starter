@@ -248,11 +248,11 @@ export class PerneriaNewlistComponent {
       this.DatosUpdate.Coordenada =  elem.ID_COORDENADA
 
       const midate = this.formatDate(elem.FECHA_LLEGADA)
-      console.log("Fecha: ", midate)
 
       this.DatosUpdate.Fecha_llegada = midate  // elem.FECHA_LLEGADA
       this.DatosUpdate.Observacion = elem.OBSERVACION
-
+      console.log("this.DatosUpdate: ", this.DatosUpdate)
+      
     this.perneriaService.updatePerno(id, this.DatosUpdate).pipe(
         tap(res => {
           console.log(this.DatosUpdate)
