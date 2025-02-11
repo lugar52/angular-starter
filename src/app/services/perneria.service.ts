@@ -17,9 +17,9 @@ export class PerneriaService {
     private http: HttpClient,
     ) {
 
-      this.API_URL = 'https://myfastapi-production.up.railway.app'
+      //this.API_URL = 'https://myfastapi-production.up.railway.app'
 
-      // this.API_URL = 'http://127.0.0.1:8000'
+      this.API_URL = 'http://127.0.0.1:8000'
 
       console.log(this.API_URL)
 
@@ -34,6 +34,13 @@ export class PerneriaService {
     console.log("service: ", `${this.API_URL}${seleccion}`)
     return this.http.get<any[]>(`${this.API_URL}${seleccion}`)
   }
+
+  getRegXProveedor(id: number): Observable<any[]> {
+    let seleccion = localStorage.getItem('Seleccion')
+    console.log("service: ", `${this.API_URL}${seleccion}`)
+    return this.http.get<any[]>(`${this.API_URL}/api/perneria/proveedor/${id}`)
+  }
+
 
   getPerneriaSel(id: number): Observable<any[]> {
     console.log("Sel: ", id )
@@ -103,6 +110,14 @@ export class PerneriaService {
     const od: number = 0
     return this.http.get<any[]>(`${this.API_URL}/api/movimientos/get_idpernos/${id}`)
     //.pipe<Perneria[]>(map((data: any) => data.pernos));
+  }
+
+  TraeProveedores() {
+    return this.http.get(`${this.API_URL}/api/perneria/proveedores`);
+  }
+
+  TraeProveedoresxId(Id: number) {
+    return this.http.get(`${this.API_URL}/api/proveedores/porid/workflow/${Id}`);
   }
 
 }

@@ -4,12 +4,21 @@
     <div class="col-5" >
       <h4 class="" style="padding-left: 100px; padding-top: 25px; color:darkgreen"> Materiales {{this.titulo}} </h4>
     </div>
-    <div class="col-2" ></div>
+    <div class="col-2" >
+
+    <mat-form-field style="padding-top: 20px; padding-bottom: 0px;">
+        <mat-label style="font-family: Arial, Helvetica, sans-serif; font-size: 14px;"> Proveedor </mat-label>
+        <mat-select style="font-size: 14px;" (selectionChange)="traeProveedor()" id="est_documentos" name="est_documentos" [(ngModel)]="var_FindProveedores" required>
+            <mat-option *ngFor="let valuePair of lst_Proveedores; let pointIndex=index" [value]="valuePair.ID_PROVEEDOR"> {{valuePair.DESCRIPCION}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    </div>
     <div class="col-3" >
-     <div appearance="fill" class="full-width has-success" style="padding-top: 30px; font-size: 14px; " >
+<!--      <div appearance="fill" class="full-width has-success" style="padding-top: 30px; font-size: 14px; " >
         <mat-label style="padding-right: 20px;" >Buscar</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
-      </div>
+      </div> -->
     </div>
   </div>
 

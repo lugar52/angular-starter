@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDatepickerInputEvent, MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { Perneria, PernoColumns, DatosAGrabar, RegMovimientoStock } from '../../../model/perneria'
@@ -52,7 +53,7 @@ import moment from 'moment';
     FormsModule,
     FormsModule,
     MatTooltipModule,
-
+    MatGridListModule,
   ],
   templateUrl: './perneria-newlist.component.html',
   styleUrl: './perneria-newlist.component.less',
@@ -117,7 +118,9 @@ export class PerneriaNewlistComponent {
 
   datos: any
   hayDatos: boolean = true
-  parentMessage = "message from parent";
+  var_FindProveedores: number = 0
+  lst_Proveedores: any = [];
+
   constructor(
     public dialog: MatDialog,
     private perneriaService: PerneriaService,
@@ -140,6 +143,7 @@ export class PerneriaNewlistComponent {
     this.datos = JSON.parse(miDatos)
 
     //console.log("columnsSchema: ", this.columnsSchema)
+    this.fun1()
   }
 
   getPerneria() {
@@ -252,7 +256,7 @@ export class PerneriaNewlistComponent {
       this.DatosUpdate.Fecha_llegada = midate  // elem.FECHA_LLEGADA
       this.DatosUpdate.Observacion = elem.OBSERVACION
       console.log("this.DatosUpdate: ", this.DatosUpdate)
-      
+
     this.perneriaService.updatePerno(id, this.DatosUpdate).pipe(
         tap(res => {
           console.log(this.DatosUpdate)
@@ -537,4 +541,30 @@ export class PerneriaNewlistComponent {
     }
 
 
+    async fun1(): Promise<any> {
+
+      await this.traeRegXProveedor();
+    }
+
+    async traeRegXProveedor() {
+
+      this.perneriaService.TraeProveedores().subscribe(data => {
+        console.log(data)
+          this.lst_Proveedores = data;
+
+      });
+    }
+
+    traeProveedor() {
+      console.log(this.var_FindProveedores)
+      this.perneriaService.getRegXProveedor(this.var_FindProveedores).subscribe(data => {
+        this.listaPerneria = data;
+        console.log("this.listaPerneria: ", this.listaPerneria)
+        this.dataSource = new MatTableDataSource(this.listaPerneria);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+
+        this.hayDatos  = true
+      });
+    }
 }
