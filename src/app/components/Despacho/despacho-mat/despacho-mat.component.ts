@@ -76,7 +76,11 @@ export class DespachoMatComponent {
     STOCK: 0,
     INGRESOS: 0,
     ELEMENTO: 0, 
-      ELEMENTO_DESC: ''
+    ELEMENTO_DESC: '',
+    SUBPATIO_DESCRIPCION: '',
+    ID_SubPatio: 0,
+    COORDENADA_DESCRIPCION: '',
+    ID_Coordenada: 0,
   }
 
   regdespacho: RegMovimientoStock = {

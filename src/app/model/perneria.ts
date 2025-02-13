@@ -41,6 +41,10 @@ export interface Perneria {
      RECEPCIONADO?: string;
      ELEMENTO: number, 
      ELEMENTO_DESC: string
+     SUBPATIO_DESCRIPCION: string
+     ID_SubPatio: number
+     COORDENADA_DESCRIPCION: string
+     ID_Coordenada: number
 }
 
 export const PernoColumns = [
@@ -944,6 +948,373 @@ export const LureyeColumns = [
     ]
   },
   {
+    key: 'FECHA_LLEGADA',
+    type: 'date',
+    label: 'FECHA LLEGADA',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+  {
+    key: 'OBSERVACION',
+    type: 'text',
+    label: 'OBSERVACION',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+
+];
+
+export const AttexColumns = [
+  {
+    key: 'isEdit',
+    type: 'isEdit',
+    label: 'Acción',
+  },
+  {
+    key: 'OC',
+    type: 'textItem',
+    label: 'GUIA',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+  {
+    key: 'CAJON_PALLET_JAVA',
+    type: 'textItem',
+    label: 'CAJON_PALLET_JAVA',
+    required: true,
+    readonly: true,
+    disabled: false
+  },
+  
+  {
+    key: 'ELEMENTO_DESC',
+    type: 'textItem',
+    label: 'ELEMENTO_DESC',
+    required: true,
+    readonly: true,
+    disabled: false
+  },  
+  {
+    key: 'GUIA',
+    type: 'textItem',
+    label: 'GUIA',
+    required: true,
+    readonly: false,
+    disabled: false
+  },
+  {
+    key: 'GUIA_PROVEEDOR',
+    type: 'textItem',
+    label: 'GUIA_PROVEEDOR',
+    required: true,
+    readonly:true,
+    disabled: true
+  },
+  {
+  key: 'SNF',
+  type: 'textItem',
+  label: 'SNF',
+  required: true,
+  readonly:true,
+  disabled: true
+},
+{
+  key: 'BULTO',
+  type: 'textItem',
+  label: 'BULTO',
+  required: true,
+  readonly:true,
+  disabled: false
+},
+{
+  key: 'MARCA',
+  type: 'textItem',
+  label: 'MARCA',
+  required: true,
+  readonly:false,
+  disabled: true
+},
+
+  {
+    key: 'CANTIDAD_SNF',
+    type: 'textCant',
+    label: 'CANT SNF',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  
+  {
+    key: 'CANTIDAD_TERRENO',
+    type: 'number',
+    label: 'CANT TERR.',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+
+  {
+    key: 'DIFERENCIA',
+    type: 'textCant',
+    label: 'DIFER.',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PORCENT',
+    type: 'textCumpli',
+    label: '% CUMPLIMIENTO',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'INGRESOS',
+    type: 'number',
+    label: 'INGRESOS',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+  {
+    key: 'CANT_DESPACHOS',
+    type: 'number',
+    label: 'DESPACHA DOS',
+    required: true,
+    readonly:true,
+    disabled: true
+  },
+  {
+    key: 'STOCK',
+    type: 'number',
+    label: 'STOCK',
+    required: true,
+    readonly:true,
+    disabled: true
+  },
+  {
+    key: 'PESO_UNITARIO',
+    type: 'textCant',
+    label: 'PESO UNIT.',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PESO_TOTAL',
+    type: 'textCant',
+    label: 'PESO TOTAL',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PROVE_DESCRIPCION',
+    type: 'select',
+    label: 'PROVEEDOR',
+    required: true,
+    readonly:false,
+    disabled: true,
+    seloption: [
+      {value: 1, viewValue: 'Reliper'},
+    ]
+  },
+  {
+    key: 'PATIO_DESCRIPCION',
+    type: 'select',
+    label: 'PATIO',
+    required: true,
+    readonly: true,
+    disabled: false,
+    seloption: [
+      {value: 1, viewValue: 'Remanso'},
+    ]
+  },
+  {
+    key: 'SUBPATIO_DESCRIPCION',
+    type: 'select',
+    label: 'SUBPATIO_DESCRIPCION',
+    required: true,
+    readonly: true,
+    disabled: false,
+  },
+    {
+    key: 'FECHA_LLEGADA',
+    type: 'date',
+    label: 'FECHA LLEGADA',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+  {
+    key: 'OBSERVACION',
+    type: 'text',
+    label: 'OBSERVACION',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+
+];
+
+export const TehmcoColumns = [
+  {
+    key: 'isEdit',
+    type: 'isEdit',
+    label: 'Acción',
+  },
+  {
+    key: 'OC',
+    type: 'textItem',
+    label: 'GUIA',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+  
+  {
+    key: 'ELEMENTO_DESC',
+    type: 'textItem',
+    label: 'ELEMENTO_DESC',
+    required: true,
+    readonly: true,
+    disabled: false
+  },  
+  {
+    key: 'GUIA',
+    type: 'textItem',
+    label: 'GUIA',
+    required: true,
+    readonly: false,
+    disabled: false
+  },
+  {
+    key: 'GUIA_PROVEEDOR',
+    type: 'textItem',
+    label: 'GUIA_PROVEEDOR',
+    required: true,
+    readonly:true,
+    disabled: true
+  },
+  
+{
+  key: 'MARCA',
+  type: 'textItem',
+  label: 'MARCA',
+  required: true,
+  readonly:false,
+  disabled: true
+},
+
+  {
+    key: 'CANTIDAD_SNF',
+    type: 'textCant',
+    label: 'CANT SNF',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  
+  {
+    key: 'CANTIDAD_TERRENO',
+    type: 'number',
+    label: 'CANT TERR.',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+
+  {
+    key: 'DIFERENCIA',
+    type: 'textCant',
+    label: 'DIFER.',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PORCENT',
+    type: 'textCumpli',
+    label: '% CUMPLIMIENTO',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'INGRESOS',
+    type: 'number',
+    label: 'INGRESOS',
+    required: true,
+    readonly:false,
+    disabled: false
+  },
+  {
+    key: 'CANT_DESPACHOS',
+    type: 'number',
+    label: 'DESPACHA DOS',
+    required: true,
+    readonly:true,
+    disabled: true
+  },
+  {
+    key: 'STOCK',
+    type: 'number',
+    label: 'STOCK',
+    required: true,
+    readonly:true,
+    disabled: true
+  },
+  {
+    key: 'PESO_UNITARIO',
+    type: 'textCant',
+    label: 'PESO UNIT.',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PESO_TOTAL',
+    type: 'textCant',
+    label: 'PESO TOTAL',
+    required: true,
+    readonly:false,
+    disabled: true
+  },
+  {
+    key: 'PROVE_DESCRIPCION',
+    type: 'select',
+    label: 'PROVEEDOR',
+    required: true,
+    readonly:false,
+    disabled: true,
+    seloption: [
+      {value: 1, viewValue: 'Reliper'},
+    ]
+  },
+  {
+    key: 'PATIO_DESCRIPCION',
+    type: 'select',
+    label: 'PATIO',
+    required: true,
+    readonly: true,
+    disabled: false,
+    seloption: [
+      {value: 1, viewValue: 'Remanso'},
+    ]
+  },
+  {
+    key: 'RECEPCIONADO',
+    type: 'text',
+    label: 'RECEPCIONADO',
+    required: true,
+    readonly: true,
+    disabled: false,
+  },
+    {
     key: 'FECHA_LLEGADA',
     type: 'date',
     label: 'FECHA LLEGADA',

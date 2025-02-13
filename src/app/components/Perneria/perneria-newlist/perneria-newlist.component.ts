@@ -26,7 +26,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { Perneria, PernoColumns, DatosAGrabar, RegMovimientoStock, 
-  PetricioColumns, CoasinColumns, LureyeColumns } from '../../../model/perneria'
+  PetricioColumns, CoasinColumns, LureyeColumns, AttexColumns, TehmcoColumns } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
 import dayjs from 'dayjs';
@@ -418,7 +418,11 @@ export class PerneriaNewlistComponent {
       STOCK: 0,
       INGRESOS: 0,
       ELEMENTO: 0, 
-      ELEMENTO_DESC: ''
+      ELEMENTO_DESC: '',
+      SUBPATIO_DESCRIPCION: '',
+      ID_SubPatio: 0,
+      COORDENADA_DESCRIPCION: '',
+      ID_Coordenada: 0,
     }
     this.dataSource.data = [newRow, ...this.dataSource.data]
   }
@@ -555,8 +559,17 @@ export class PerneriaNewlistComponent {
     }
 
     traeProveedor() {
-      const VARdOS = 2
+      
+      console.log(" tt ", this.var_FindProveedores.toString())
+
       switch (this.var_FindProveedores.toString()) { 
+        case "1":  {
+          this.displayedColumns = PernoColumns.map((col) => col.key);
+          this.columnsSchema = PernoColumns;
+
+           break; 
+        }
+        
         case "2":  {
           this.displayedColumns = PetricioColumns.map((col) => col.key);
           this.columnsSchema = PetricioColumns;
@@ -573,11 +586,17 @@ export class PerneriaNewlistComponent {
           this.columnsSchema = LureyeColumns;
           break; 
         }
+        case "15":  {
+          this.displayedColumns = TehmcoColumns.map((col) => col.key);
+          this.columnsSchema = TehmcoColumns;
+          break; 
+        }
 
         
-        
-        default:  
-          {console.log("default")
+        default:  {
+            this.displayedColumns = AttexColumns.map((col) => col.key);
+            this.columnsSchema = AttexColumns;
+            
            //statements; 
            break; }
          
