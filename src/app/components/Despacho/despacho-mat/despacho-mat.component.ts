@@ -74,7 +74,9 @@ export class DespachoMatComponent {
     isSelected: false,
     CANT_DESPACHOS: 0,
     STOCK: 0,
-    INGRESOS: 0
+    INGRESOS: 0,
+    ELEMENTO: 0, 
+      ELEMENTO_DESC: ''
   }
 
   regdespacho: RegMovimientoStock = {
