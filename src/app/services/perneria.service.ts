@@ -1,28 +1,22 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpStatusCode, HttpErrorResponse } from  '@angular/common/http';
 import { catchError, lastValueFrom, shareReplay, throwError } from 'rxjs';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Perneria, DatosAGrabar, RegMovimientoStock } from '../model/perneria'
+import { appsettings } from '../components/setting/appsetting';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerneriaService {
 
-  private API_URL: string = "";
+  private http = inject(HttpClient);
   private httpOptions?:  any
 
-  constructor(
-    private http: HttpClient,
-    ) {
+  private baseUrl: string = appsettings.apiUrl
 
-       this.API_URL = 'https://myfastapi-production.up.railway.app'
-
-      // this.API_URL = 'http://127.0.0.1:8000'
-
-      console.log(this.API_URL)
-
+  constructor() {
 
     this.httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -31,33 +25,33 @@ export class PerneriaService {
 
   getPerneria(): Observable<any[]> {
     let seleccion = localStorage.getItem('Seleccion')
-    console.log("service: ", `${this.API_URL}${seleccion}`)
-    return this.http.get<any[]>(`${this.API_URL}${seleccion}`)
+    console.log("service: ", `${this.baseUrl}${seleccion}`)
+    return this.http.get<any[]>(`${this.baseUrl}${seleccion}`)
   }
 
   getRegXProveedor(id: number): Observable<any[]> {
     let seleccion = localStorage.getItem('Seleccion')
-    console.log("service: ", `${this.API_URL}${seleccion}`)
-    return this.http.get<any[]>(`${this.API_URL}/api/perneria/proveedor/${id}`)
+    console.log("service: ", `${this.baseUrl}${seleccion}`)
+    return this.http.get<any[]>(`${this.baseUrl}/perneria/proveedor/${id}`)
   }
 
 
   getPerneriaSel(id: number): Observable<any[]> {
     console.log("Sel: ", id )
-    return this.http.get<any[]>(`${this.API_URL}/api/perneria/get_item/${id}`)
+    return this.http.get<any[]>(`${this.baseUrl}/perneria/get_item/${id}`)
   }
 
   get_Perno(id: string) {
-    return this.http.get(`${this.API_URL}/Perneria/${id}`)
+    return this.http.get(`${this.baseUrl}/Perneria/${id}`)
   }
 
   getPerneriaIngresados(id: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.API_URL}/Perneria_ing/ingresos/${id}`)
+    return this.http.get<any[]>(`${this.baseUrl}/Perneria_ing/ingresos/${id}`)
   }
 
   inserWay(Mireg: Perneria) {
     console.log(Mireg)
-    return this.http.post(`${this.API_URL}/railway`, Mireg)
+    return this.http.post(`${this.baseUrl}/railway`, Mireg)
   }
 
 
@@ -70,54 +64,54 @@ export class PerneriaService {
   // ---------------------------------------------------- new List ---------------------
   getPernos(): Observable<Perneria[]> {
     let seleccion = localStorage.getItem('Seleccion')
-    console.log('getPernos: ', `${this.API_URL}${seleccion}`)
-    return this.http.get<Perneria[]>(`${this.API_URL}${seleccion}`)
+    console.log('getPernos: ', `${this.baseUrl}${seleccion}`)
+    return this.http.get<Perneria[]>(`${this.baseUrl}${seleccion}`)
     //.pipe<Perneria[]>(map((data: any) => data.pernos));
   }
 
   updatePerno(id: number, perno: DatosAGrabar): Observable<any> {
     console.log("servicio: ", perno)
-    return this.http.put<DatosAGrabar>(`${this.API_URL}/api/perneria/update_perno/${id}`, perno);
+    return this.http.put<DatosAGrabar>(`${this.baseUrl}/perneria/update_perno/${id}`, perno);
   }
 
   addPerno(perneria: Perneria): Observable<Perneria> {
-    return this.http.post<Perneria>(`${this.API_URL}/add`, perneria);
+    return this.http.post<Perneria>(`${this.baseUrl}/add`, perneria);
   }
 
   deleteUser(id: number): Observable<Perneria> {
-    return this.http.delete<Perneria>(`${this.API_URL}/${id}`);
+    return this.http.delete<Perneria>(`${this.baseUrl}/${id}`);
   }
 
   deleteUsers(perneria: Perneria[]): Observable<Perneria[]> {
     return forkJoin(
       perneria.map((perneria) =>
-        this.http.delete<Perneria>(`${this.API_URL}/${perneria.ID_PERNO}`)
+        this.http.delete<Perneria>(`${this.baseUrl}/${perneria.ID_PERNO}`)
       )
     );
   }
 
   despacho(Mireg: RegMovimientoStock): Observable<any> {
     console.log(Mireg)
-    return this.http.post(`${this.API_URL}/api/movimientos/despacho`, Mireg)
+    return this.http.post(`${this.baseUrl}/movimientos/despacho`, Mireg)
   }
 
   Ingresos(MiregIngreso: RegMovimientoStock): Observable<any> {
     console.log("servicio ingresos: ", MiregIngreso)
-    return this.http.post(`${this.API_URL}/api/movimientos/ingresos`, MiregIngreso)
+    return this.http.post(`${this.baseUrl}/movimientos/ingresos`, MiregIngreso)
   }
 
   getDespachos(id: number) {
     const od: number = 0
-    return this.http.get<any[]>(`${this.API_URL}/api/movimientos/get_idpernos/${id}`)
+    return this.http.get<any[]>(`${this.baseUrl}/movimientos/get_idpernos/${id}`)
     //.pipe<Perneria[]>(map((data: any) => data.pernos));
   }
 
   TraeProveedores() {
-    return this.http.get(`${this.API_URL}/api/perneria/proveedores`);
+    return this.http.get(`${this.baseUrl}/perneria/proveedores`);
   }
 
   TraeProveedoresxId(Id: number) {
-    return this.http.get(`${this.API_URL}/api/proveedores/porid/workflow/${Id}`);
+    return this.http.get(`${this.baseUrl}/proveedores/porid/workflow/${Id}`);
   }
 
 }

@@ -28,6 +28,8 @@ import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import { Perneria, PernoColumns, DatosAGrabar, RegMovimientoStock, 
   PetricioColumns, CoasinColumns, LureyeColumns, AttexColumns, TehmcoColumns } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
+import { ExporterService } from '../../../services/exporter.service'
+
 import { ConfirmDialogComponent } from '../../Perneria/confirm-dialog/confirm-dialog.component'
 import dayjs from 'dayjs';
 import 'moment/locale/es';
@@ -60,6 +62,7 @@ import moment from 'moment';
   styleUrl: './perneria-newlist.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    ExporterService
     ]
 })
 export class PerneriaNewlistComponent {
@@ -126,6 +129,7 @@ export class PerneriaNewlistComponent {
   constructor(
     public dialog: MatDialog,
     private perneriaService: PerneriaService,
+    private excelService: ExporterService,
     private datePipe: DatePipe,
     public fb: FormBuilder,
     private router: Router,
@@ -615,5 +619,9 @@ export class PerneriaNewlistComponent {
         
 
       });
+    }
+
+    ExportToExcel() {
+        this.excelService.exportToExcel(this.dataSource.data, 'My_export')
     }
 }
