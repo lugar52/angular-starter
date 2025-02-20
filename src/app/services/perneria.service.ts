@@ -65,7 +65,7 @@ export class PerneriaService {
   getPernos(): Observable<Perneria[]> {
     let seleccion = localStorage.getItem('Seleccion')
     console.log('getPernos: ', `${this.baseUrl}${seleccion}`)
-    return this.http.get<Perneria[]>(`${this.baseUrl}${seleccion}`)
+    return this.http.get<Perneria[]>(`${this.baseUrl}/perneria/todos`)
     //.pipe<Perneria[]>(map((data: any) => data.pernos));
   }
 
@@ -112,6 +112,10 @@ export class PerneriaService {
 
   TraeProveedoresxId(Id: number) {
     return this.http.get(`${this.baseUrl}/proveedores/porid/workflow/${Id}`);
+  }
+
+  newGetProveedor(prov: string, cond: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/perneria/materiales/${prov}/${cond}`)
   }
 
 }

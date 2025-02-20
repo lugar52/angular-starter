@@ -22,4 +22,6 @@ export class AccessService {
   login(objeto:Login) : Observable<ResponceAcceso> {
     return this.http.post<ResponceAcceso>(`${this.baseUrl}/acceso/login`, objeto)
   }
+
+  
 }

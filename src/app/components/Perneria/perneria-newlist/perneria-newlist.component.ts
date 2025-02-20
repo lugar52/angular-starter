@@ -42,6 +42,7 @@ import moment from 'moment';
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
+    ReactiveFormsModule,
     CommonModule,
     MatCheckboxModule,
     MatFormFieldModule,
@@ -75,8 +76,10 @@ export class PerneriaNewlistComponent {
 
   subscription: Subscription[] = [];
   dataSource = new MatTableDataSource<Perneria>()
+  formulario!: FormGroup;
 
   displayedColumns: string[] = []
+  ListaExportExcel: any[] =[]
 
   columnsSchema: any = ''
   valid: any = {}
@@ -140,8 +143,8 @@ export class PerneriaNewlistComponent {
 
     this.displayedColumns = PernoColumns.map((col) => col.key)
     this.columnsSchema = PernoColumns
-
-    this.getPerneria();
+    this.createControlForm();
+    this.getPerneria("1", "0");
   }
 
   ngOnInit() {
@@ -156,9 +159,9 @@ export class PerneriaNewlistComponent {
     this.fun1()
   }
 
-  getPerneria() {
+  getPerneria(prov: string, cond: string) {
 
-    this.perneriaService.getPernos().subscribe(data => {
+    this.perneriaService.newGetProveedor(prov,cond).subscribe(data => {
       this.listaPerneria = data;
       this.dataSource = new MatTableDataSource(this.listaPerneria);
       this.dataSource.sort = this.sort;
@@ -562,14 +565,20 @@ export class PerneriaNewlistComponent {
       });
     }
 
-    traeProveedor() {
+    traeProveedor(formValue: any) {
       
-      console.log(" tt ", this.var_FindProveedores.toString())
-
-      switch (this.var_FindProveedores.toString()) { 
+      console.log("tt: ", this.var_FindProveedores.toString())
+      console.log("fv: ", formValue._PROVEEDOR)
+      
+      switch (formValue._PROVEEDOR.toString()) { 
         case "1":  {
           this.displayedColumns = PernoColumns.map((col) => col.key);
           this.columnsSchema = PernoColumns;
+          this.ListaExportExcel = this.dataSource.data.map(({ 
+              ITEMCODE, GUIA, TIPOELEM_DESCRIPCION, MARCA, TUNEL_DESCRIPCION, DISPO_DESCRIPCION, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, PESO_UNITARIO, PESO_TOTAL, INGRESOS, CANT_DESPACHOS, STOCK, PROVE_DESCRIPCION, PATIO_DESCRIPCION, SUBPATIO_DESCRIPCION, COORDENADA_DESCRIPCION, FECHA_LLEGADA, OBSERVACION
+            }) => ({ 
+              ITEMCODE, GUIA, TIPOELEM_DESCRIPCION, MARCA, TUNEL_DESCRIPCION, DISPO_DESCRIPCION, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, PESO_UNITARIO, PESO_TOTAL, INGRESOS, CANT_DESPACHOS, STOCK, PROVE_DESCRIPCION, PATIO_DESCRIPCION, SUBPATIO_DESCRIPCION, COORDENADA_DESCRIPCION, FECHA_LLEGADA, OBSERVACION
+            }));
 
            break; 
         }
@@ -578,50 +587,105 @@ export class PerneriaNewlistComponent {
           this.displayedColumns = PetricioColumns.map((col) => col.key);
           this.columnsSchema = PetricioColumns;
 
+          this.ListaExportExcel = this.dataSource.data.map(({ 
+ //           TIPOELEM_DESCRIPCION, GUIA, SNF, TUNEL_DESCRIPCION, MARCA, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, PESO_UNITARIO, PESO_TOTAL, INGRESOS, CANT_DESPACHOS, STOCK, PROVE_DESCRIPCION, PATIO_DESCRIPCION, SUBPATIO_DESCRIPCION, COORDENADA_DESCRIPCION, FECHA_LLEGADA, OBSERVACION 
+          }) => ({ 
+  //          TIPOELEM_DESCRIPCION, GUIA, SNF, TUNEL_DESCRIPCION, MARCA, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, PESO_UNITARIO, PESO_TOTAL, INGRESOS, CANT_DESPACHOS, STOCK, PROVE_DESCRIPCION, PATIO_DESCRIPCION, SUBPATIO_DESCRIPCION, COORDENADA_DESCRIPCION, FECHA_LLEGADA, OBSERVACION 
+          }));
+
            break; 
         }
         case "3":  {
           this.displayedColumns = CoasinColumns.map((col) => col.key);
           this.columnsSchema = CoasinColumns;
+
+          this.ListaExportExcel = this.dataSource.data.map(({ 
+            GUIA, GUIA_PROVEEDOR, BULTO, MARCA, CANTIDAD_SNF, UNIDAD, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, INGRESOS, CANT_DESPACHOS, STOCK, PROVE_DESCRIPCION, PATIO_DESCRIPCION, FECHA_LLEGADA, OBSERVACION
+          }) => ({ 
+            GUIA, GUIA_PROVEEDOR, BULTO, MARCA, CANTIDAD_SNF, UNIDAD, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, INGRESOS, CANT_DESPACHOS, STOCK, PROVE_DESCRIPCION, PATIO_DESCRIPCION, FECHA_LLEGADA, OBSERVACION
+          }));
+
+
           break; 
         }
         case "4":  {
           this.displayedColumns = LureyeColumns.map((col) => col.key);
           this.columnsSchema = LureyeColumns;
+
+          this.ListaExportExcel = this.dataSource.data.map(({ 
+            GUIA, CONTRATO, ELEMENTO_DESC, GUIA_PROVEEDOR, SNF, BULTO, MARCA, TIPOELEM_DESCRIPCION, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, INGRESOS, CANT_DESPACHOS, STOCK, PESO_UNITARIO, PESO_TOTAL, PROVE_DESCRIPCION, PATIO_DESCRIPCION, COORDENADA_DESCRIPCION, FECHA_LLEGADA, OBSERVACION 
+          }) => ({ 
+            GUIA, CONTRATO, ELEMENTO_DESC, GUIA_PROVEEDOR, SNF, BULTO, MARCA, TIPOELEM_DESCRIPCION, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, INGRESOS, CANT_DESPACHOS, STOCK, PESO_UNITARIO, PESO_TOTAL, PROVE_DESCRIPCION, PATIO_DESCRIPCION, COORDENADA_DESCRIPCION, FECHA_LLEGADA, OBSERVACION 
+          }));
+
           break; 
         }
         case "15":  {
           this.displayedColumns = TehmcoColumns.map((col) => col.key);
           this.columnsSchema = TehmcoColumns;
+
+          this.ListaExportExcel = this.dataSource.data.map(({ 
+            OC, ELEMENTO_DESC, GUIA, GUIA_PROVEEDOR, MARCA, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, INGRESOS, CANT_DESPACHOS, STOCK, PESO_UNITARIO, PESO_TOTAL, PROVE_DESCRIPCION, PATIO_DESCRIPCION, RECEPCIONADO, FECHA_LLEGADA, OBSERVACION
+          }) => ({ 
+            OC, ELEMENTO_DESC, GUIA, GUIA_PROVEEDOR, MARCA, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, INGRESOS, CANT_DESPACHOS, STOCK, PESO_UNITARIO, PESO_TOTAL, PROVE_DESCRIPCION, PATIO_DESCRIPCION, RECEPCIONADO, FECHA_LLEGADA, OBSERVACION
+          }));
+
           break; 
         }
-
         
         default:  {
             this.displayedColumns = AttexColumns.map((col) => col.key);
             this.columnsSchema = AttexColumns;
+
+            this.ListaExportExcel = this.dataSource.data.map(({ 
+              OC, CAJON_PALLET_JAVA, ELEMENTO_DESC, GUIA, GUIA_PROVEEDOR, SNF, BULTO, MARCA, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, INGRESOS, CANT_DESPACHOS, STOCK, PESO_UNITARIO, PESO_TOTAL, PROVE_DESCRIPCION, PATIO_DESCRIPCION, SUBPATIO_DESCRIPCION, FECHA_LLEGADA, OBSERVACION
+            }) => ({ 
+              OC, CAJON_PALLET_JAVA, ELEMENTO_DESC, GUIA, GUIA_PROVEEDOR, SNF, BULTO, MARCA, CANTIDAD_SNF, CANTIDAD_TERRENO, DIFERENCIA, PORCENTAJE, INGRESOS, CANT_DESPACHOS, STOCK, PESO_UNITARIO, PESO_TOTAL, PROVE_DESCRIPCION, PATIO_DESCRIPCION, SUBPATIO_DESCRIPCION, FECHA_LLEGADA, OBSERVACION
+            }));
             
            //statements; 
            break; }
          
      } 
 
-
-
-      this.perneriaService.getRegXProveedor(this.var_FindProveedores).subscribe(data => {
+     this.perneriaService.getRegXProveedor(formValue._PROVEEDOR).subscribe(data => {
         this.listaPerneria = data;
         this.dataSource = new MatTableDataSource(this.listaPerneria);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
 
-        this.hayDatos  = true
-
-        
+        this.hayDatos  = true    
 
       });
     }
 
     ExportToExcel() {
-        this.excelService.exportToExcel(this.dataSource.data, 'My_export')
+        
+        this.excelService.exportToExcel(this.ListaExportExcel, 'My_export')
     }
+
+
+    
+
+    createControlForm() {
+      this.formulario = this.fb.group({
+        _PROVEEDOR:  new FormControl('', Validators.required),
+        _VER:  new FormControl('', Validators.required),
+      })
+    }
+
+    calculaPeso(formValue: any) {
+
+      const StockReal = localStorage.getItem("Stock_despacho")
+      console.log(Number(formValue._CANTIDAD) + ' ' + Number(StockReal))
+    }
+
+    eligeCond(formValue: any) {
+      console.log(formValue)
+      const prov: string = formValue._PROVEEDOR
+      const cond: string = formValue._VER
+
+      this.getPerneria(prov, cond) 
+    }
+
 }
