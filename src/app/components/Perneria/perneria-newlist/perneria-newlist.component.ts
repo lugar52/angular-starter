@@ -157,6 +157,13 @@ export class PerneriaNewlistComponent {
 
     //console.log("columnsSchema: ", this.columnsSchema)
     this.fun1()
+
+    this.formulario.setValue({
+      _PROVEEDOR: 1,
+      _VER: 0
+    });
+
+
   }
 
   getPerneria(prov: string, cond: string) {
@@ -166,6 +173,8 @@ export class PerneriaNewlistComponent {
       this.dataSource = new MatTableDataSource(this.listaPerneria);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+
+      console.log(this.listaPerneria)
 
       this.hayDatos  = true
     });
@@ -180,31 +189,38 @@ export class PerneriaNewlistComponent {
       localStorage.setItem("iddespacho", id.toString())
       const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
       elem.isEdit = !elem.isEdit
-
+      console.log("datasource_0: ", this.dataSource.data[index] )
+     
       // Se guardan los datos originales de la linea en localstorage
-      if (this.listaPerneria[index].ID_SUBPATIO == null) {
-        this.listaPerneria[index].ID_SUBPATIO = 0
+      if (this.dataSource.data[index].ID_SUBPATIO == null) {
+        this.dataSource.data[index].ID_SUBPATIO = 0
       }
 
-      if (this.listaPerneria[index].ID_COORDENADA == null) {
-        this.listaPerneria[index].ID_COORDENADA = 0
+      if (this.dataSource.data[index].ID_COORDENADA == null) {
+        this.dataSource.data[index].ID_COORDENADA = 0
       }
-      this.dataSource.data[index].GUIA = 0
+      
+      
       const datos = {
-        Tunel: Number(this.listaPerneria[index].TUNEL),
-        Disposicion_Final: Number(this.listaPerneria[index].DISPOSICION_FINAL),
-        Patio: Number(this.listaPerneria[index].PATIO),
-        SubPatio: Number(this.listaPerneria[index].ID_SUBPATIO),
-        Coordenada: Number(this.listaPerneria[index].ID_COORDENADA),
-        Fecha_llegada: this.listaPerneria[index].FECHA_LLEGADA,
-        Observacion: this.listaPerneria[index].OBSERVACION,
-        Cantidad_Terreno:  Number(this.listaPerneria[index].CANTIDAD_TERRENO),
-        Diferencia: Number(this.listaPerneria[index].DIFERENCIA),
-        Stock: Number(this.listaPerneria[index].STOCK),
-        porcentaje: Number(this.listaPerneria[index].PORCENTAJE),
+        Tunel: Number(this.dataSource.data[index].TUNEL),
+        guia: this.dataSource.data[index].GUIA,
+        Disposicion_Final: Number(this.dataSource.data[index].DISPOSICION_FINAL),
+        Patio: Number(this.dataSource.data[index].PATIO),
+        SubPatio: Number(this.dataSource.data[index].ID_SUBPATIO),
+        Coordenada: Number(this.dataSource.data[index].ID_COORDENADA),
+        Fecha_llegada: this.dataSource.data[index].FECHA_LLEGADA,
+        Observacion: this.dataSource.data[index].OBSERVACION,
+        Cantidad_Terreno:  Number(this.dataSource.data[index].CANTIDAD_TERRENO),
+        Diferencia: Number(this.dataSource.data[index].DIFERENCIA),
+        Stock: Number(this.dataSource.data[index].STOCK),
+        porcentaje: Number(this.dataSource.data[index].PORCENTAJE),
       }
 
       localStorage.setItem("dataUpdate", JSON.stringify(datos) )
+      this.dataSource.data[index].GUIA = 0 
+
+      console.log("datasource_1: ", this.dataSource.data[index] )
+      console.log("Datos: ", datos )
 
   }
 
@@ -235,6 +251,7 @@ export class PerneriaNewlistComponent {
       this.dataSource.data[idx].FECHA_LLEGADA = this.datos.Fecha_llegada
       this.dataSource.data[idx].OBSERVACION = this.datos.Observacion
       this.dataSource.data[idx].STOCK = this.datos.Stock
+      this.dataSource.data[idx].GUIA = this.datos.guia
 
     } else {
       console.log('No hay datos en localStorage');
@@ -563,12 +580,14 @@ export class PerneriaNewlistComponent {
           this.lst_Proveedores = data;
 
       });
+
+     
     }
 
     traeProveedor(formValue: any) {
       
       console.log("tt: ", this.var_FindProveedores.toString())
-      console.log("fv: ", formValue._PROVEEDOR)
+      console.log("fv: ", formValue.this.formulario)
       
       switch (formValue._PROVEEDOR.toString()) { 
         case "1":  {
@@ -616,6 +635,7 @@ export class PerneriaNewlistComponent {
         this.dataSource = new MatTableDataSource(this.listaPerneria);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+
 
         this.hayDatos  = true    
 
