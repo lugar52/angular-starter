@@ -144,7 +144,7 @@ export class PerneriaNewlistComponent {
     this.displayedColumns = PernoColumns.map((col) => col.key)
     this.columnsSchema = PernoColumns
     this.createControlForm();
-    this.getPerneria("1", "0");
+    this.getPerneria("1", "-1");
   }
 
   ngOnInit() {
@@ -160,7 +160,7 @@ export class PerneriaNewlistComponent {
 
     this.formulario.setValue({
       _PROVEEDOR: 1,
-      _VER: 0
+      _VER: -1
     });
 
 
@@ -587,7 +587,7 @@ export class PerneriaNewlistComponent {
     traeProveedor(formValue: any) {
       
       console.log("tt: ", this.var_FindProveedores.toString())
-      console.log("fv: ", formValue.this.formulario)
+      
       
       switch (formValue._PROVEEDOR.toString()) { 
         case "1":  {
