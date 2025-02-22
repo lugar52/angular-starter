@@ -63,7 +63,7 @@
 
             <div *ngSwitchCase="'isEdit'" style="width: 80px;" >
 
-              <div *ngIf="element.DIFERENCIA < element.CANTIDAD_TERRENO" style="width: 80px; ">
+              <div *ngIf="element.CANTIDAD_TERRENO >= element.SNF" style="width: 80px; ">
                   <button mat-button mat-icon-button
                   style="padding-left: 15px; color:green ; padding-top: 5px; border-style: hidden;"
                   #tooltip="matTooltip"
@@ -73,7 +73,9 @@
                   [disabled]="false">
                   <mat-icon aria-label="visibility" class="mat-elevation-z4" >edit_note</mat-icon>
                 </button>
+              </div>
 
+              <div *ngIf="element.CANTIDAD_TERRENO > 1" style="width: 80px; ">
                 <button mat-button mat-icon-button *ngIf="element.STOCK >= 1 "
                   style="padding-left: 5px; color:rgb(255, 60, 53) ; padding-top: 5px; border-style: hidden; font-size: 8px;"
                   #tooltip="matTooltip"
@@ -82,9 +84,7 @@
                   (click)="GotoDespachar(element.ID_PERNO, element)">
                   <mat-icon aria-label="visibility" class="mat-elevation-z4" >double_arrow</mat-icon>
                 </button>
-
               </div>
-
 
             </div>
 
