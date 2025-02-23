@@ -225,6 +225,8 @@ export class PerneriaNewlistComponent {
     editDatos(id: number, elem: any) {
 
       localStorage.setItem("iddespacho", id.toString())
+      localStorage.setItem("btnVolver","1")
+
       const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
       elem.isEdit = !elem.isEdit
      
@@ -537,7 +539,7 @@ export class PerneriaNewlistComponent {
 
   GotoDespachar(id: number, elem: any, ) {
 
-    
+    localStorage.setItem("btnVolver","0")
     
     let  myurl = `${'despacho'}/${id}`;
     this.router.navigate([myurl], { queryParams: { message: id  }, queryParamsHandling: "merge" } ).then(e => {
@@ -631,9 +633,6 @@ export class PerneriaNewlistComponent {
 
     traeProveedor(formValue: any) {
       
-      console.log("tt: ", this.var_FindProveedores.toString())
-      
-      
       switch (formValue._PROVEEDOR.toString()) { 
         case "1":  {
           this.displayedColumns = PernoColumns.map((col) => col.key);
@@ -680,7 +679,6 @@ export class PerneriaNewlistComponent {
         this.dataSource = new MatTableDataSource(this.listaPerneria);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-
 
         this.hayDatos  = true    
 

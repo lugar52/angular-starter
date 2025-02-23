@@ -160,10 +160,19 @@ export class DespachoMatComponent {
       const date = new Date();
       const formattedDate:string = date.toLocaleString();
 
+      let paso_desc: string = ""
+      if (this.Registro_Sel.ELEMENTO_DESC == "") {
+        paso_desc = this.Registro_Sel.TIPOELEM_DESCRIPCION!
+      }
+      else {
+        paso_desc = this.Registro_Sel.ELEMENTO_DESC
+      }
+
+
       this.form_Despacho = this.formBuilder.group({
         _ID_PERNO:  [this.Registro_Sel.ID_PERNO] ,
         _ITEMCODE:  [this.Registro_Sel.ITEMCODE] ,
-        _DESCRIPCION:  [this.Registro_Sel.TIPOELEM_DESCRIPCION] ,
+        _DESCRIPCION:  [paso_desc] ,
         _SNF:  [this.Registro_Sel.SNF] ,
         _STOCK: [this.Registro_Sel.STOCK] ,
         _PESOTOTAL: [this.Registro_Sel.PESO_TOTAL] ,

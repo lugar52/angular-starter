@@ -25,19 +25,16 @@ export class PerneriaService {
 
   getPerneria(): Observable<any[]> {
     let seleccion = localStorage.getItem('Seleccion')
-    console.log("service: ", `${this.baseUrl}${seleccion}`)
     return this.http.get<any[]>(`${this.baseUrl}${seleccion}`)
   }
 
   getRegXProveedor(id: number): Observable<any[]> {
     let seleccion = localStorage.getItem('Seleccion')
-    console.log("service: ", `${this.baseUrl}${seleccion}`)
     return this.http.get<any[]>(`${this.baseUrl}/perneria/proveedor/${id}`)
   }
 
 
   getPerneriaSel(id: number): Observable<any[]> {
-    console.log("Sel: ", id )
     return this.http.get<any[]>(`${this.baseUrl}/perneria/get_item/${id}`)
   }
 
@@ -50,27 +47,23 @@ export class PerneriaService {
   }
 
   inserWay(Mireg: Perneria) {
-    console.log(Mireg)
     return this.http.post(`${this.baseUrl}/railway`, Mireg)
   }
 
 
 
   private handleError(error: any) {
-    console.error(error);
     return throwError(error);
   }
 
   // ---------------------------------------------------- new List ---------------------
   getPernos(): Observable<Perneria[]> {
     let seleccion = localStorage.getItem('Seleccion')
-    console.log('getPernos: ', `${this.baseUrl}${seleccion}`)
     return this.http.get<Perneria[]>(`${this.baseUrl}/perneria/todos`)
     //.pipe<Perneria[]>(map((data: any) => data.pernos));
   }
 
   updatePerno(id: number, perno: DatosAGrabar): Observable<any> {
-    console.log("servicio: ", perno)
     return this.http.put<DatosAGrabar>(`${this.baseUrl}/perneria/update_perno/${id}`, perno);
   }
 
@@ -91,12 +84,10 @@ export class PerneriaService {
   }
 
   despacho(Mireg: RegMovimientoStock): Observable<any> {
-    console.log(Mireg)
     return this.http.post(`${this.baseUrl}/movimientos/despacho`, Mireg)
   }
 
   Ingresos(MiregIngreso: RegMovimientoStock): Observable<any> {
-    console.log("servicio ingresos: ", MiregIngreso)
     return this.http.post(`${this.baseUrl}/movimientos/ingresos`, MiregIngreso)
   }
 

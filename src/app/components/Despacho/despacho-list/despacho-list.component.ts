@@ -72,6 +72,7 @@ export class DespachoListComponent  {
     }
     row: any;
     sel: number = 0;
+    showbtnVolver: number = 1;
 
   displayedColumns = [
       'movim', 'guia', 'Fecha_despacho', 'Hora_despacho', 'Item_Code', 'descricpcion', 'snf', 'stock_Inicial', 'cantidad' , 'stock_final'  , 'peso_despacho' ,
@@ -90,6 +91,9 @@ export class DespachoListComponent  {
     private perneriaService: PerneriaService,
   ) {
     this.MiCodigo = Number(localStorage.getItem("iddespacho"))
+    this.showbtnVolver = Number(localStorage.getItem("btnVolver"))!
+
+    
   }
 
   ngOnInit() {
@@ -117,6 +121,19 @@ export class DespachoListComponent  {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
  };
+
+
+ volverListado() {
+  
+  let  myurl = `${'perneria-new'}`;
+  this.router.navigate([myurl] ).then(e => {
+    if (e) {
+    } else {
+      console.log('error: ', e)
+    }
+  });
+    localStorage.setItem("btnVolver","0")
+  }
 
 
 }
