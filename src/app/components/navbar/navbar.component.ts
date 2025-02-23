@@ -11,7 +11,7 @@ import { TransferdataService } from '../../services/transferdata.service'
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-
+  MiUser: string = ""
   private transferdataService = inject(TransferdataService)
 
   logeado: boolean = false
@@ -45,10 +45,11 @@ export class NavbarComponent {
   ngOnInit() {
     this.transferdataService.datoActual.subscribe(valor => {
       const istoken = localStorage.getItem('token')
-      console.log("INI: ", istoken)
+      
       if (istoken == null)
         valor = false
       else {
+        this.MiUser = localStorage.getItem('user') || ""
         valor = true
         console.log('Dato actualizado:', valor);
         

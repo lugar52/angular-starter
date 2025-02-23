@@ -46,6 +46,7 @@ export class LoginComponent {
         console.log(data)
         if (data.IsSuccess) {
           localStorage.setItem("token", data.token)
+          localStorage.setItem("user", this.formLogin.value.email)
           this.transferdataService.actualizarDato(true);
           this.router.navigate(['perneria-new'])
         }else{

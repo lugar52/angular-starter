@@ -61,6 +61,7 @@ export class PerneriaIdComponent {
   }
 
   fila: any = '';
+  proveedor: string = "";
   show: boolean = false;
   constructor(
     private perneriaService: PerneriaService,
@@ -71,6 +72,8 @@ export class PerneriaIdComponent {
       this.createEquipoForm();
 
       this.fila = localStorage.getItem('perno_fila')!;
+      this.proveedor = localStorage.getItem('proveedor')!;
+      
       this.get_Perno(this.fila)
 
       this.contratoSignal = toSignal(

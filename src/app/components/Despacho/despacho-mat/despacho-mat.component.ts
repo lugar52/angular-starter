@@ -107,7 +107,7 @@ export class DespachoMatComponent {
   DESPACHO: number = 2
 
   MiId: number = 0
-
+  
   constructor(
     private router: Router,
     private perneriaService: PerneriaService,
@@ -121,8 +121,6 @@ export class DespachoMatComponent {
     }
 
     ngOnInit() {
-
-      console.log(this.id)
 
       localStorage.setItem("iddespacho", this.id.toString())
 
@@ -225,8 +223,8 @@ export class DespachoMatComponent {
 
     GrabarDespacho(formvalue: any) {
 
-
-      console.log(formvalue)
+      localStorage.setItem("proveedor", this.Registro_Sel.PROVEEDOR!)
+      
         this.regdespacho.tipo_movimiento = this.DESPACHO
         this.regdespacho.id_perno = Number(formvalue._ID_PERNO)
         this.regdespacho.Fecha_despacho = formvalue._FECHA_DESPACHO.split(",")[0].trim()
@@ -275,6 +273,8 @@ export class DespachoMatComponent {
     }
 
     volverListado() {
+      localStorage.setItem("proveedor", this.Registro_Sel.PROVEEDOR!)
+      
       let  myurl = `${'perneria-new'}`;
       this.router.navigate([myurl] ).then(e => {
         if (e) {

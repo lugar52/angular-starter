@@ -1,0 +1,59 @@
+/* 🚀 Evita el scroll de la página */
+body {
+  overflow: hidden;
+  margin: 0;
+}
+
+/* Contenedor principal que ocupa toda la pantalla */
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 100% de la pantalla */
+  overflow: hidden; /* 🚀 Evita scroll en la página */
+}
+
+/* Áreas superior e inferior fijas */
+.area-superior, .area-inferior {
+  background-color: #f8f9fa;
+  padding: 10px;
+  position: sticky;
+  width: 100%;
+  z-index: 100;
+}
+
+.area-superior {
+  top: 0;
+}
+
+.area-inferior {
+  bottom: 0;
+}
+
+/* Contenedor de la tabla */
+.contenedor-tabla {
+
+  flex-direction: column;
+  overflow: show; /* 🚀 Evita scroll global */
+}
+
+/* Contenedor del Scroll */
+.scroll-wrapper {
+  flex: 1;
+  overflow-x: auto; /* 🚀 Activa el scroll horizontal */
+  overflow-y: hidden; /* Evita que el scroll vertical afecte */
+
+  align-items: center;
+}
+
+/* 🚀 Scroll Vertical SOLO dentro de la tabla */
+.area-media {
+  max-height: calc(100vh - 150px); /* 🚀 Ajusta dinámicamente el espacio */
+  overflow-y: auto; /* 🚀 Habilita scroll vertical */
+ 
+}
+
+/* 🚀 Asegura que la tabla tenga el ancho suficiente */
+.tabla-scroll {
+  min-width: 100px; /* 🚀 Ajusta el ancho para que se active el scroll horizontal */
+  white-space: nowrap; /* 🚀 Evita que las columnas se ajusten automáticamente */
+}

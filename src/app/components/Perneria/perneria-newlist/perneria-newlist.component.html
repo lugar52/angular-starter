@@ -1,308 +1,321 @@
-<div class="container"  >
+<div class="contenedor">
 
-  <form [formGroup]="formulario">
-  <div class="row" style="padding-top: 25px; padding-bottom: 5px;">
-    
-    <div class="col-2" >
-      <div>
-        Proveedores
-      </div> 
-      <select class="form-select" (change)="traeProveedor(formulario.value)" id="est_documentos" name="est_documentos" formControlName="_PROVEEDOR">
-        <option *ngFor="let valuePair of lst_Proveedores; let pointIndex=index" [value]="valuePair.ID_PROVEEDOR">
-          {{valuePair.DESCRIPCION}}
-        </option>
-      </select>
-    </div>
-    
-    <div class="col-2" >
-      <div>
-        Ver
-      </div>
-      <select class="form-select"  (change)="eligeCond(formulario.value)" id="est_ver" name="est_ver" formControlName="_VER">
-        <option value="0" selected>Todas</option>
-        <option value="1">Entregadas</option>
-        <option value="-1">Pendientes</option>
-      </select> 
-    </div>
-    <div class="col-4" ></div>
-   
-    <div class="col-4" style="align-items: end;">
-<!--      <div appearance="fill" class="full-width has-success" style="padding-top: 30px; font-size: 14px; " >
-        <mat-label style="padding-right: 20px;" >Buscar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
-      </div> -->   
-      <div style="padding-right: 5px; padding-top: 25px;">Exportar Excel
-
-        <button mat-button mat-icon-button
-            style="color:green ; border-style: hidden; "
-            #tooltip="matTooltip"
-            matTooltip="Imprimir"
-            matTooltipPosition="right"
-            (click)="ExportToExcel(formulario.value)">
-            <mat-icon aria-label="visibility" class="mat-elevation-z4" >print</mat-icon>
+  <!-- Área Superior Fija -->
+  <div class="area-superior" style="margin-top: 10px;">
+    <form [formGroup]="formulario"> 
+    <mat-grid-list cols="12" rowHeight="70px">
+      <mat-grid-tile [colspan]="3">
+        <div style=" width: 350px ; padding-left: 10px;    padding-right: 10px; ">
+          <label for="Proveedores" class="form-label" >Proveedores</label>
+          <select class="form-select" (change)="traeProveedor(formulario.value)" id="Proveedores"
+              name="est_documentos" 
+              formControlName="_PROVEEDOR">
+              <option *ngFor="let valuePair of lst_Proveedores; let pointIndex=index" [value]="valuePair.ID_PROVEEDOR">
+                {{valuePair.DESCRIPCION}}
+              </option>
+          </select>       
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="3">
+        <div style=" width: 350px ; padding-left: 20px;    padding-right: 10px; ">
+          <label for="Proveedores" class="form-label" >Ver</label>
+          <select class="form-select"  (change)="eligeCond(formulario.value)" id="est_ver" name="est_ver" formControlName="_VER">
+            <option value="0" selected>Todas</option>
+            <option value="1">Entregadas</option>
+            <option value="-1">Pendientes</option>
+          </select> 
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="6" class="boton-derecha">
+        <div style="padding-right: 5px; padding-top: 25px;">Exportar Excel
+          <button mat-button mat-icon-button
+          style="color:green ; border-style: hidden; "
+          #tooltip="matTooltip"
+          matTooltip="Imprimir"
+          matTooltipPosition="right"
+          (click)="ExportToExcel(formulario.value)">
+          <mat-icon aria-label="visibility" class="mat-elevation-z4" >print</mat-icon>
         </button>
-      </div> 
+      </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    </form>  
+  </div>
+
+   <!-- Contenedor que maneja el Scroll -->
+  <div class="contenedor-tabla" style="width: 115rem !important;">
+    <div class="scroll-wrapper">
+      <div class="area-media">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 tabla-scroll" style="width: 400px !important;">
+
+
+          <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header" style="text-align: center; font-size: 12px;" [ngSwitch]="col.key">
+              <div *ngSwitchCase="'CANTIDAD_TERRENO'" style="width: 50px !important; "> {{ col.label }} </div>
+              <div *ngSwitchCase="'INGRESOS'" style="width: 60px !important; "> {{ col.label }} </div>
+              <div *ngSwitchCase="'CANT_DESPACHOS'" style="width: 60px !important; "> {{ col.label }} </div>
+              <div *ngSwitchCase="'ITEMCODE'" style="width: 50px !important; " > {{ col.label }} </div>
+              <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="min-width: 80px !important; " > {{ col.label }} </div>
+      
+              <div style="min-width: 60px; padding-right: 3px; margin-right: 0px;" *ngSwitchDefault>{{ col.label }}</div>
+            </th>
+      
+            <td mat-cell *matCellDef="let element" class="grid-item-fila">
+              <div [ngSwitch]="col.key" *ngIf="!element.isEdit" style="font-size: 12px;">
+      
+                <div *ngSwitchCase="'isEdit'" style="width: 80px;" >
+      
+                  <span *ngIf="element.CANTIDAD_SNF > element.CANTIDAD_TERRENO && !this.EstoyEditando" style="width: 80px; ">
+                      <button mat-button mat-icon-button
+                      style="padding-left: 15px; color:green ; padding-top: 5px; border-style: hidden;"
+                      #tooltip="matTooltip"
+                      matTooltip="Ingresar"
+                      matTooltipPosition="right"
+                      (click)="editDatos(element.ID_PERNO, element)"
+                      [disabled]="false">
+                      <mat-icon aria-label="visibility" class="mat-elevation-z4" >edit_note</mat-icon>
+                    </button>
+                  </span>
+      
+                  <span *ngIf="element.CANTIDAD_TERRENO > 1" style="width: 80px; ">
+                    <button mat-button mat-icon-button *ngIf="element.STOCK >= 1 "
+                      style="padding-left: 5px; color:rgb(255, 60, 53) ; padding-top: 5px; border-style: hidden; font-size: 8px;"
+                      #tooltip="matTooltip"
+                      matTooltip="Despachar"
+                      matTooltipPosition="right"
+                      (click)="GotoDespachar(element.ID_PERNO, element)">
+                      <mat-icon aria-label="visibility" class="mat-elevation-z4" >double_arrow</mat-icon>
+                    </button>
+                  </span>
+      
+                </div>
+      
+                <div *ngSwitchCase="'ITEMCODE'" style="width: 90px; "> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'SNF'" style="width: 110px; "> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'TIPOELEM_DESCRIPCION'" style="width: 110px;"> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'MARCA'" style="width: 80px;"> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'TUNEL_DESCRIPCION'" style="width: 90px;"> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'DISPO_DESCRIPCION'" style="width: 90px;"> {{ element[col.key] }} </div>
+      
+                <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px;"> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'PATIO_DESCRIPCION'" style="width: 70px;"> {{ element[col.key] }} </div>
+      
+                <div *ngSwitchCase="'CANTIDAD_SNF'" style="width: 50px; text-align: end; "> {{ element[col.key] }} </div>
+      
+                <div *ngIf="element.DIFERENCIA < 0" style="width: 50px; text-align: end; color: rgb(255, 84, 78); font-weight: 600;" >
+                  <div *ngSwitchCase="'CANTIDAD_TERRENO'" > {{ element[col.key] }} </div>
+                  <div *ngSwitchCase="'DIFERENCIA'" > {{ element[col.key] }} </div>
+                </div>
+                <div *ngIf="element.DIFERENCIA > 0" style="width: 50px; text-align: end; color: rgb(5, 9, 201);">
+                  <div *ngSwitchCase="'CANTIDAD_TERRENO'" > {{ element[col.key] }} </div>
+                  <div *ngSwitchCase="'DIFERENCIA'" > {{ element[col.key] }} </div>
+                </div>
+                <div *ngIf="element.DIFERENCIA == 0" style="width: 50px; text-align: end; color: rgb(38, 201, 5); font-weight: 600;">
+                  <div *ngSwitchCase="'CANTIDAD_TERRENO'" style="margin-right: 5px; "> {{ element[col.key] }} </div>
+                  <div *ngSwitchCase="'DIFERENCIA'" > {{ element[col.key] }} </div>
+                </div>
+      
+                <div *ngSwitchCase="'GUIA'" style="width: 60px !important; "> {{ element[col.key] }} </div>
+      
+                <div *ngSwitchCase="'INGRESOS'" style="width: 60px !important; "> </div>
+                <div *ngSwitchCase="'PORCENT'" style="width: 110px; color:chartreuse">
+      
+                  <mat-progress-bar  class="mat-mdc-progress-bar "
+                      matBadge="{{element.PORCENTAJE}}%"
+                      matBadgePosition="after"
+                      matBadgeOverlap="true"
+                      style="width: 80px; "
+                  mode="determinate" value={{element.PORCENTAJE}}
+      
+                    ></mat-progress-bar>
+      
+                </div>
+      
+                <div *ngSwitchCase="'PESO_UNITARIO'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'PESO_TOTAL'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+      
+                <div *ngSwitchCase="'CANT_DESPACHOS'" style="width: 60px; text-align: end;"> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'STOCK'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+      
+                <div *ngSwitchCase="'FECHA_LLEGADA'" style="width: 120px;">{{ element[col.key]  }}</div>
+      
+                <div *ngSwitchCase="'SUBPATIO_DESCRIPCION'" style="width: 70px;">{{ element[col.key] }}</div>
+                <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="width: 70px;">{{ element[col.key] }}</div>
+      
+                <span *ngSwitchDefault> {{ element[col.key] }} </span>
+              </div>
+      
+                <!-- Se inicia codigo para cuando la linea esta en modo edit  -->
+      
+              <div [ngSwitch]="col.key" *ngIf="element.isEdit" style="font-size: 12px;">
+      
+                <div class="btn-edit" *ngSwitchCase="'isEdit'" style="width: 80px; ">
+                  <button mat-button mat-icon-button
+                      style="padding-left: 8px; color:brown ; padding-top: 5px; border-style: hidden;"
+                      #tooltip="matTooltip"
+                      matTooltip="Anular"
+                      matTooltipPosition="right"
+                      (click)="canceledit($event, element.ID_PERNO, col.key, element)">
+                      <mat-icon aria-label="visibility" class="mat-elevation-z4" >undo</mat-icon>
+                  </button>
+                  <!-- <button mat-button (click)="editRow(element)" [disabled]="disableSubmit(element.ID_PERNO)">Ok</button> -->
+      
+                  <button mat-button mat-icon-button
+                      style="padding-left: 5px; color:green ; padding-top: 5px; border-style: hidden;"
+                      #tooltip="matTooltip"
+                      matTooltip="Grabar"
+                      matTooltipPosition="right"
+                      (click)="UpdateRow(element.ID_PERNO, element)">
+                      <mat-icon aria-label="visibility" class="mat-elevation-z4" >add_task</mat-icon>
+                  </button>
+                </div>
+      
+                <div *ngSwitchCase="'ITEMCODE'" style="width: 90px; "> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'SNF'" style="width: 110px; "> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'MARCA'" style="width: 80px;"> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'CANTIDAD_SNF'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+      
+                <div *ngSwitchCase="'PESO_UNITARIO'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+                <div *ngSwitchCase="'PESO_TOTAL'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+      
+                <div *ngSwitchCase="'TIPOELEM_DESCRIPCION'" style="width: 110px; "> {{ element[col.key] }} </div>
+      
+                  <div *ngSwitchCase="'TUNEL_DESCRIPCION'" style="width: 90px;">
+                    <select
+                    (change)="selectHandler($event, element.ID_PERNO, col.key)" >
+                    @for (op of col.seloption; track op) {
+                        <option [value]="op.value">{{op.viewValue}}</option>
+                    }
+                    </select>
+                  </div>
+      
+                  <div *ngSwitchCase="'DISPO_DESCRIPCION'" style="width: 90px;">
+                    <select style="width: 91px;"
+                    (change)="selectHandler($event, element.ID_PERNO, col.key)" >
+                    @for (op of col.seloption; track op) {
+                        <option [value]="op.value">{{op.viewValue}}</option>
+                    }
+                    </select>
+                </div>
+      
+                <div>
+      
+                  <div *ngSwitchCase="'GUIA'" style="width: 60px !important; ">
+                    <input
+                    style="font-size: 12px; width: 60px; text-align: right;  background-color: aqua; border-color: cadetblue; padding-top: 0px; height: 22px;"
+                    matInput
+                    onlyNumber
+                    [required]="col.required"
+                    [type]="col.type"
+                    [disabled]="col.disabled"
+                    [(ngModel)]="element[col.key]">
+                  </div>
+      
+                  <div *ngSwitchCase="'CANT_DESPACHOS'" style="width: 60px; text-align: end;"> {{ element[col.key] }} </div>
+                  <div *ngSwitchCase="'INGRESOS'" >
+                    <input
+                      style="font-size: 12px; width: 60px; text-align: right;  background-color: aqua; border-color: cadetblue; padding-top: 0px; height: 22px;"
+                      matInput
+                      onlyNumber
+                      [required]="col.required"
+                      [type]="col.type"
+                      [disabled]="col.disabled"
+                      [(ngModel)]="element[col.key]"
+                      (change)="Func_Percent(element.ID_PERNO, element, element.INGRESOS)" />
+                  </div>
+      
+                  <div *ngSwitchCase="'CANTIDAD_TERRENO'" style="width: 50px !important; text-align: end;"> {{ element[col.key] }} </div>
+      
+                  <div *ngSwitchCase="'DIFERENCIA'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+                  <div *ngSwitchCase="'STOCK'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
+                </div>
+      
+                <div *ngSwitchCase="'PORCENT'" style="width: 110px; color:chartreuse">
+                  <span></span>
+                  <mat-progress-bar mode="determinate"
+                    matBadge={{element.PORCENTAJE}}%
+                    matBadgePosition="after"
+                    matBadgeOverlap="true"
+                    matBadgeColor="accent"
+                    style="width: 80px; align-content: end; "
+      
+                    ></mat-progress-bar>
+                </div>
+      
+                <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px; "> {{ element[col.key] }} </div>
+      
+                <div *ngSwitchCase="'PATIO_DESCRIPCION'" style="width: 70px;">
+                  <select style="width: 69px;"
+                  (change)="selectHandler($event, element.ID_PERNO, col.key)" >
+                  @for (op of col.seloption; track op) {
+                      <option [value]="op.value">{{op.viewValue}}</option>
+                  }
+                  </select>
+                </div>
+      
+                <span  *ngSwitchCase="'FECHA_LLEGADA'"  style="width: 120px; margin-top: 3px;" >
+                  <input matInput [matDatepicker]="picker" [(ngModel)]="element[col.key]"
+                    style="width: 70px; text-align:left;  height: 22px; padding-top: -5px !important; "
+                    (dateChange)="SelectFecha(element.FECHA_LLEGADA)"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="picker" style="padding-left: 9px !important; "></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </span>
+      
+                <div class="" *ngSwitchCase="'OBSERVACION'">
+                  <input style="width: 550px; height: 22px; background-color: aqua;"
+                    matInput
+                    [required]="col.required"
+                    [pattern]="col.pattern"
+                    [type]="col.type"
+                    [readonly]="col.readonly"
+                    [disabled]="col.disabled"
+                    [(ngModel)]="element[col.key]"
+                    (blur)="inputHandler($event, element.ID_PERNO, col.key)" />
+                </div>
+      
+                <div *ngSwitchCase="'SUBPATIO_DESCRIPCION'" style="width: 70px;">
+                  <select style="width: 68px;"
+                  (change)="selectHandler($event, element.ID_PERNO, col.key)" >
+                  @for (op of col.seloption; track op) {
+                      <option [value]="op.value">{{op.viewValue}}</option>
+                  }
+                  </select>
+                </div>
+      
+                <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="width: 80px;">
+                  <select style="width: 80px !important;"
+                  (change)="selectHandler($event, element.ID_PERNO, col.key)" >
+                  @for (op of col.seloption; track op) {
+                      <option [value]="op.value">{{op.viewValue}}</option>
+                  }
+                  </select>
+                </div>
+      
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
       </div>
     </div>
-  </form>
-  <div class="grid-container">
-    <table mat-table [dataSource]="dataSource" matSort style="margin-top: 15px !important;">
-      <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-diseno-header" style="text-align: center; font-size: 12px;" [ngSwitch]="col.key">
-          <div *ngSwitchCase="'CANTIDAD_TERRENO'" style="width: 50px !important; "> {{ col.label }} </div>
-          <div *ngSwitchCase="'INGRESOS'" style="width: 60px !important; "> {{ col.label }} </div>
-          <div *ngSwitchCase="'CANT_DESPACHOS'" style="width: 60px !important; "> {{ col.label }} </div>
-          <div *ngSwitchCase="'ITEMCODE'" style="width: 50px !important; " > {{ col.label }} </div>
-          <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="min-width: 80px !important; " > {{ col.label }} </div>
-
-          <div style="min-width: 60px; padding-right: 3px; margin-right: 0px;" *ngSwitchDefault>{{ col.label }}</div>
-        </th>
-
-        <td mat-cell *matCellDef="let element" class="grid-item-fila">
-          <div [ngSwitch]="col.key" *ngIf="!element.isEdit" style="font-size: 12px;">
-
-            <div *ngSwitchCase="'isEdit'" style="width: 80px;" >
-
-              <span *ngIf="element.CANTIDAD_SNF > element.CANTIDAD_TERRENO" style="width: 80px; ">
-                  <button mat-button mat-icon-button
-                  style="padding-left: 15px; color:green ; padding-top: 5px; border-style: hidden;"
-                  #tooltip="matTooltip"
-                  matTooltip="Ingresar"
-                  matTooltipPosition="right"
-                  (click)="editDatos(element.ID_PERNO, element)"
-                  [disabled]="false">
-                  <mat-icon aria-label="visibility" class="mat-elevation-z4" >edit_note</mat-icon>
-                </button>
-              </span>
-
-              <span *ngIf="element.CANTIDAD_TERRENO > 1" style="width: 80px; ">
-                <button mat-button mat-icon-button *ngIf="element.STOCK >= 1 "
-                  style="padding-left: 5px; color:rgb(255, 60, 53) ; padding-top: 5px; border-style: hidden; font-size: 8px;"
-                  #tooltip="matTooltip"
-                  matTooltip="Despachar"
-                  matTooltipPosition="right"
-                  (click)="GotoDespachar(element.ID_PERNO, element)">
-                  <mat-icon aria-label="visibility" class="mat-elevation-z4" >double_arrow</mat-icon>
-                </button>
-              </span>
-
-            </div>
-
-            <div *ngSwitchCase="'ITEMCODE'" style="width: 90px; "> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'SNF'" style="width: 110px; "> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'TIPOELEM_DESCRIPCION'" style="width: 110px;"> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'MARCA'" style="width: 80px;"> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'TUNEL_DESCRIPCION'" style="width: 90px;"> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'DISPO_DESCRIPCION'" style="width: 90px;"> {{ element[col.key] }} </div>
-
-            <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px;"> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'PATIO_DESCRIPCION'" style="width: 70px;"> {{ element[col.key] }} </div>
-
-            <div *ngSwitchCase="'CANTIDAD_SNF'" style="width: 50px; text-align: end; "> {{ element[col.key] }} </div>
-
-            <div *ngIf="element.DIFERENCIA < 0" style="width: 50px; text-align: end; color: rgb(255, 84, 78); font-weight: 600;" >
-              <div *ngSwitchCase="'CANTIDAD_TERRENO'" > {{ element[col.key] }} </div>
-              <div *ngSwitchCase="'DIFERENCIA'" > {{ element[col.key] }} </div>
-            </div>
-            <div *ngIf="element.DIFERENCIA > 0" style="width: 50px; text-align: end; color: rgb(5, 9, 201);">
-              <div *ngSwitchCase="'CANTIDAD_TERRENO'" > {{ element[col.key] }} </div>
-              <div *ngSwitchCase="'DIFERENCIA'" > {{ element[col.key] }} </div>
-            </div>
-            <div *ngIf="element.DIFERENCIA == 0" style="width: 50px; text-align: end; color: rgb(38, 201, 5); font-weight: 600;">
-              <div *ngSwitchCase="'CANTIDAD_TERRENO'" style="margin-right: 5px; "> {{ element[col.key] }} </div>
-              <div *ngSwitchCase="'DIFERENCIA'" > {{ element[col.key] }} </div>
-            </div>
-
-            <div *ngSwitchCase="'GUIA'" style="width: 60px !important; "> {{ element[col.key] }} </div>
-
-            <div *ngSwitchCase="'INGRESOS'" style="width: 60px !important; "> </div>
-            <div *ngSwitchCase="'PORCENT'" style="width: 110px; color:chartreuse">
-
-              <mat-progress-bar  class="mat-mdc-progress-bar "
-                  matBadge="{{element.PORCENTAJE}}%"
-                  matBadgePosition="after"
-                  matBadgeOverlap="true"
-                  style="width: 80px; "
-              mode="determinate" value={{element.PORCENTAJE}}
-
-                ></mat-progress-bar>
-
-            </div>
-
-            <div *ngSwitchCase="'PESO_UNITARIO'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'PESO_TOTAL'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-
-            <div *ngSwitchCase="'CANT_DESPACHOS'" style="width: 60px; text-align: end;"> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'STOCK'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-
-            <div *ngSwitchCase="'FECHA_LLEGADA'" style="width: 120px;">{{ element[col.key]  }}</div>
-
-            <div *ngSwitchCase="'SUBPATIO_DESCRIPCION'" style="width: 70px;">{{ element[col.key] }}</div>
-            <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="width: 70px;">{{ element[col.key] }}</div>
-
-            <span *ngSwitchDefault> {{ element[col.key] }} </span>
-          </div>
-
-            <!-- Se inicia codigo para cuando la linea esta en modo edit  -->
-
-          <div [ngSwitch]="col.key" *ngIf="element.isEdit" style="font-size: 12px;">
-
-            <div class="btn-edit" *ngSwitchCase="'isEdit'" style="width: 80px; ">
-              <button mat-button mat-icon-button
-                  style="padding-left: 8px; color:brown ; padding-top: 5px; border-style: hidden;"
-                  #tooltip="matTooltip"
-                  matTooltip="Anular"
-                  matTooltipPosition="right"
-                  (click)="canceledit($event, element.ID_PERNO, col.key, element)">
-                  <mat-icon aria-label="visibility" class="mat-elevation-z4" >undo</mat-icon>
-              </button>
-              <!-- <button mat-button (click)="editRow(element)" [disabled]="disableSubmit(element.ID_PERNO)">Ok</button> -->
-
-              <button mat-button mat-icon-button
-                  style="padding-left: 5px; color:green ; padding-top: 5px; border-style: hidden;"
-                  #tooltip="matTooltip"
-                  matTooltip="Grabar"
-                  matTooltipPosition="right"
-                  (click)="UpdateRow(element.ID_PERNO, element)">
-                  <mat-icon aria-label="visibility" class="mat-elevation-z4" >add_task</mat-icon>
-              </button>
-            </div>
-
-            <div *ngSwitchCase="'ITEMCODE'" style="width: 90px; "> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'SNF'" style="width: 110px; "> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'MARCA'" style="width: 80px;"> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'CANTIDAD_SNF'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-
-            <div *ngSwitchCase="'PESO_UNITARIO'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-            <div *ngSwitchCase="'PESO_TOTAL'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-
-            <div *ngSwitchCase="'TIPOELEM_DESCRIPCION'" style="width: 110px; "> {{ element[col.key] }} </div>
-
-              <div *ngSwitchCase="'TUNEL_DESCRIPCION'" style="width: 90px;">
-                <select
-                (change)="selectHandler($event, element.ID_PERNO, col.key)" >
-                @for (op of col.seloption; track op) {
-                    <option [value]="op.value">{{op.viewValue}}</option>
-                }
-                </select>
-              </div>
-
-              <div *ngSwitchCase="'DISPO_DESCRIPCION'" style="width: 90px;">
-                <select style="width: 91px;"
-                (change)="selectHandler($event, element.ID_PERNO, col.key)" >
-                @for (op of col.seloption; track op) {
-                    <option [value]="op.value">{{op.viewValue}}</option>
-                }
-                </select>
-            </div>
-
-            <div>
-
-              <div *ngSwitchCase="'GUIA'" style="width: 60px !important; ">
-                <input
-                style="font-size: 12px; width: 60px; text-align: right;  background-color: aqua; border-color: cadetblue; padding-top: 0px; height: 22px;"
-                matInput
-                onlyNumber
-                [required]="col.required"
-                [type]="col.type"
-                [disabled]="col.disabled"
-                [(ngModel)]="element[col.key]">
-              </div>
-
-              <div *ngSwitchCase="'CANT_DESPACHOS'" style="width: 60px; text-align: end;"> {{ element[col.key] }} </div>
-              <div *ngSwitchCase="'INGRESOS'" >
-                <input
-                  style="font-size: 12px; width: 60px; text-align: right;  background-color: aqua; border-color: cadetblue; padding-top: 0px; height: 22px;"
-                  matInput
-                  onlyNumber
-                  [required]="col.required"
-                  [type]="col.type"
-                  [disabled]="col.disabled"
-                  [(ngModel)]="element[col.key]"
-                  (change)="Func_Percent(element.ID_PERNO, element, element.INGRESOS)" />
-              </div>
-
-              <div *ngSwitchCase="'CANTIDAD_TERRENO'" style="width: 50px !important; text-align: end;"> {{ element[col.key] }} </div>
-
-              <div *ngSwitchCase="'DIFERENCIA'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-              <div *ngSwitchCase="'STOCK'" style="width: 50px; text-align: end;"> {{ element[col.key] }} </div>
-            </div>
-
-            <div *ngSwitchCase="'PORCENT'" style="width: 110px; color:chartreuse">
-              <span></span>
-              <mat-progress-bar mode="determinate"
-                matBadge={{element.PORCENTAJE}}%
-                matBadgePosition="after"
-                matBadgeOverlap="true"
-                matBadgeColor="accent"
-                style="width: 80px; align-content: end; "
-
-                ></mat-progress-bar>
-            </div>
-
-            <div *ngSwitchCase="'PROVE_DESCRIPCION'" style="width: 70px; "> {{ element[col.key] }} </div>
-
-            <div *ngSwitchCase="'PATIO_DESCRIPCION'" style="width: 70px;">
-              <select style="width: 69px;"
-              (change)="selectHandler($event, element.ID_PERNO, col.key)" >
-              @for (op of col.seloption; track op) {
-                  <option [value]="op.value">{{op.viewValue}}</option>
-              }
-              </select>
-            </div>
-
-            <span  *ngSwitchCase="'FECHA_LLEGADA'"  style="width: 120px; margin-top: 3px;" >
-              <input matInput [matDatepicker]="picker" [(ngModel)]="element[col.key]"
-                style="width: 70px; text-align:left;  height: 22px; padding-top: -5px !important; "
-                (dateChange)="SelectFecha(element.FECHA_LLEGADA)"
-              />
-              <mat-datepicker-toggle matSuffix [for]="picker" style="padding-left: 9px !important; "></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </span>
-
-            <div class="" *ngSwitchCase="'OBSERVACION'">
-              <input style="width: 550px; height: 22px; background-color: aqua;"
-                matInput
-                [required]="col.required"
-                [pattern]="col.pattern"
-                [type]="col.type"
-                [readonly]="col.readonly"
-                [disabled]="col.disabled"
-                [(ngModel)]="element[col.key]"
-                (blur)="inputHandler($event, element.ID_PERNO, col.key)" />
-            </div>
-
-            <div *ngSwitchCase="'SUBPATIO_DESCRIPCION'" style="width: 70px;">
-              <select style="width: 68px;"
-              (change)="selectHandler($event, element.ID_PERNO, col.key)" >
-              @for (op of col.seloption; track op) {
-                  <option [value]="op.value">{{op.viewValue}}</option>
-              }
-              </select>
-            </div>
-
-            <div *ngSwitchCase="'COORDENADA_DESCRIPCION'" style="width: 80px;">
-              <select style="width: 80px !important;"
-              (change)="selectHandler($event, element.ID_PERNO, col.key)" >
-              @for (op of col.seloption; track op) {
-                  <option [value]="op.value">{{op.viewValue}}</option>
-              }
-              </select>
-            </div>
-
-          </div>
-        </td>
-      </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns; " class="table-row">
-    </table>
   </div>
-  <div class="row">
+
+
+  <!-- Área Inferior Fija -->
+  <div class="area-inferior">
+    <mat-grid-list cols="12" rowHeight="50px">
+      <mat-grid-tile [colspan]="6">
+       
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="6">
+        <mat-paginator [pageSizeOptions]="[13, 40]" 
+        showFirstLastButtons aria-label="Select page of materiales" 
+        style="padding-left: 15px;" >
+      </mat-paginator>
+      </mat-grid-tile>
+    </mat-grid-list>
   </div>
-    <div class="col-1"></div>
-    <div class="col">
-      <mat-paginator [pageSizeOptions]="[17, 40]" showFirstLastButtons aria-label="Select page of materiales" style="padding-left: 15px;" ></mat-paginator>
-      
-    </div>
-    <div class="col-2"></div>
-  </div>
+
+</div>

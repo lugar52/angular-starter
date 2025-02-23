@@ -3,7 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
 import { ActivatedRoute, Router  } from '@angular/router';
 
-import { Subscription, tap, lastValueFrom } from 'rxjs';
+import { Subscription, tap, lastValueFrom, catchError, of } from 'rxjs';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ToastrService } from 'ngx-toastr';
 
@@ -60,7 +60,7 @@ import moment from 'moment';
     MatGridListModule,
   ],
   templateUrl: './perneria-newlist.component.html',
-  styleUrl: './perneria-newlist.component.less',
+  styleUrl: './perneria-newlist.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'es'},
     ExporterService
@@ -128,6 +128,7 @@ export class PerneriaNewlistComponent {
   hayDatos: boolean = true
   var_FindProveedores: number = 0
   lst_Proveedores: any = [];
+  EstoyEditando: boolean = false
 
   constructor(
     public dialog: MatDialog,
@@ -144,7 +145,17 @@ export class PerneriaNewlistComponent {
     this.displayedColumns = PernoColumns.map((col) => col.key)
     this.columnsSchema = PernoColumns
     this.createControlForm();
-    this.getPerneria("1", "-1");
+    this.fun1()
+
+    const prov = localStorage.getItem("proveedor") || 1
+    const ver = localStorage.getItem("ver") || -1
+    this.getPerneria(prov.toString(), "-1");
+
+    this.formulario.setValue({
+      _PROVEEDOR: prov,
+      _VER: ver
+    });
+
   }
 
   ngOnInit() {
@@ -157,27 +168,54 @@ export class PerneriaNewlistComponent {
 
     //console.log("columnsSchema: ", this.columnsSchema)
     this.fun1()
+    const prov = localStorage.getItem("proveedor") || 1
+    const ver = localStorage.getItem("ver") || -1
+    this.getPerneria(prov.toString(), "-1");
 
     this.formulario.setValue({
-      _PROVEEDOR: 1,
-      _VER: -1
+      _PROVEEDOR: prov,
+      _VER: ver
     });
+
+ 
 
 
   }
 
   getPerneria(prov: string, cond: string) {
 
-    this.perneriaService.newGetProveedor(prov,cond).subscribe(data => {
-      this.listaPerneria = data;
-      this.dataSource = new MatTableDataSource(this.listaPerneria);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+    this.perneriaService.newGetProveedor(prov, cond).pipe(
+      tap(data => {
+        console.log("Datos recibidos: ", data);
 
-      console.log(this.listaPerneria)
+        // Verificar si `data` es un array y tiene elementos
+        if (Array.isArray(data) && data.length > 0) { 
+          this.listaPerneria = data;
+          this.dataSource = new MatTableDataSource(this.listaPerneria);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+          this.hayDatos = true;
+        } else {
+          this.hayDatos = false;
+          this.toastr.info('Control Patio', 'No hay registros en esta condición: ' + this.formulario.get('_VER')?.value);
+        }
+      }),
+      catchError(err => {
+        console.error('Error en la API:', err);
 
-      this.hayDatos  = true
-    });
+        // Verificar si el error es un objeto con `status_code`
+        if (err && typeof err === 'object' && 'status_code' in err) {
+          this.toastr.error('Error ' + err.status_code, err.message || 'Ocurrió un error desconocido.');
+        } else {
+          this.toastr.error('Error al obtener datos', 'La consulta no pudo completarse.');
+        }
+
+        this.hayDatos = false;
+        return of([]); // Retorna un array vacío para evitar errores en la suscripción
+      })
+    ).subscribe();
+
+    
 
       //this.dataSource.sort = this.sort;
       //this.dataSource.paginator = this.paginator; */
@@ -189,7 +227,6 @@ export class PerneriaNewlistComponent {
       localStorage.setItem("iddespacho", id.toString())
       const index = this.dataSource.data.findIndex(obj => obj.ID_PERNO === id);
       elem.isEdit = !elem.isEdit
-      console.log("datasource_0: ", this.dataSource.data[index] )
      
       // Se guardan los datos originales de la linea en localstorage
       if (this.dataSource.data[index].ID_SUBPATIO == null) {
@@ -219,8 +256,9 @@ export class PerneriaNewlistComponent {
       localStorage.setItem("dataUpdate", JSON.stringify(datos) )
       this.dataSource.data[index].GUIA = 0 
 
-      console.log("datasource_1: ", this.dataSource.data[index] )
-      console.log("Datos: ", datos )
+      this.EstoyEditando = true
+      console.log(this.EstoyEditando)
+
 
   }
 
@@ -259,6 +297,9 @@ export class PerneriaNewlistComponent {
 
     localStorage.removeItem('dataUpdate');
     elem.isEdit = false
+    this.EstoyEditando = false
+    console.log(this.EstoyEditando)
+
   }
 
 
@@ -300,6 +341,7 @@ export class PerneriaNewlistComponent {
       });
 
     elem.isEdit = false
+    this.EstoyEditando = false
 
   }
 
@@ -495,6 +537,8 @@ export class PerneriaNewlistComponent {
 
   GotoDespachar(id: number, elem: any, ) {
 
+    
+    
     let  myurl = `${'despacho'}/${id}`;
     this.router.navigate([myurl], { queryParams: { message: id  }, queryParamsHandling: "merge" } ).then(e => {
       if (e) {
@@ -502,6 +546,7 @@ export class PerneriaNewlistComponent {
         console.log('error: ', e)
       }
     });
+   
   }
 
   LlenaregMovim(id: number, elem: any, DatosUpdate: DatosAGrabar) {
@@ -732,6 +777,9 @@ export class PerneriaNewlistComponent {
       console.log(formValue)
       const prov: string = formValue._PROVEEDOR
       const cond: string = formValue._VER
+
+      localStorage.setItem("proveedor", prov)
+      localStorage.setItem("ver", cond) 
 
       this.getPerneria(prov, cond) 
     }
