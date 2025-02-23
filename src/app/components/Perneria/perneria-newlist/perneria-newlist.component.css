@@ -57,3 +57,141 @@ body {
   min-width: 100px; /* 🚀 Ajusta el ancho para que se active el scroll horizontal */
   white-space: nowrap; /* 🚀 Evita que las columnas se ajusten automáticamente */
 }
+
+
+
+
+p {
+  font-family: Lato;
+}
+table {
+  width: 90%;
+  margin: auto;
+  margin-top: 25px;
+}
+.btn-edit {
+  text-align: right;
+}
+h2 {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.table-header {
+  width: 90%;
+  margin: auto;
+  text-align: right;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button-add-row {
+  background: #1b9e1b;
+  color: #ffffff;
+}
+
+.button-remove-rows {
+  background: red;
+  color: #ffffff;
+  margin-right: 5px;
+}
+
+.button-remove {
+  color: red;
+}
+
+::ng-deep .mat-form-field-infix {
+  width: 100% !important;
+}
+
+.form-input {
+  padding-right: 5px;
+}
+
+.grid-diseno-header {
+  text-align: center;
+  vertical-align: middle;
+  border: 0.5px;
+  border-color: darkcyan;
+  border-style: solid;
+  /* background-color: #CD212A !important; 
+  color:white; */
+  font-size: small;
+  padding-top: 1px;
+
+}
+
+.grid-item-base {
+  vertical-align:middle;
+  background-color:white;
+  font-size: small;
+  overflow: hidden; /* Oculta contenido adicional */
+  text-overflow: ellipsis; /* Muestra "..." si el texto es demasiado largo */
+  white-space: nowrap; /* Evita que el texto se envuelva */
+
+  border-left: 0.5px;
+  border-left-color: darkcyan;
+  border-left-style: solid;
+  border-bottom: 0.5px !important;
+  border-bottom-style:solid !important;
+  border-bottom-color: darkcyan !important;
+  border-right: 0.5px;
+  border-right-color: darkcyan;
+  border-right-style: solid;
+}
+
+.table-row {
+  height: 35px !important;
+}
+
+
+
+/* .mat-badge-content  {
+
+  background:#1b9e1b !important;
+  color: greenyellow !important;
+  font-size:x-small !important;
+  width: 105px !important;
+  align-content: end !important;
+}
+ */
+
+ .mdc-data-table__cell, .mdc-data-table__header-cell {
+  padding-left: 3px;
+  padding-right: 3px;
+ }
+
+
+ section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 140px;
+}

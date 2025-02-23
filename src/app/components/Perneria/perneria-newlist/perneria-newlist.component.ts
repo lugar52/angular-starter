@@ -147,15 +147,15 @@ export class PerneriaNewlistComponent {
     this.createControlForm();
     this.fun1()
 
-    const prov = localStorage.getItem("proveedor") || 1
-    const ver = localStorage.getItem("ver") || -1
-    this.getPerneria(prov.toString(), "-1");
-
+   /*  const prov = localStorage.getItem("proveedor")!
+    const ver = localStorage.getItem("ver")
+    
     this.formulario.setValue({
       _PROVEEDOR: prov,
       _VER: ver
     });
-
+    
+    this.getPerneria(prov.toString(), "0"); */
   }
 
   ngOnInit() {
@@ -168,22 +168,23 @@ export class PerneriaNewlistComponent {
 
     //console.log("columnsSchema: ", this.columnsSchema)
     this.fun1()
-    const prov = localStorage.getItem("proveedor") || 1
-    const ver = localStorage.getItem("ver") || -1
-    this.getPerneria(prov.toString(), "-1");
-
+    const prov = localStorage.getItem("proveedor")! 
+ /*    const ver = localStorage.getItem("ver")!
+    
     this.formulario.setValue({
       _PROVEEDOR: prov,
       _VER: ver
-    });
-
+    }); */
+    
+    console.log("this.getPerneria")
+    this.configuraColumanGrilla()
+    this.getPerneria(prov.toString(), "0");
  
-
-
   }
 
   getPerneria(prov: string, cond: string) {
 
+    this.listaPerneria = []
     this.perneriaService.newGetProveedor(prov, cond).pipe(
       tap(data => {
         console.log("Datos recibidos: ", data);
@@ -632,8 +633,16 @@ export class PerneriaNewlistComponent {
     }
 
     traeProveedor(formValue: any) {
-      
-      switch (formValue._PROVEEDOR.toString()) { 
+      localStorage.setItem("proveedor", formValue._PROVEEDOR.toString())
+
+      this.configuraColumanGrilla()
+      this.getPerneria(formValue._PROVEEDOR.toString(), "0")
+    }
+     
+    configuraColumanGrilla() {
+      const proveedor = localStorage.getItem("proveedor")
+
+      switch (proveedor) { 
         case "1":  {
           this.displayedColumns = PernoColumns.map((col) => col.key);
           this.columnsSchema = PernoColumns;
@@ -673,16 +682,13 @@ export class PerneriaNewlistComponent {
            break; }
          
      } 
-
-     this.perneriaService.getRegXProveedor(formValue._PROVEEDOR).subscribe(data => {
-        this.listaPerneria = data;
-        this.dataSource = new MatTableDataSource(this.listaPerneria);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-
-        this.hayDatos  = true    
-
+              
+      this.formulario.setValue({
+        _PROVEEDOR: proveedor,
+        _VER: 0
       });
+
+      
     }
 
     ExportToExcel(formValue: any) {

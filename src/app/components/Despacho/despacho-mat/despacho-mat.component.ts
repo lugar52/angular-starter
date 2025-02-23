@@ -232,12 +232,13 @@ export class DespachoMatComponent {
 
     GrabarDespacho(formvalue: any) {
 
+      const fecha = new Date();
       localStorage.setItem("proveedor", this.Registro_Sel.PROVEEDOR!)
       
         this.regdespacho.tipo_movimiento = this.DESPACHO
         this.regdespacho.id_perno = Number(formvalue._ID_PERNO)
         this.regdespacho.Fecha_despacho = formvalue._FECHA_DESPACHO.split(",")[0].trim()
-        this.regdespacho.Hora_despacho = formvalue._FECHA_DESPACHO.split(",")[1].trim()
+        this.regdespacho.Hora_despacho = fecha.toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
         this.regdespacho.Codigo = formvalue._ITEMCODE
         this.regdespacho.descricpcion = formvalue._DESCRIPCION
         this.regdespacho.snf = formvalue._SNF
