@@ -813,3 +813,22 @@ h2 {
 
 
 
+tipo_movimiento: 2
+id_perno: 5234
+Fecha_despacho: "24-02-2025"
+Hora_despacho: "20:36:02"
+Codigo: null
+descricpcion: "Viga"
+snf: "N°001"
+stock_Inicial: 7
+cantidad: 1
+stock_final: 6
+peso_despacho: 477.2
+lugar_despacho: 0
+destino: 1
+rut_Retira: "111111111"
+Nombre_retira: "Luis Garrido"
+guia: 111
+lugar_descripcion: ""
+destino_descripcion: ""
+proveedor: 2

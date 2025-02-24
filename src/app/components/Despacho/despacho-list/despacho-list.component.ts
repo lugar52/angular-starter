@@ -21,6 +21,7 @@ import { DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import { RegMovimientoStock } from '../../../model/perneria'
 import { PerneriaService } from '../../../services/perneria.service'
+import { ExporterService } from '../../../services/exporter.service'
 
 @Component({
   selector: 'app-despacho-list',
@@ -42,7 +43,7 @@ import { PerneriaService } from '../../../services/perneria.service'
   ],
   templateUrl: './despacho-list.component.html',
   styleUrl: './despacho-list.component.less',
-  providers: [DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'es'}]
+  providers: [DatePipe, {provide: MAT_DATE_LOCALE, useValue: 'es'}, ExporterService]
 })
 export class DespachoListComponent  {
     dataSource = new MatTableDataSource<RegMovimientoStock>();
@@ -54,6 +55,7 @@ export class DespachoListComponent  {
     subscription: Subscription[] = [];
 
     listaDespacho: RegMovimientoStock[] = []
+    ListaExportExcel: any[] =[]
 
     length: number = 100;
     pageIndex: number  = 0;
@@ -89,6 +91,7 @@ export class DespachoListComponent  {
     private router: Router,
     private datePipe: DatePipe,
     private perneriaService: PerneriaService,
+    private excelService: ExporterService,
   ) {
     this.MiCodigo = Number(localStorage.getItem("iddespacho"))
     this.showbtnVolver = Number(localStorage.getItem("btnVolver"))!
@@ -136,4 +139,13 @@ export class DespachoListComponent  {
   }
 
 
+
+ /*  ExportToExcel(formValue: any) {
+    this.ListaExportExcel = this.dataSource.data.map(({displayedColumns.data}) => ({ 
+      displayedColumns
+    }));
+
+    this.excelService.exportToExcel(this.ListaExportExcel, 'My_export')
+  }
+ */
 }

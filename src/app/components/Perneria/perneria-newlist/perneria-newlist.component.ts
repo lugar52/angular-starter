@@ -120,6 +120,7 @@ export class PerneriaNewlistComponent {
     destino_descripcion: '',
     rut_Retira: '',
     Nombre_retira: '',
+    proveedor: 0
   }
 
   valorDisable = false

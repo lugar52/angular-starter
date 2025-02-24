@@ -324,14 +324,15 @@ export interface RegMovimientoStock {
   stock_Inicial: number;
   cantidad: number;
   stock_final: number;
-  guia: number
   peso_despacho: number
   lugar_despacho: number;
-  lugar_descripcion: string;
   destino: number;
-  destino_descripcion: string;
   rut_Retira: string;
   Nombre_retira: string;
+  guia: number
+  lugar_descripcion: string;
+  destino_descripcion: string;
+  proveedor: number
 }
 
 export const PetricioColumns = [

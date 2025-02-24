@@ -102,6 +102,7 @@ export class DespachoMatComponent {
     Nombre_retira: '',
     stock_final: 0,
     guia: 0,
+    proveedor: 0
   }
 
   DESPACHO: number = 2
@@ -126,7 +127,7 @@ export class DespachoMatComponent {
 
        this.perneriaService.getPerneriaSel(this.id).subscribe( data => {
         this.Registro_Sel = data[0];
-        console.log('this.Registro_Sel ', this.Registro_Sel)
+      
 
         this.FillControlDespacho()
 
@@ -159,9 +160,9 @@ export class DespachoMatComponent {
     FillControlDespacho() {
       const date = new Date();
       const formattedDate:string = date.toLocaleString();
-
+      console.log('this.Registro_Sel ', this.Registro_Sel)
       let paso_desc: string = ""
-      if (this.Registro_Sel.ELEMENTO_DESC == "") {
+      if (this.Registro_Sel.ELEMENTO_DESC == null) {
         paso_desc = this.Registro_Sel.TIPOELEM_DESCRIPCION!
       }
       else {
@@ -192,8 +193,7 @@ export class DespachoMatComponent {
     calculaPeso(formValue: any) {
 
       const StockReal = localStorage.getItem("Stock_despacho")
-      console.log(Number(formValue._CANTIDAD) + ' ' + Number(StockReal))
-
+   
       if (Number(formValue._CANTIDAD) <= Number(StockReal)) {
         const mipeso = Number(formValue._CANTIDAD) * Number(this.Registro_Sel.PESO_UNITARIO)
         const miStock: number = Number(StockReal) - Number(formValue._CANTIDAD)
@@ -226,8 +226,7 @@ export class DespachoMatComponent {
     }
 
     SelecionaDestino(formvalue: any) {
-      console.log(formvalue)
-
+ 
     }
 
     GrabarDespacho(formvalue: any) {
@@ -239,7 +238,7 @@ export class DespachoMatComponent {
         this.regdespacho.id_perno = Number(formvalue._ID_PERNO)
         this.regdespacho.Fecha_despacho = formvalue._FECHA_DESPACHO.split(",")[0].trim()
         this.regdespacho.Hora_despacho = fecha.toLocaleString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-        this.regdespacho.Codigo = formvalue._ITEMCODE
+        this.regdespacho.Codigo = formvalue._ITEMCODE || ""
         this.regdespacho.descricpcion = formvalue._DESCRIPCION
         this.regdespacho.snf = formvalue._SNF
         this.regdespacho.stock_Inicial = Number(formvalue._STOCK) + Number(formvalue._CANTIDAD)
@@ -251,12 +250,12 @@ export class DespachoMatComponent {
         this.regdespacho.rut_Retira = formvalue._RUT_RETIRA
         this.regdespacho.Nombre_retira = formvalue._NOMBRE_RETIRA
         this.regdespacho.guia = Number(formvalue._GUIA)
-
+        this.regdespacho.proveedor = Number(this.Registro_Sel.PROVEEDOR)
+   
         console.log(this.regdespacho)
-
             this.perneriaService.despacho(this.regdespacho).pipe(
                 tap(res => {
-                  console.log(res)
+               
                   if (res.status_code == 200 ) {
 
                     this.toastr.success('Se ha guardado la información exitosamente!', 'Control Patio');
