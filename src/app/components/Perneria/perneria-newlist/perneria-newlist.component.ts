@@ -145,7 +145,7 @@ export class PerneriaNewlistComponent {
     this.displayedColumns = PernoColumns.map((col) => col.key)
     this.columnsSchema = PernoColumns
     this.createControlForm();
-    this.fun1()
+    
 
    /*  const prov = localStorage.getItem("proveedor")!
     const ver = localStorage.getItem("ver")
@@ -167,7 +167,9 @@ export class PerneriaNewlistComponent {
     this.datos = JSON.parse(miDatos)
 
     //console.log("columnsSchema: ", this.columnsSchema)
-    this.fun1()
+    this.perneriaService.TraeProveedores().subscribe(data => {
+      this.lst_Proveedores = data;
+    });
     const prov = localStorage.getItem("proveedor")! 
  /*    const ver = localStorage.getItem("ver")!
     
@@ -184,6 +186,7 @@ export class PerneriaNewlistComponent {
 
   getPerneria(prov: string, cond: string) {
 
+
     this.listaPerneria = []
     this.perneriaService.newGetProveedor(prov, cond).pipe(
       tap(data => {
@@ -198,7 +201,12 @@ export class PerneriaNewlistComponent {
           this.hayDatos = true;
         } else {
           this.hayDatos = false;
-          this.toastr.info('Control Patio', 'No hay registros en esta condición: ' + this.formulario.get('_VER')?.value);
+          this.listaPerneria = [];
+          this.dataSource = new MatTableDataSource(this.listaPerneria);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+          this.hayDatos = true;
+          this.toastr.info('Control Patio', 'No hay registros en esta condición seleccionada' );
         }
       }),
       catchError(err => {
@@ -633,6 +641,15 @@ export class PerneriaNewlistComponent {
     }
 
     traeProveedor(formValue: any) {
+
+      console.log('Texto Visible:', this.formulario.get('_VER'));
+      const idSeleccionado = this.formulario.get('_VER')?.value;
+      // const nombreSeleccionado = formValue.value.find(e => formValue.value.id === idSeleccionado)?.nombre || 'Desconocido';
+  
+      console.log('ID Seleccionado:', idSeleccionado);
+      // console.log('Texto Visible:', nombreSeleccionado);
+
+      
       localStorage.setItem("proveedor", formValue._PROVEEDOR.toString())
 
       this.configuraColumanGrilla()
