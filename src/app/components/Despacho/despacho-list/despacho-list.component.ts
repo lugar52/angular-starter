@@ -78,7 +78,7 @@ export class DespachoListComponent  {
 
   displayedColumns = [
       'movim', 'guia', 'Fecha_despacho', 'Hora_despacho', 'Item_Code', 'descricpcion', 'snf', 'stock_Inicial', 'cantidad' , 'stock_final'  , 'peso_despacho' ,
-      'rut_Retira', 'Nombre_retira' , 'lugar_descripcion', 'destino_descrip'];
+      'Nombre_retira' , 'lugar_descripcion', 'destino_descrip', 'proveedor'];
 
   titulo: any = '';
 
@@ -110,6 +110,7 @@ export class DespachoListComponent  {
 
     this.perneriaService.getDespachos(this.MiCodigo).subscribe( data => {
       this.listaDespacho = data;
+      console.log(this.listaDespacho)
 
       this.dataSource = new MatTableDataSource(this.listaDespacho);
       this.dataSource.sort = this.sort;
@@ -141,8 +142,8 @@ export class DespachoListComponent  {
 
 
    ExportToExcel() {
-
-    this.excelService.exportToExcel(this.dataSource.data, 'My_export')
+    
+    this.excelService.exportToExcel(this.dataSource.data, "Mov")
   }
 
 }

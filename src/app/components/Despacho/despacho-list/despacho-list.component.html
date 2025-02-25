@@ -103,6 +103,13 @@
                         <td mat-cell class="grid-item-r-nombre" *matCellDef="let row">{{row.Nombre_retira}}</td>
                     </ng-container>
 
+                    <ng-container matColumnDef="proveedor" >
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="grid-item-h-nombre">Proveedor</th>
+                      <td mat-cell class="grid-item-r-nombre" *matCellDef="let row">{{row.proveedor}}</td>
+                    </ng-container>
+
+                    
+
 
 
                       <tr mat-header-row *matHeaderRowDef="displayedColumns" > </tr>
@@ -127,13 +134,10 @@
       </div>
 
       <div style="padding-right: 5px; padding-top: 25px;">Exportar Excel
-        <button mat-button mat-icon-button
+        <button 
         style="color:green ; border-style: hidden; "
-        #tooltip="matTooltip"
-        matTooltip="Imprimir"
-        matTooltipPosition="right"
         (click)="ExportToExcel()">
-        <mat-icon aria-label="visibility" class="mat-elevation-z4" >print</mat-icon>
+        Print
       </button>
     </div>
 
