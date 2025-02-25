@@ -595,6 +595,9 @@ export class PerneriaNewlistComponent {
       this.regMovim.rut_Retira = ''
       this.regMovim.Nombre_retira = ''
       this.regMovim.guia = elem.GUIA
+      this.regMovim.proveedor = this.formulario.get('_PROVEEDOR')?.value;
+
+      console.log(this.regMovim)
 
       this.perneriaService.Ingresos(this.regMovim).pipe(
         tap(res => {
