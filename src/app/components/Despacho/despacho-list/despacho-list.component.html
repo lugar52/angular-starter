@@ -126,6 +126,17 @@
         <button type="button" class="btn btn-warning" style="width: 130px" (click)="volverListado()">Volver</button>
       </div>
 
+      <div style="padding-right: 5px; padding-top: 25px;">Exportar Excel
+        <button mat-button mat-icon-button
+        style="color:green ; border-style: hidden; "
+        #tooltip="matTooltip"
+        matTooltip="Imprimir"
+        matTooltipPosition="right"
+        (click)="ExportToExcel()">
+        <mat-icon aria-label="visibility" class="mat-elevation-z4" >print</mat-icon>
+      </button>
+    </div>
+
     </div>
 
 </div>

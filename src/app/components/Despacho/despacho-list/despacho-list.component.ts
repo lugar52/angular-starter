@@ -140,12 +140,9 @@ export class DespachoListComponent  {
 
 
 
- /*  ExportToExcel(formValue: any) {
-    this.ListaExportExcel = this.dataSource.data.map(({displayedColumns.data}) => ({ 
-      displayedColumns
-    }));
+   ExportToExcel() {
 
-    this.excelService.exportToExcel(this.ListaExportExcel, 'My_export')
+    this.excelService.exportToExcel(this.dataSource.data, 'My_export')
   }
- */
+
 }

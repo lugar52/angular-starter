@@ -66,7 +66,7 @@
       
                 <div *ngSwitchCase="'isEdit'" style="width: 80px;" >
       
-                  <span *ngIf="element.CANTIDAD_SNF >= element.CANTIDAD_TERRENO && !this.EstoyEditando" style="width: 80px; ">
+                  <span *ngIf="element.CANTIDAD_TERRENO < element.CANTIDAD_SNF && !this.EstoyEditando" style="width: 80px; ">
                       <button mat-button mat-icon-button
                       style="padding-left: 15px; color:green ; padding-top: 5px; border-style: hidden;"
                       #tooltip="matTooltip"
